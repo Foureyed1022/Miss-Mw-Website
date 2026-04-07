@@ -2,8 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Playfair_Display } from "next/font/google"
 import "./globals.css"
-import Header from "@/components/header"
-import Footer from "@/components/footer"
+import { ClientLayout } from "./ClientLayout"
 import { ThemeProvider } from "@/components/theme-provider"
 import { AnalyticsTracker } from "../components/analytics-tracker"
 
@@ -33,10 +32,10 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <div className="flex min-h-screen flex-col">
-            <Header />
             <AnalyticsTracker />
-            <main className="flex-1">{children}</main>
-            <Footer />
+            <ClientLayout>
+              <main className="flex-1">{children}</main>
+            </ClientLayout>
           </div>
         </ThemeProvider>
       </body>
