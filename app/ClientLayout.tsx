@@ -3,7 +3,7 @@
 import { usePathname } from 'next/navigation'
 import Header from '@/components/header'
 import Image from "next/image"
-import logo from "@/public/missmalawi-logo.png";
+import logo from "@/public/logo.png";
 import { ChevronRight, Facebook, Instagram } from "lucide-react"
 import Link from "next/link"
 
@@ -46,7 +46,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                     {/* Pages Column - moved right with margin */}
                     <div className="text-left ml-0 md:ml-8"> {/* Added left margin on desktop */}
                     <nav>
-                        <h3 className="text-[#B49956] font-bold mb-4">Quick Links</h3>
+                        <h3 className="text-[#8329B7] font-bold mb-4">Quick Links</h3>
                         <div className="space-y-3">
                         {[
                             { href: "/", label: "Home" },
@@ -58,9 +58,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                             <a 
                             key={item.href} 
                             href={item.href} 
-                            className="flex items-center hover:text-[#B49956] transition-colors group"
+                            className="flex items-center hover:text-[#8329B7] transition-colors group"
                             >
-                            <ChevronRight className="w-4 h-4 mr-2 text-[#B49956] opacity-80 group-hover:opacity-100" />
+                            <ChevronRight className="w-4 h-4 mr-2 text-[#8329B7] opacity-80 group-hover:opacity-100" />
                             {item.label}
                             </a>
                         ))}
@@ -71,13 +71,13 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                     {/* Partners Column */}
                     <div className="text-left">
                     <nav>
-                        <h3 className="text-[#B49956] font-bold mb-4">Partners</h3>
+                        <h3 className="text-[#8329B7] font-bold mb-4">Partners</h3>
                         <div className="space-y-3">
                         <a 
                             href="/partners" 
-                            className="flex items-center hover:text-[#B49956] transition-colors group"
+                            className="flex items-center hover:text-[#8329B7] transition-colors group"
                         >
-                            <ChevronRight className="w-4 h-4 mr-2 text-[#B49956] opacity-80 group-hover:opacity-100" />
+                            <ChevronRight className="w-4 h-4 mr-2 text-[#8329B7] opacity-80 group-hover:opacity-100" />
                             Our Sponsors
                         </a>
                         </div>
@@ -87,7 +87,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                     {/* Social Media Column */}
                     <div className="text-left">
                     <nav>
-                        <h3 className="text-[#B49956] font-bold mb-4">Get in Touch</h3>
+                        <h3 className="text-[#8329B7] font-bold mb-4">Get in Touch</h3>
                         <div className="flex space-x-4">
                         <a
                             href="https://web.facebook.com/mismalawi"
@@ -143,11 +143,11 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                 </div>
 
                 {/* Divider */}
-                <div className="border-t border-[#B49956] mt-12 w-full"></div>
+                <div className="border-t border-[#8329B7] mt-12 w-full"></div>
 
                 {/* Copyright */}
                 <p className="text-center mt-8">
-                &copy; 2026 <a href="/" className="text-[#B49956] hover:underline">MISS MALAWI.</a> All Rights Reserved. Developed by SenLain Systems
+                &copy; 2026 <a href="/" className="text-[#8329B7] hover:underline">MISS MALAWI.</a> All Rights Reserved. Developed by SenLain Systems
                 </p>
             </div>
         </footer>
