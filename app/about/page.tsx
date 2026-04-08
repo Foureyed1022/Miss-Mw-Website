@@ -47,14 +47,12 @@ export default function AboutPage() {
               <ParallaxText speed={0.2}>
                 <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6">Our Mission</h2>
                 <p className="text-gray-700 mb-6 text-lg">
-                  To provide a platform for Malawian women to develop leadership skills, confidence, and advocacy,
-                  promoting social impact initiatives that align with Malawi's development agenda.
+                  We enter 2026 with clear eyes about where we are and a bold vision for where we are going. Last year demonstrated that this organisation can generate significant revenue MWK 200 million and above. But revenue alone is not enough. In 2026, we are building the foundations that will sustain, grow, and protect Miss Malawi for the next 50 years..
                 </p>
 
                 <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6 mt-12">Our Vision</h2>
                 <p className="text-gray-700 text-lg">
-                  To empower young Malawian women as ambassadors of intelligence, culture, beauty, and national
-                  development while showcasing Malawi's rich heritage on local and international platforms.
+                  Miss Malawi has been a part of this nation’s soul for over 50 years. At its best, it has been a source of national pride, a platform for extraordinary young women, and a commercially vibrant institution that commands respect from corporations, government, and the public alike..
                 </p>
               </ParallaxText>
             </div>

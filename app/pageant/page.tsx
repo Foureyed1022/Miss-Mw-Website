@@ -26,7 +26,7 @@ export default function PageantPage() {
                 The Search for the Next Queen
               </h2>
               <p className="text-gray-700 mb-6">
-                The Miss Malawi 2025 pageant is now open for applications. We are looking for intelligent, passionate,
+                The Miss Malawi 2026 pageant is now open for applications. We are looking for intelligent, passionate,
                 and confident young women who are ready to represent Malawi on the national and international stage.
               </p>
 
@@ -35,10 +35,10 @@ export default function PageantPage() {
                   <Calendar className="h-5 w-5 text-purple mr-3 mt-0.5" />
                   <div>
                     <h3 className="font-bold text-gray-900">Key Dates</h3>
-                    <p className="text-gray-700">Applications: April 1 - May 30, 2025</p>
-                    <p className="text-gray-700">Regional Auditions: May - June 2025</p>
-                    <p className="text-gray-700">Boot Camp: July 15-30, 2025</p>
-                    <p className="text-gray-700">Grand Finale: August 15, 2025</p>
+                    <p className="text-gray-700">Applications: March 1 - May 30, 2026</p>
+                    <p className="text-gray-700">Regional Auditions: May - June 2026</p>
+                    <p className="text-gray-700">Boot Camp: July 15-30, 2026</p>
+                    <p className="text-gray-700">Grand Finale: December 5, 2026</p>
                   </div>
                 </div>
 
@@ -55,7 +55,7 @@ export default function PageantPage() {
                   <div>
                     <h3 className="font-bold text-gray-900">Prizes</h3>
                     <p className="text-gray-700">
-                      K10 million cash prize, a brand new car, international travel opportunities, and a year-long
+                      K30  million cash prize, a brand new car, international travel opportunities, and a year-long
                       advocacy platform.
                     </p>
                   </div>
