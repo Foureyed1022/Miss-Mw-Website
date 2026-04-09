@@ -124,3 +124,35 @@ export interface PayChanguWebhookPayload {
     meta: string[]; // PayChangu sends meta as array of strings
   };
 }
+
+export interface Donation {
+  id: string;
+  amount: number;
+  allocation: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  paymentMethod: string;
+  comments?: string;
+  isMonthly: boolean;
+  status: 'pending' | 'success' | 'failed';
+  transactionId?: string;
+  createdAt: Date;
+}
+
+export interface Subscriber {
+  id: string;
+  email: string;
+  source: string;
+  createdAt: Date;
+}
+
+export interface AnalyticsEvent {
+  id: string;
+  name: string;
+  source?: string;
+  path: string;
+  metadata?: Record<string, any>;
+  timestamp: Date;
+}

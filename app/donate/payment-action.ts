@@ -1,6 +1,7 @@
 "use server"
 
 import { redirect } from "next/navigation"
+import { saveDonation } from "@/lib/firestore"
 
 export type PaymentData = {
   amount: string
@@ -72,6 +73,21 @@ export async function submitDonation(formData: FormData) {
     const result = await processPayment(paymentData)
 
     if (result.success) {
+      // Save to Firebase
+      await saveDonation({
+        amount: Number(finalAmount),
+        allocation,
+        firstName,
+        lastName,
+        email,
+        phone,
+        paymentMethod,
+        comments,
+        isMonthly,
+        status: 'success',
+        transactionId: result.transactionId
+      })
+
       // Store transaction details in URL params for the success page
       const params = new URLSearchParams({
         transactionId: result.transactionId || "",

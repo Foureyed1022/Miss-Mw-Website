@@ -4,79 +4,66 @@ import type React from "react"
 import { useEffect, useState } from "react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ArrowUpRight, Users, HeartHandshake, Newspaper, Mail } from "lucide-react"
+import { ArrowUpRight, Users, HeartHandshake, Newspaper, Mail, Loader2 } from "lucide-react"
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, BarChart, Bar, CartesianGrid } from "recharts"
-
-const trafficData = [
-  { label: "Mon", visits: 320 },
-  { label: "Tue", visits: 410 },
-  { label: "Wed", visits: 380 },
-  { label: "Thu", visits: 520 },
-  { label: "Fri", visits: 610 },
-  { label: "Sat", visits: 450 },
-  { label: "Sun", visits: 390 },
-]
-
-const donationsData = [
-  { label: "Jan", amount: 1200 },
-  { label: "Feb", amount: 1750 },
-  { label: "Mar", amount: 1420 },
-  { label: "Apr", amount: 2100 },
-  { label: "May", amount: 1840 },
-  { label: "Jun", amount: 2300 },
-]
-
-const recentActivity = [
-  { type: "Donation", description: "New donation via website", meta: "MWK 150,000", time: "Just now" },
-  { type: "Registration", description: "Pageant registration submitted", meta: "Blantyre region", time: "12 min ago" },
-  { type: "Newsletter", description: "New subscriber joined mailing list", meta: "Homepage form", time: "35 min ago" },
-  { type: "Event", description: "User viewed Events page", meta: "Miss Malawi Auditions", time: "1 hr ago" },
-]
-
-type GalleryItem = { id: number; title: string; src: string }
-type GalleryData = {
-  events: GalleryItem[]
-  queens: GalleryItem[]
-  programs: GalleryItem[]
-  international: GalleryItem[]
-}
-
-type FeaturedArticle = {
-  image: string
-  title: string
-  date: string
-  author: string
-  paragraphs: string[]
-}
-
-type NewsArticle = {
-  id: number
-  image: string
-  title: string
-  excerpt: string
-  date: string
-  author: string
-}
-
-type NewsData = {
-  featured: FeaturedArticle
-  articles: NewsArticle[]
-}
+import { 
+  getStatistics, 
+  getRecentActivity, 
+  getDailyVisits, 
+  getMonthlyDonations,
+  ActivityItem
+} from "@/lib/firestore"
+import { formatDistanceToNow } from "date-fns"
 
 export default function DashboardPage() {
-  const [gallery, setGallery] = useState<GalleryData | null>(null)
-  const [news, setNews] = useState<NewsData | null>(null)
+  const [gallery, setGallery] = useState<any | null>(null)
+  const [news, setNews] = useState<any | null>(null)
   const [isSavingGallery, setIsSavingGallery] = useState(false)
   const [isSavingNews, setIsSavingNews] = useState(false)
+  
+  const [stats, setStats] = useState<any>(null)
+  const [activity, setActivity] = useState<ActivityItem[]>([])
+  const [traffic, setTraffic] = useState<any[]>([])
+  const [donations, setDonations] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const load = async () => {
-      const [gRes, nRes] = await Promise.all([fetch("/api/gallery"), fetch("/api/news")])
-      setGallery((await gRes.json()) as GalleryData)
-      setNews((await nRes.json()) as NewsData)
+      try {
+        const [gRes, nRes, sData, aData, tData, dData] = await Promise.all([
+          fetch("/api/gallery"), 
+          fetch("/api/news"),
+          getStatistics(),
+          getRecentActivity(5),
+          getDailyVisits(7),
+          getMonthlyDonations()
+        ])
+        
+        setGallery(await gRes.json())
+        setNews(await nRes.json())
+        setStats(sData)
+        setActivity(aData)
+        setTraffic(tData)
+        setDonations(dData)
+      } catch (error) {
+        console.error("Failed to load dashboard data:", error)
+      } finally {
+        setIsLoading(false)
+      }
     }
     load()
   }, [])
+
+  if (isLoading) {
+    return (
+      <div className="flex h-[80vh] items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="h-8 w-8 animate-spin text-purple" />
+          <p className="text-gray-500 font-medium">Loading dashboard data...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="p-6 md:p-8 space-y-8">
@@ -84,7 +71,7 @@ export default function DashboardPage() {
         <div>
           <h1 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224]">Foundation Dashboard</h1>
           <p className="text-gray-600 mt-2 max-w-2xl">
-            High-level view of how visitors are engaging with the Miss Malawi Foundation website, programs, and campaigns.
+            Real-time view of how visitors are engaging with the Miss Malawi Foundation website, programs, and campaigns.
           </p>
         </div>
       </div>
@@ -92,26 +79,26 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Site Visits"
-          value="3,280"
-          change="+14.2% vs last week"
+          value={stats?.totalVisits?.toLocaleString() || "0"}
+          change="Live tracking"
           icon={<Users className="h-5 w-5 text-purple" />}
         />
         <StatCard
           title="Donations Tracked"
-          value="87"
-          change="+9 this month"
+          value={stats?.donationsCount?.toString() || "0"}
+          change="From website flow"
           icon={<HeartHandshake className="h-5 w-5 text-purple" />}
         />
         <StatCard
           title="Pageant Registrations"
-          value="132"
-          change="+23 this week"
+          value={stats?.applicantsCount?.toString() || "0"}
+          change="New applications"
           icon={<Newspaper className="h-5 w-5 text-purple" />}
         />
         <StatCard
           title="Newsletter Subscribers"
-          value="1,945"
-          change="+102 this month"
+          value={stats?.subscribersCount?.toString() || "0"}
+          change="Mailing list"
           icon={<Mail className="h-5 w-5 text-purple" />}
         />
       </div>
@@ -125,44 +112,54 @@ export default function DashboardPage() {
             </div>
           </CardHeader>
           <CardContent className="h-[260px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={trafficData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
-                <YAxis tickLine={false} axisLine={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)" }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="visits"
-                  stroke="#d4af37"
-                  strokeWidth={2.4}
-                  dot={{ r: 3, strokeWidth: 1.5, stroke: "#111827", fill: "#fef3c7" }}
-                  activeDot={{ r: 5 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            {traffic.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={traffic}>
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                  <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
+                  <YAxis tickLine={false} axisLine={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
+                  <Tooltip
+                    contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb", boxShadow: "0 10px 15px -3px rgba(0,0,0,0.1)" }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="visits"
+                    stroke="#8329B7"
+                    strokeWidth={2.4}
+                    dot={{ r: 3, strokeWidth: 1.5, stroke: "#111827", fill: "#fef3c7" }}
+                    activeDot={{ r: 5 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex h-full items-center justify-center text-gray-400">No traffic data yet</div>
+            )}
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-lg font-semibold">Recent Activity</CardTitle>
-            <p className="text-sm text-gray-500">Latest interactions from visitors and participants.</p>
+            <p className="text-sm text-gray-500">Latest interactions from visitors.</p>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-3">
-              {recentActivity.map((item, index) => (
-                <div key={index} className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-medium text-gray-900">{item.type}</p>
-                    <p className="text-sm text-gray-600">{item.description}</p>
-                    <p className="text-xs text-gray-500 mt-1">{item.meta}</p>
+            <div className="space-y-4">
+              {activity.length > 0 ? (
+                activity.map((item) => (
+                  <div key={item.id} className="flex items-start justify-between gap-3 border-b border-gray-50 pb-3 last:border-0">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-purple">{item.type}</p>
+                      <p className="text-sm font-medium text-gray-900">{item.description}</p>
+                      <p className="text-xs text-gray-500 mt-1">{item.meta}</p>
+                    </div>
+                    <span className="text-[10px] text-gray-400 whitespace-nowrap">
+                      {formatDistanceToNow(item.timestamp, { addSuffix: true })}
+                    </span>
                   </div>
-                  <span className="text-xs text-gray-400 whitespace-nowrap">{item.time}</span>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p className="text-sm text-gray-500 text-center py-4">No recent activity detected</p>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -173,12 +170,12 @@ export default function DashboardPage() {
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <div>
               <CardTitle className="text-lg font-semibold">Donations by Month</CardTitle>
-              <p className="text-sm text-gray-500 mt-1">Mock data you can later replace with live figures.</p>
+              <p className="text-sm text-gray-500 mt-1">Total revenue collected from the foundation website.</p>
             </div>
           </CardHeader>
           <CardContent className="h-[260px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={donationsData}>
+              <BarChart data={donations}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
                 <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
                 <YAxis tickLine={false} axisLine={false} tick={{ fill: "#6b7280", fontSize: 12 }} />
@@ -188,28 +185,6 @@ export default function DashboardPage() {
                 <Bar dataKey="amount" fill="#111827" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-lg font-semibold">What this dashboard can track</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3 text-sm text-gray-600">
-            <p>
-              This dashboard is wired with <span className="font-medium text-gray-900">mock data</span> for now so you can see
-              the layout and design. To track real activity, we can connect it to:
-            </p>
-            <ul className="list-disc list-inside space-y-1">
-              <li>Donation events from the <code>/donate</code> flow</li>
-              <li>Pageant registrations from <code>/pageant/register</code></li>
-              <li>Newsletter signups from the homepage form</li>
-              <li>Page views across key pages like Events, Programs, and News</li>
-            </ul>
-            <p>
-              Next steps would be adding a small tracking API (e.g. <code>/api/track</code>) and storing events in a database or
-              analytics service, then feeding those live numbers into the charts above.
-            </p>
           </CardContent>
         </Card>
 
@@ -228,7 +203,7 @@ export default function DashboardPage() {
                     Edit titles for event photos. Changes update the public gallery immediately.
                   </p>
                   <div className="max-h-60 overflow-y-auto space-y-2">
-                    {gallery.events.map((item, index) => (
+                    {gallery.events?.map((item: any, index: number) => (
                       <div key={item.id} className="flex items-center gap-2">
                         <span className="text-xs text-gray-400 w-10">#{item.id}</span>
                         <input
@@ -273,7 +248,7 @@ export default function DashboardPage() {
                     Update headlines and excerpts for the main news list and recent posts.
                   </p>
                   <div className="max-h-60 overflow-y-auto space-y-3">
-                    {news.articles.map((article, index) => (
+                    {news.articles?.map((article: any, index: number) => (
                       <div key={article.id} className="space-y-1 border-b border-gray-100 pb-2">
                         <input
                           className="w-full rounded-md border border-gray-200 px-2 py-1 text-sm font-medium"
@@ -349,4 +324,3 @@ function StatCard({ title, value, change, icon }: StatCardProps) {
     </Card>
   )
 }
-

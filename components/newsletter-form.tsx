@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,7 +13,7 @@ export default function NewsletterForm() {
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [error, setError] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setError("")
@@ -27,19 +26,30 @@ export default function NewsletterForm() {
       return
     }
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
-      setIsSubscribed(true)
-
-      trackEvent({
-        name: "newsletter_subscribed",
-        source: "homepage_newsletter",
-        metadata: { email },
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, source: "homepage_newsletter" })
       })
 
-      setEmail("")
-    }, 1500)
+      if (response.ok) {
+        setIsSubscribed(true)
+        trackEvent({
+          name: "newsletter_subscribed",
+          source: "homepage_newsletter",
+          metadata: { email },
+        })
+        setEmail("")
+      } else {
+        const data = await response.json()
+        setError(data.error || "Failed to subscribe. Please try again.")
+      }
+    } catch (err) {
+      setError("An error occurred. Please try again later.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (

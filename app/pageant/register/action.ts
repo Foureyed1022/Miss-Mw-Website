@@ -1,6 +1,7 @@
 "use server"
 
 import { redirect } from "next/navigation"
+import { saveApplicant } from "@/lib/firestore"
 
 export type RegistrationData = {
   firstName: string
@@ -99,6 +100,26 @@ export async function submitRegistration(formData: FormData) {
     const result = await processRegistration(registrationData)
 
     if (result.success) {
+      // Save to Firebase
+      await saveApplicant({
+        ...registrationData,
+        age: 0,
+        height: 0,
+        country: registrationData.nationality,
+        talents: registrationData.skills || "",
+        communityService: "",
+        previousPageants: registrationData.pageants || "",
+        whyJoin: registrationData.why,
+        paymentMethod: "Manual",
+        termsAccepted: true,
+        headshotPhoto: "",
+        fullLengthPhoto: "",
+        idProof: "",
+        consentletter: "",
+        paymentProof: "",
+        applicationStatus: 'pending'
+      } as any)
+
       // Store registration details in URL params for the success page
       const params = new URLSearchParams({
         registrationId: result.registrationId || "",
