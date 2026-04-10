@@ -234,9 +234,9 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
                         <span>Introductory Video</span>
                       </h4>
                       <div className="rounded-xl overflow-hidden bg-black aspect-video border-2 border-gray-100 shadow-inner">
-                        <video 
-                          src={getImageUrl(selectedApplicant.introVideo) || ''} 
-                          controls 
+                        <video
+                          src={getImageUrl(selectedApplicant.introVideo) || ''}
+                          controls
                           className="w-full h-full"
                           poster={getImageUrl(selectedApplicant.headshotPhoto) || ''}
                         >
