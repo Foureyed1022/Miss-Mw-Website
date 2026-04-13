@@ -165,55 +165,58 @@ export default function RegistrationPage() {
       `}</style>
       
       <div>
-        <section className="relative py-20 overflow-hidden" style={{ background: 'linear-gradient(135deg, #3D3B48 0%, #2D2B36 100%)' }}>
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-10 left-10 w-32 h-32 rounded-full flex items-center justify-center bg-white" style={{ animation: 'circle1Anim 2s ease-in-out infinite alternate' }}>
+        <section className="relative pt-32 pb-24 overflow-hidden" style={{ background: 'linear-gradient(135deg, #6D28D9 0%, #311B6F 100%)' }}>
+          <div className="absolute inset-0 opacity-15">
+            <div className="absolute top-10 left-10 w-32 h-32 rounded-full flex items-center justify-center bg-white/90" style={{ animation: 'circle1Anim 2s ease-in-out infinite alternate' }}>
               <Image src={logo} alt="Miss Malawi Logo" width={50} height={50} className="object-contain" />
             </div>
-            <div className="absolute bottom-10 right-10 w-24 h-24 rounded-full flex items-center justify-center bg-white" style={{ animation: 'circle2Anim 3s ease-in-out infinite' }}>
+            <div className="absolute bottom-10 right-10 w-24 h-24 rounded-full flex items-center justify-center bg-white/90" style={{ animation: 'circle2Anim 3s ease-in-out infinite' }}>
               <Image src={logo} alt="Miss Malawi Logo" width={40} height={40} className="object-contain" />
             </div>
-            <div className="absolute top-1/2 left-1/3 w-16 h-16 rounded-full" style={{ backgroundColor: '#A68D55', animation: 'circle3Anim 5s linear infinite, circle3Float 7s ease-in-out infinite' }}></div>
-            <div className="absolute top-1/4 right-1/4 w-20 h-20 rounded-full" style={{ backgroundColor: '#9C8653', animation: 'circle4Anim 8s linear infinite' }}></div>
-            <div className="absolute bottom-1/3 left-1/4 w-12 h-12 rounded-full" style={{ backgroundColor: '#B89A5F', animation: 'circle5Anim 2s ease-in-out infinite alternate' }}></div>
+            <div className="absolute top-1/2 left-1/3 w-16 h-16 rounded-full" style={{ backgroundColor: '#C4B5FD', animation: 'circle3Anim 5s linear infinite, circle3Float 7s ease-in-out infinite' }}></div>
+            <div className="absolute top-1/4 right-1/4 w-20 h-20 rounded-full" style={{ backgroundColor: '#7C3AED', animation: 'circle4Anim 8s linear infinite' }}></div>
+            <div className="absolute bottom-1/3 left-1/4 w-12 h-12 rounded-full" style={{ backgroundColor: '#A78BFA', animation: 'circle5Anim 2s ease-in-out infinite alternate' }}></div>
           </div>
 
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-              Registration & Application <span style={{ color: '#9C8653' }}>Desk</span>
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Ready to begin your journey to the crown? Complete the application form below to register for <span style={{ color: '#9C8653' }}>MISS MALAWI</span> 2026.
-            </p>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex items-center justify-center">
+            <div className="max-w-3xl space-y-5 text-center">
+              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-purple-200">Miss Malawi 2026 Registration</p>
+              <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold text-white leading-tight">
+                Registration & Application <span className="text-purple-200">Desk</span>
+              </h1>
+              <p className="text-lg text-purple-100 leading-relaxed">
+                Ready to begin your journey to the crown? Complete the application form below to register for <span className="text-purple-200">MISS MALAWI</span> 2026.
+              </p>
+            </div>
           </div>
         </section>
       </div>
 
-      <div className="container py-12 mx-auto px-4">
-        <div className="mx-auto mb-8 max-w-3xl">
-          <div className="relative mb-4">
-            <div className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 bg-gray-200" />
-            <div className="absolute left-0 top-1/2 h-0.5 -translate-y-1/2 bg-[#9C8653] transition-all duration-300" style={{ width: `${((step - 1) / (totalSteps - 1)) * 100}%` }} />
-            <div className="relative flex justify-between">
+      <div className="container py-16 mx-auto px-4">
+        <div className="mx-auto mb-10 max-w-3xl">
+          <div className="relative mb-6">
+            <div className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 bg-purple-200/30" />
+            <div className="absolute left-0 top-1/2 h-0.5 -translate-y-1/2 bg-purple-400 transition-all duration-300" style={{ width: `${((step - 1) / (totalSteps - 1)) * 100}%` }} />
+            <div className="relative flex items-center justify-between gap-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className={`flex h-8 w-8 items-center justify-center rounded-full border-2 text-xs font-bold ${i <= step ? "border-[#9C8653] bg-[#9C8653] text-white" : "border-gray-300 bg-white text-gray-400"}`}>
+                <div key={i} className={`flex h-10 w-10 items-center justify-center rounded-full border-2 text-sm font-semibold ${i <= step ? "border-[#7C3AED] bg-[#7C3AED] text-white" : "border-gray-300 bg-white text-gray-400"}`}>
                   {i < step ? <Check className="h-4 w-4" /> : i}
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex justify-between text-xs font-medium text-gray-500">
-            <span>PERSONAL INFO</span>
-            <span>EXPERIENCE</span>
-            <span>DOCUMENTS</span>
+          <div className="grid grid-cols-3 gap-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-purple-700">
+            <div className="text-center">Personal Info</div>
+            <div className="text-center">Experience</div>
+            <div className="text-center">Documents</div>
           </div>
         </div>
 
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            <Card className="mx-auto max-w-3xl shadow-lg border-gray-100">
-              <CardHeader className="bg-gray-50/50">
-                <CardTitle className="text-2xl text-[#3D3B48]">
+            <Card className="mx-auto max-w-4xl shadow-xl border border-purple-100">
+              <CardHeader className="bg-purple-50/70">
+                <CardTitle className="text-2xl text-purple-900">
                   {step === 1 && "Personal Information"}
                   {step === 2 && "Experience & Background"}
                   {step === 3 && "Document & Video Upload"}
@@ -353,9 +356,9 @@ export default function RegistrationPage() {
                     <FormField control={control} name="introVideo" render={({ field }) => (
                       <FormItem><FormLabel>Introductory Video (30s) *</FormLabel>
                         <div className="flex items-center justify-center w-full">
-                          <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-lg cursor-pointer bg-[#3D3B48]/5 hover:bg-[#3D3B48]/10 border-[#9C8653]">
+                          <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-lg cursor-pointer bg-[#3D3B48]/5 hover:bg-[#3D3B48]/10 border-[#7C3AED]">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                              <Video className="w-10 h-10 mb-3 text-[#9C8653]" />
+                              <Video className="w-10 h-10 mb-3 text-[#7C3AED]" />
                               <p className="text-sm font-medium text-[#3D3B48]">Upload your 30-second introduction</p>
                               <p className="text-xs text-gray-500 mt-1">{field.value?.name || "MP4, MOV, WebM (Max 50MB)"}</p>
                             </div>
@@ -403,8 +406,8 @@ export default function RegistrationPage() {
                         <p className="font-medium">After submitting your application:</p>
                         <ul className="list-disc list-inside space-y-1 ml-2">
                           <li>You will be redirected to the secure payment page.</li>
-                          <li>Ensure your <span className="text-[#9C8653] font-bold">First Name</span>, <span className="text-[#9C8653] font-bold">Last Name</span>, and <span className="text-[#9C8653] font-bold">Email</span> match your application.</li>
-                          <li>Registration Fee: <span className="text-[#9C8653] font-bold">MWK 30,000</span></li>
+                          <li>Ensure your <span className="text-[#7C3AED] font-bold">First Name</span>, <span className="text-[#7C3AED] font-bold">Last Name</span>, and <span className="text-[#7C3AED] font-bold">Email</span> match your application.</li>
+                          <li>Registration Fee: <span className="text-[#7C3AED] font-bold">MWK 30,000</span></li>
                         </ul>
                       </div>
                     </div>
@@ -424,9 +427,9 @@ export default function RegistrationPage() {
               <CardFooter className="flex justify-between bg-gray-50/50 pt-6">
                 <Button type="button" variant="outline" onClick={prevStep} disabled={step === 1} className="border-gray-200"><ArrowLeft className="mr-2 h-4 w-4" /> Back</Button>
                 {step < totalSteps ? (
-                  <Button type="button" onClick={nextStep} className="bg-[#9C8653] hover:bg-[#8B7542] text-white">Next <ArrowRight className="ml-2 h-4 w-4" /></Button>
+                  <Button type="button" onClick={nextStep} className="bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white">Next <ArrowRight className="ml-2 h-4 w-4" /></Button>
                 ) : (
-                  <Button type="submit" disabled={isSubmitting} className="bg-[#9C8653] hover:bg-[#8B7542] text-white">
+                  <Button type="submit" disabled={isSubmitting} className="bg-[#7C3AED] hover:bg-[#7C3AED]/90 text-white">
                     {isSubmitting ? "Submitting..." : "Submit Application"}
                   </Button>
                 )}
@@ -438,3 +441,4 @@ export default function RegistrationPage() {
     </>
   );
 }
+

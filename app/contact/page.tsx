@@ -78,7 +78,7 @@ export default function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
             <div>
-              <h2 className="font-playfair text-3xl font-bold text-emerald-800 mb-6">Send Us a Message</h2>
+              <h2 className="font-playfair text-[#7C3AED]xl font-bold text-emerald-800 mb-6">Send Us a Message</h2>
               <p className="text-gray-700 mb-8">
                 Have questions, suggestions, or want to get involved with Miss Malawi Foundation? Fill out the form
                 below, and our team will get back to you as soon as possible.
@@ -144,7 +144,7 @@ export default function ContactPage() {
                 </div>
 
                 {submitSuccess && (
-                  <div className="bg-green-50 text-green-800 px-4 py-3 rounded">
+                  <div className="bg-purple-50 text-purple-800 px-4 py-3 rounded">
                     Your message has been sent successfully. We'll get back to you soon!
                   </div>
                 )}
@@ -167,7 +167,7 @@ export default function ContactPage() {
 
             {/* Map */}
             <div>
-              <h2 className="font-playfair text-3xl font-bold text-emerald-800 mb-6">Find Us</h2>
+              <h2 className="font-playfair text-[#7C3AED] font-bold text-emerald-800 mb-6">Find Us</h2>
               <div className="bg-white p-2 rounded-lg shadow-sm h-[400px]">
                 {/* This would be replaced with an actual map component */}
                 <div className="w-full h-full bg-gray-200 rounded flex items-center justify-center">
@@ -200,8 +200,8 @@ export default function ContactPage() {
       {/* FAQ Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">
               Frequently Asked Questions
             </h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
@@ -248,7 +248,7 @@ interface ContactCardProps {
 
 function ContactCard({ icon, title, details }: ContactCardProps) {
   return (
-    <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 text-center">
+    <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 text-[#7C3AED]enter">
       <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-50 mb-6">{icon}</div>
       <h3 className="text-xl font-bold mb-4 text-gray-900">{title}</h3>
       <div className="space-y-2">
@@ -275,3 +275,4 @@ function FAQ({ question, answer }: FAQProps) {
     </div>
   )
 }
+

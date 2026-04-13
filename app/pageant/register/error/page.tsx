@@ -17,12 +17,12 @@ export default async function RegistrationErrorPage({
 
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
+          <div className="max-w-3xl mx-auto text-[#7C3AED]enter">
             <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-red-50 text-red-600 mb-6">
               <AlertCircle className="h-10 w-10" />
             </div>
 
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-6">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-6">
               Registration Not Completed
             </h2>
 
@@ -48,3 +48,4 @@ export default async function RegistrationErrorPage({
     </div>
   )
 }
+

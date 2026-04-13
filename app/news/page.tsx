@@ -7,53 +7,56 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar, Search, User } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import PageHeader from "@/components/page-header"
-
-type FeaturedArticle = {
-  image: string
-  title: string
-  date: string
-  author: string
-  paragraphs: string[]
-}
-
-type NewsArticle = {
-  id: number
-  image: string
-  title: string
-  excerpt: string
-  date: string
-  author: string
-}
-
-type NewsData = {
-  featured: FeaturedArticle
-  articles: NewsArticle[]
-}
+import { NewsArticle } from "@/types"
+import { getNewsArticles } from "@/lib/firestore"
 
 export default function NewsPage() {
-  const [news, setNews] = useState<NewsData | null>(null)
+  const [articles, setArticles] = useState<NewsArticle[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const load = async () => {
-      const res = await fetch("/api/news")
-      const data = (await res.json()) as NewsData
-      setNews(data)
+      setIsLoading(true)
+      try {
+        const data = await getNewsArticles()
+        setArticles(data)
+      } catch (error) {
+        console.error("Failed to load news articles:", error)
+      } finally {
+        setIsLoading(false)
+      }
     }
+
     load()
   }, [])
 
-  if (!news) {
+  if (isLoading) {
     return (
       <div className="flex flex-col w-full">
         <PageHeader title="News & Blog" description="Stay updated with the latest from Miss Malawi Foundation" />
         <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 md:px-6 text-center text-gray-500">Loading news...</div>
+          <div className="container mx-auto px-4 md:px-6 text-[#7C3AED]enter text-gray-500">Loading news...</div>
         </section>
       </div>
     )
   }
 
-  const featured = news.featured
+  if (!articles.length) {
+    return (
+      <div className="flex flex-col w-full">
+        <PageHeader title="News & Blog" description="Stay updated with the latest from Miss Malawi Foundation" />
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4 md:px-6 text-[#7C3AED]enter text-gray-500">No news articles available yet.</div>
+        </section>
+      </div>
+    )
+  }
+
+  const featuredArticle = articles.find(article => article.featured) || articles[0]
+  const articleList = articles.filter(article => article.id !== featuredArticle.id)
+  const featuredParagraphs = featuredArticle.content
+    ? featuredArticle.content.split("\n\n").slice(0, 3)
+    : [featuredArticle.excerpt]
 
   return (
     <div className="flex flex-col w-full">
@@ -64,23 +67,23 @@ export default function NewsPage() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
-              <Image src={featured.image || "/placeholder.svg"} alt={featured.title} fill className="object-cover" />
+              <Image src={featuredArticle.image || "/placeholder.svg"} alt={featuredArticle.title} fill className="object-cover" />
             </div>
             <div>
               <div className="flex items-center text-sm text-gray-500 mb-4">
                 <div className="flex items-center mr-4">
                   <Calendar className="h-4 w-4 mr-1" />
-                  <span>{featured.date}</span>
+                  <span>{featuredArticle.date}</span>
                 </div>
                 <div className="flex items-center">
                   <User className="h-4 w-4 mr-1" />
-                  <span>{featured.author}</span>
+                  <span>{featuredArticle.author}</span>
                 </div>
               </div>
-              <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6">{featured.title}</h2>
-              {featured.paragraphs.map((p, idx) => (
+              <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-6">{featuredArticle.title}</h2>
+              {featuredParagraphs.map((paragraph, idx) => (
                 <p key={idx} className="text-gray-700 mb-6 text-lg">
-                  {p}
+                  {paragraph}
                 </p>
               ))}
               <Button className="bg-emerald-800 hover:bg-emerald-700">
@@ -97,10 +100,10 @@ export default function NewsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Main Content */}
             <div className="lg:col-span-2">
-              <h2 className="font-playfair text-3xl font-bold text-emerald-800 mb-8">Latest News</h2>
+              <h2 className="font-playfair text-[#7C3AED]xl font-bold text-emerald-800 mb-8">Latest News</h2>
 
               <div className="space-y-8">
-                {news.articles.map((article) => (
+                {articleList.map((article) => (
                   <ArticleCard
                     key={article.id}
                     image={article.image}
@@ -173,7 +176,7 @@ export default function NewsPage() {
               <div className="bg-white p-6 rounded-lg shadow-sm">
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Recent Posts</h3>
                 <div className="space-y-4">
-                  {news.articles.slice(0, 4).map((article) => (
+                  {articleList.slice(0, 4).map((article) => (
                     <RecentPost
                       key={article.id}
                       image={article.image}
@@ -252,8 +255,8 @@ export default function NewsPage() {
       {/* Newsletter */}
       <section className="py-16 bg-emerald-900 text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold mb-4">Subscribe to Our Newsletter</h2>
+          <div className="max-w-3xl mx-auto text-[#7C3AED]enter">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold mb-4">Subscribe to Our Newsletter</h2>
             <p className="mb-8">
               Stay updated with the latest news, events, and stories from Miss Malawi Foundation. Subscribe to our
               newsletter for regular updates delivered directly to your inbox.
@@ -330,3 +333,4 @@ function RecentPost({ image, title, date }: RecentPostProps) {
     </Link>
   )
 }
+

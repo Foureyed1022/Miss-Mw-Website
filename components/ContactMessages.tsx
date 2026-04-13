@@ -89,7 +89,7 @@ export default function ContactMessages({
     <div className="p-4 lg:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-playfair font-bold text-[#3D3B48]">Contact Messages</h1>
+          <h1 className="text-[#7C3AED]xl font-playfair font-bold text-[#3D3B48]">Contact Messages</h1>
           <p className="text-gray-500 mt-1">View and respond to inquiries from website visitors.</p>
         </div>
       </div>
@@ -131,7 +131,7 @@ export default function ContactMessages({
                   key={message.id} 
                   className={`
                     p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-gray-50 transition-all cursor-pointer border-l-4
-                    ${message.status === 'new' ? 'border-[#9C8653] bg-[#9C8653]/5' : 'border-transparent'}
+                    ${message.status === 'new' ? 'border-[#7C3AED] bg-[#7C3AED]/5' : 'border-transparent'}
                     ${selectedMessage?.id === message.id ? 'bg-gray-100/50' : ''}
                   `}
                   onClick={() => {
@@ -145,7 +145,7 @@ export default function ContactMessages({
                         {message.firstName} {message.lastName}
                       </h3>
                       {message.status === 'new' && (
-                        <Badge className="bg-[#9C8653] text-white text-[9px] uppercase h-4">NEW</Badge>
+                        <Badge className="bg-[#7C3AED] text-white text-[9px] uppercase h-4">NEW</Badge>
                       )}
                     </div>
                     <p className="text-gray-800 font-semibold truncate text-sm mb-1">{message.subject}</p>
@@ -192,7 +192,7 @@ export default function ContactMessages({
                 </div>
               ))}
               {filteredMessages.length === 0 && (
-                <div className="p-20 text-center text-gray-500">
+                <div className="p-20 text-[#7C3AED]enter text-gray-500">
                   <div className="inline-flex items-center justify-center p-4 bg-gray-50 rounded-full mb-4">
                     <Mail className="h-8 w-8 text-gray-300" />
                   </div>
@@ -211,7 +211,7 @@ export default function ContactMessages({
           <DialogHeader className="border-b pb-4">
             <div className="flex items-center justify-between pr-4">
               <div className="flex items-center gap-4">
-                <div className="h-12 w-12 rounded-full bg-[#9C8653]/10 flex items-center justify-center text-[#9C8653] font-bold border border-[#9C8653]/20">
+                <div className="h-12 w-12 rounded-full bg-[#7C3AED]/10 flex items-center justify-center text-[#7C3AED] font-bold border border-[#7C3AED]/20">
                   {selectedMessage?.firstName[0]}{selectedMessage?.lastName[0]}
                 </div>
                 <div>
@@ -241,7 +241,7 @@ export default function ContactMessages({
             <div className="flex items-center gap-2">
               <Button 
                 variant="outline" 
-                className="gap-2 border-[#9C8653] text-[#9C8653] hover:bg-[#9C8653] hover:text-white"
+                className="gap-2 border-[#7C3AED] text-[#7C3AED] hover:bg-[#7C3AED] hover:text-white"
                 onClick={() => window.location.href = `mailto:${selectedMessage?.email}`}
               >
                 <Mail className="h-4 w-4" /> Reply via Email
@@ -263,3 +263,4 @@ export default function ContactMessages({
     </div>
   );
 }
+

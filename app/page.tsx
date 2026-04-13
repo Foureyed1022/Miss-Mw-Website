@@ -1,5 +1,10 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
+import { db } from "@/lib/firebase"
 import { Button } from "@/components/ui/button"
 import {
   ArrowRight,
@@ -11,6 +16,7 @@ import {
   type LucideIcon,
   Users,
 } from "lucide-react"
+import type { Program } from "@/types"
 import ParallaxSection from "@/components/parallax-section"
 import CounterSection from "@/components/counter-section"
 import TestimonialCarousel from "@/components/testimonial-carousel"
@@ -19,41 +25,80 @@ import NewsletterForm from "@/components/newsletter-form"
 import UpcomingEventsCarousel from "@/components/upcoming-events-carousel"
 
 export default function Home() {
+  const [programs, setPrograms] = useState<Program[]>([])
+  const [loadingPrograms, setLoadingPrograms] = useState(true)
+
+  useEffect(() => {
+    const programsRef = collection(db, "programs")
+    const programsQuery = query(programsRef, orderBy("createdAt", "desc"))
+    const unsubscribe = onSnapshot(
+      programsQuery,
+      (snapshot) => {
+        const items = snapshot.docs.map((doc) => {
+          const data = doc.data() as Record<string, any>
+          return {
+            id: doc.id,
+            title: data.title || "",
+            description: data.description || "",
+            fullDescription: data.fullDescription || data.description || "",
+            mission: data.mission || "",
+            category: data.category || "",
+            activities: Array.isArray(data.activities) ? data.activities : [],
+            impact: Array.isArray(data.impact) ? data.impact : [],
+            image: data.image || "/placeholder.svg?height=400&width=600",
+            createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : undefined,
+            updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : undefined,
+          } as Program
+        })
+        setPrograms(items)
+        setLoadingPrograms(false)
+      },
+      (error) => {
+        console.error("Home programs snapshot error", error)
+        setLoadingPrograms(false)
+      }
+    )
+
+    return () => unsubscribe()
+  }, [])
+
   return (
     <div className="flex flex-col w-full">
       {/* Hero Section */}
-      <section className="w-full">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#212224]/70 to-black/50 z-10 pointer-events-none" />
+      <section className="relative pt-24 min-h-screen overflow-hidden">
+        <div className="absolute inset-0 h-full">
           <img
             src="/Miss Nyasa.png"
-            alt="Miss Malawi contestants"
-            className="w-full h-auto"
+            alt="Miss Malawi 2025"
+            className="w-full h-full object-cover object-top block"
           />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#2E0F4D]/80 via-[#3C1B6C]/60 to-black/75" />
         </div>
-        <div className="relative z-20 container mx-auto flex flex-col justify-center px-4 md:px-6 py-8">
-          <div className="max-w-3xl space-y-4">
-            {/*
-            <h1 className="font-playfair text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-              <span className="text-purple">Empowering</span> Malawian Women
+        <div className="relative z-20 container mx-auto flex min-h-[calc(100vh-96px)] items-center justify-center px-4 md:px-6 py-24">
+          <div className="max-w-3xl text-center space-y-6">
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-purple-200">Celebrate Culture, Confidence & Impact</p>
+            <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+              Empowering Malawian Women through Beauty, Leadership, and Service.
             </h1>
-            <p className="text-white/90 text-lg md:text-xl max-w-2xl">
-              A cultural and empowerment platform showcasing beauty, intelligence, and advocacy while promoting national
-              development.
+            <p className="text-white/85 text-lg md:text-xl max-w-2xl mx-auto">
+              A cultural and empowerment platform showcasing beauty, intelligence, and advocacy while promoting national development.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link href="/donate">
-                <Button size="lg" className="bg-purple hover:bg-purple/90 text-black">
-                  Get Involved <ArrowRight className="ml-2 h-4 w-4" />
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+              <Link href="/pageant/register">
+                <Button size="lg" className="bg-purple-500 hover:bg-purple-600 text-white">
+                  Apply Now <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
               <Link href="/about">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="rounded-md border border-white/80 bg-white/10 px-8 text-white transition duration-200 hover:bg-white/20 hover:text-white"
+                >
                   Learn More
                 </Button>
               </Link>
             </div>
-            */}
           </div>
         </div>
       </section>
@@ -61,8 +106,8 @@ export default function Home() {
       {/* Values Section */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <ParallaxText className="text-center mb-16">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Our Core Values</h2>
+          <ParallaxText className="text-[#7C3AED]enter mb-16">
+            <h2 className="font-playfair text-xl md:text-4xl font-bold text-[#212224] mb-4 text-center">Our Core Values</h2>
             <div className="w-24 h-1 bg-purple mx-auto"></div>
           </ParallaxText>
 
@@ -93,49 +138,63 @@ export default function Home() {
 
       {/* Parallax Section */}
       <ParallaxSection imageUrl="/nyauziyambo.png" height="500px">
-        <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Beauty with Purpose</h2>
-        <p className="max-w-2xl mx-auto text-lg md:text-xl">
-          Celebrating Malawian women who combine beauty with intelligence and a passion for positive change.
-        </p>
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold mb-4">Beauty with Purpose</h2>
+          <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/90">
+            Celebrating Malawian women who combine beauty with intelligence and a passion for positive change.
+          </p>
+        </div>
       </ParallaxSection>
 
       {/* Programs Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <ParallaxText className="text-center mb-16">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Our Programs</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Discover how the Miss Malawi Foundation is making a difference through our various initiatives and
+            <h2 className="font-playfair text-xl md:text-4xl font-bold text-[#212224] mb-4 text-center">Our Programs</h2>
+            <p className="text-gray-600 max-w-3xl mx-auto text-center">
+              Discover how Miss Malawi is making a difference through our various initiatives and
               programs.
             </p>
             <div className="w-24 h-1 bg-purple mx-auto mt-4"></div>
           </ParallaxText>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ProgramCard
-              id="sustainable-fashion-sfwe"
-              image="/placeholder.svg?height=400&width=600"
-              title="Sustainable Fashion (SFWE)"
-              description="Driving economic empowerment through eco-friendly fashion entrepreneurship led by Thandie Chisi."
-            />
-            <ProgramCard
-              id="keep-a-girl-in-school"
-              image="/placeholder.svg?height=400&width=600"
-              title="Keep a Girl in School"
-              description="Ensuring girls' education by addressing menstrual poverty and promoting hygiene in rural areas."
-            />
-            <ProgramCard
-              id="empower-her-now"
-              image="/placeholder.svg?height=400&width=600"
-              title="Empower Her Now"
-              description="Equipping women with tailoring and business skills for sustainable livelihoods across Malawi."
-            />
-          </div>
+          {loadingPrograms ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="rounded-3xl border border-slate-200 bg-white shadow-lg p-6 animate-pulse">
+                  <div className="h-56 rounded-3xl bg-slate-200" />
+                  <div className="mt-6 space-y-4">
+                    <div className="h-6 rounded bg-slate-200" />
+                    <div className="h-4 w-5/6 rounded bg-slate-200" />
+                    <div className="h-4 w-3/4 rounded bg-slate-200" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : programs.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {programs.slice(0, 3).map((program) => (
+                <ProgramCard
+                  key={program.id}
+                  id={program.id}
+                  image={program.image || "/placeholder.svg?height=400&width=600"}
+                  title={program.title}
+                  description={program.description}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="col-span-full rounded-3xl border border-dashed border-gray-300 bg-white/80 px-8 py-12 text-center text-gray-600">
+              No programs are available yet. Please check back soon.
+            </div>
+          )}
 
-          <div className="text-center mt-12">
-            <Button className="bg-[#212224] hover:bg-[#212224]/90">
-              View All Programs <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+          <div className="text-[#7C3AED] mt-12">
+            <Link href="/programs">
+              <Button className="bg-purple hover:bg-purple/90 text-white shadow-lg">
+                View All Programs <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -149,16 +208,16 @@ export default function Home() {
       {/* Upcoming Events */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <ParallaxText className="text-center mb-16">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Upcoming Events</h2>
+          <ParallaxText className="text-[#7C3AED]enter mb-16">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4 text-center">Upcoming Events</h2>
             <div className="w-24 h-1 bg-purple mx-auto"></div>
           </ParallaxText>
 
           <UpcomingEventsCarousel />
 
-          <div className="text-center mt-12">
+          <div className="text-[#7C3AED]enter mt-12">
             <Link href="/events">
-              <Button className="bg-purple hover:bg-purple/90 text-black shadow-lg">
+              <Button className="bg-purple hover:bg-purple/90 text-white shadow-lg">
                 View Full Calendar <Calendar className="ml-2 h-4 w-4" />
               </Button>
             </Link>
@@ -169,7 +228,7 @@ export default function Home() {
       {/* Newsletter Section */}
       <ParallaxSection imageUrl="/placeholder.svg?height=1080&width=1920" height="auto" overlayColor="bg-[#212224]/90">
         <div className="py-20">
-          <h2 className="font-playfair text-3xl md:text-4xl font-bold mb-4">Stay Updated</h2>
+          <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold mb-4">Stay Updated</h2>
           <p className="mb-8">
             Subscribe to our newsletter to receive updates about our programs, events, and success stories.
           </p>
@@ -191,7 +250,7 @@ interface ValueCardProps {
 
 function ValueCard({ icon: Icon, title, description }: ValueCardProps) {
   return (
-    <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 text-center">
+    <div className="bg-white p-8 rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300 text-[#7C3AED]enter">
       <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#212224]/5 text-[#212224] mb-6">
         <Icon className="h-8 w-8" />
       </div>
@@ -218,8 +277,8 @@ function ProgramCard({ id, image, title, description }: ProgramCardProps) {
       <div className="p-6">
         <h3 className="text-xl font-bold mb-2 text-gray-900">{title}</h3>
         <p className="text-gray-600 mb-4 h-20 line-clamp-3">{description}</p>
-        <Link href={href} className="text-[#212224] font-medium inline-flex items-center hover:text-[#212224]/80">
-          Learn more <ArrowRight className="ml-1 h-4 w-4" />
+        <Link href={href} className="inline-flex items-center justify-center rounded-full px-4 py-2 text-sm font-semibold duration-200 bg-purple hover:bg-purple/90 text-white shadow-lg">
+          Apply <ArrowRight className="ml-2 h-4 w-4" />
         </Link>
       </div>
     </div>
@@ -247,3 +306,4 @@ function EventCard({ date, title, location }: EventCardProps) {
     </div>
   )
 }
+

@@ -163,7 +163,7 @@ export default function SettingsPage() {
   return (
     <div className="p-6 md:p-8 space-y-8">
       <div>
-        <h1 className="font-playfair text-3xl font-bold text-gray-900">Dashboard Settings</h1>
+        <h1 className="font-playfair text-[#7C3AED]xl font-bold text-gray-900">Dashboard Settings</h1>
         <p className="text-gray-600 mt-1">Configure your administrative preferences and site-wide options.</p>
       </div>
 
@@ -429,7 +429,7 @@ export default function SettingsPage() {
                       </div>
                     ))}
                     {users.length === 0 && (
-                      <p className="text-center text-gray-500 text-sm py-4">No users found.</p>
+                      <p className="text-[#7C3AED]enter text-gray-500 text-sm py-4">No users found.</p>
                     )}
                   </div>
                 )}
@@ -441,4 +441,5 @@ export default function SettingsPage() {
     </div>
   )
 }
+
 

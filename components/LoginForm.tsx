@@ -57,7 +57,7 @@ export default function LoginForm() {
   if (isInitializing) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4" style={{ background: '#3D3B48' }}>
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#9C8653]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7C3AED]"></div>
         <p className="text-xl font-bold" style={{ color: 'white' }}>Authenticating...</p>
       </div>
     );
@@ -68,7 +68,7 @@ export default function LoginForm() {
 
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <div className="text-center mb-8">
+          <div className="text-[#7C3AED]enter mb-8">
             <div className="inline-flex items-center justify-center mb-4">
               <Image
                 src={logo}
@@ -94,7 +94,7 @@ export default function LoginForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-                  style={{ '--tw-ring-color': '#9C8653' } as React.CSSProperties}
+                  style={{ '--tw-ring-color': '#7C3AED' } as React.CSSProperties}
                   placeholder="admin@missmw.org"
                   required
                 />
@@ -112,7 +112,7 @@ export default function LoginForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-                  style={{ '--tw-ring-color': '#9C8653' } as React.CSSProperties}
+                  style={{ '--tw-ring-color': '#7C3AED' } as React.CSSProperties}
                   placeholder="Enter your password"
                   required
                 />
@@ -129,7 +129,7 @@ export default function LoginForm() {
               type="submit"
               disabled={loading}
               className="w-full py-3 px-4 rounded-lg text-white font-semibold hover:shadow-lg transition-all duration-200 disabled:opacity-50"
-              style={{ backgroundColor: '#9C8653' }}
+              style={{ backgroundColor: '#7C3AED' }}
             >
               {loading ? 'Signing In...' : 'Sign In'}
             </button>

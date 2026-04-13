@@ -15,7 +15,7 @@ export default function StrategyManagementPage() {
     <div className="p-6 md:p-8 space-y-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="font-playfair text-3xl font-bold text-gray-900">Strategy & Timeline</h1>
+          <h1 className="font-playfair text-[#7C3AED]xl font-bold text-gray-900">Strategy & Timeline</h1>
           <p className="text-gray-600 mt-1">Manage organizational goals, phases, and key milestones.</p>
         </div>
         <Button className="bg-emerald-800 hover:bg-emerald-700">
@@ -54,3 +54,4 @@ export default function StrategyManagementPage() {
     </div>
   )
 }
+

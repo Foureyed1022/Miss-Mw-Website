@@ -109,10 +109,10 @@ export default function Header() {
             </Link>
             <div className="flex items-center gap-2">
               <Link href="/pageant/register">
-                <Button className="bg-purple hover:bg-purple/90 text-white font-bold px-6">Apply Now</Button>
+                <Button className="bg-purple hover:bg-purple/90 text-white font-bold px-6 shadow-lg">Apply Now</Button>
               </Link>
               <Link href="/donate">
-                <Button className="bg-[#4B2C5E] hover:bg-[#3A2249] text-white px-6">Donate</Button>
+                <Button className="bg-[#4B2C5E] hover:bg-[#3A2249] text-white px-6 shadow-lg">Donate</Button>
               </Link>
             </div>
           </div>

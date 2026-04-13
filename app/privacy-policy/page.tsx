@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, Lock, EyeOff, Database, Share2 } from "lucide-react";
+import { Lock, EyeOff, Database, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PageHeader from "@/components/page-header";
 
 export default function PrivacyPolicy() {
   const policies = [
@@ -29,25 +30,10 @@ export default function PrivacyPolicy() {
 
   return (
     <div className="min-h-screen bg-[#FDFCFD]">
-      {/* Hero Header */}
-      <header className="py-24 bg-[#3D1E52] text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl -mr-48 -mt-48"></div>
-        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-900/40 rounded-full blur-3xl -ml-32 -mb-32"></div>
-
-        <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-white/10 rounded-2xl backdrop-blur-md">
-              <Lock className="w-10 h-10 text-purple-200" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-bold font-playfair mb-6 tracking-tight text-white shadow-sm">
-            Privacy <span className="text-purple-300 italic">Policy</span>
-          </h1>
-          <p className="text-purple-100/80 text-lg max-w-xl mx-auto leading-relaxed font-inter">
-            Transparency about how we handle your data is a fundamental part of our commitment to all pageant contestants.
-          </p>
-        </div>
-      </header>
+      <PageHeader
+        title="Privacy Policy"
+        description="Transparency about how we handle your data is a fundamental part of our commitment to all pageant contestants."
+      />
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-4 py-20">
@@ -68,7 +54,7 @@ export default function PrivacyPolicy() {
 
           <section className="bg-purple-50/50 rounded-[2.5rem] p-8 md:p-16 border border-purple-100 flex flex-col md:flex-row items-center gap-10">
             <div className="flex-1 space-y-6">
-              <h3 className="text-3xl font-bold font-playfair text-[#3D1E52]">Your Rights</h3>
+              <h3 className="text-[#7C3AED]xl font-bold font-playfair text-[#3D1E52]">Your Rights</h3>
               <p className="text-gray-700 leading-relaxed">
                 You have the right to request access to the data we hold about you, ask for corrections, or request deletion of your information if you choose to withdraw your application.
               </p>
@@ -90,17 +76,7 @@ export default function PrivacyPolicy() {
           </section>
         </div>
       </div>
-
-      <footer className="py-16 border-t border-purple-100 bg-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-gray-400 text-sm italic">
-            "Your privacy is our priority. We treat every application with the utmost confidentiality and respect."
-          </p>
-          <div className="mt-8 text-xs text-gray-300 uppercase tracking-widest">
-            Miss Malawi • Legal Affairs
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
+

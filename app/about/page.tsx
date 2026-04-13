@@ -45,12 +45,12 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <ParallaxText speed={0.2}>
-                <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6">Our Mission</h2>
+                <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-6">Our Mission</h2>
                 <p className="text-gray-700 mb-6 text-lg">
                   We enter 2026 with clear eyes about where we are and a bold vision for where we are going. Last year demonstrated that this organisation can generate significant revenue MWK 200 million and above. But revenue alone is not enough. In 2026, we are building the foundations that will sustain, grow, and protect Miss Malawi for the next 50 years..
                 </p>
 
-                <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6 mt-12">Our Vision</h2>
+                <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-6 mt-12">Our Vision</h2>
                 <p className="text-gray-700 text-lg">
                   Miss Malawi has been a part of this nation’s soul for over 50 years. At its best, it has been a source of national pride, a platform for extraordinary young women, and a commercially vibrant institution that commands respect from corporations, government, and the public alike..
                 </p>
@@ -73,8 +73,8 @@ export default function AboutPage() {
       {/* History */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <ParallaxText className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Our History</h2>
+          <ParallaxText className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">Our History</h2>
             <div className="w-24 h-1 bg-purple mx-auto"></div>
           </ParallaxText>
 
@@ -118,7 +118,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="text-center mt-12">
+            <div className="text-[#7C3AED]enter mt-12">
               <Button className="bg-emerald-800 hover:bg-emerald-700">
                 Explore Our Legacy <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
@@ -134,7 +134,7 @@ export default function AboutPage() {
         overlayColor="bg-emerald-900/70"
       >
         <div className="max-w-3xl mx-auto">
-          <p className="text-2xl md:text-3xl font-playfair italic">
+          <p className="text-2xl md:text-[#7C3AED]xl font-playfair italic">
             "Beauty with a purpose is about using your platform to create positive change in society."
           </p>
           <p className="mt-4 text-purple font-medium">Miss Malawi Foundation</p>
@@ -144,8 +144,8 @@ export default function AboutPage() {
       {/* Team Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <ParallaxText className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Meet Our Team</h2>
+          <ParallaxText className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">Meet Our Team</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               The dedicated individuals who work tirelessly to uphold our mission and create opportunities for young
               Malawian women.
@@ -163,7 +163,7 @@ export default function AboutPage() {
               />
             ))}
             {team.length === 0 && (
-              <div className="col-span-full text-center py-12 text-gray-500">
+              <div className="col-span-full text-[#7C3AED]enter py-12 text-gray-500">
                 Loading team members...
               </div>
             )}
@@ -174,8 +174,8 @@ export default function AboutPage() {
       {/* Partners */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <ParallaxText className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Our Partners</h2>
+          <ParallaxText className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">Our Partners</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               We collaborate with organizations that share our vision for empowering Malawian women and promoting
               national development.
@@ -201,3 +201,4 @@ export default function AboutPage() {
     </div>
   )
 }
+

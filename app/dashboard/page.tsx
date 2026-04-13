@@ -84,7 +84,7 @@ export default function DashboardPage() {
     <div className="p-6 md:p-8 space-y-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224]">Foundation Dashboard</h1>
+          <h1 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224]">Foundation Dashboard</h1>
           <p className="text-gray-600 mt-2 max-w-2xl">
             Real-time view of how visitors are engaging with the Miss Malawi Foundation website, programs, and campaigns.
           </p>
@@ -173,7 +173,7 @@ export default function DashboardPage() {
                   </div>
                 ))
               ) : (
-                <p className="text-sm text-gray-500 text-center py-4">No recent activity detected</p>
+                <p className="text-sm text-gray-500 text-[#7C3AED]enter py-4">No recent activity detected</p>
               )}
             </div>
           </CardContent>
@@ -339,3 +339,4 @@ function StatCard({ title, value, change, icon }: StatCardProps) {
     </Card>
   )
 }
+

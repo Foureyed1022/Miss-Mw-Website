@@ -65,8 +65,8 @@ export default function TestimonialCarousel() {
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Testimonials</h2>
+        <div className="text-[#7C3AED]enter mb-12">
+          <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4 text-center">Testimonials</h2>
           <div className="w-24 h-1 bg-purple mx-auto"></div>
         </div>
 
@@ -77,7 +77,7 @@ export default function TestimonialCarousel() {
             </div>
 
             <div className={`transition-opacity duration-500 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
-              <blockquote className="text-xl md:text-2xl text-gray-700 text-center mb-8 italic">
+              <blockquote className="text-xl md:text-2xl text-gray-700 text-[#7C3AED]enter mb-8 italic">
                 "{currentTestimonial.quote}"
               </blockquote>
 
@@ -90,7 +90,7 @@ export default function TestimonialCarousel() {
                     className="object-cover"
                   />
                 </div>
-                <div className="text-center">
+                <div className="text-[#7C3AED]enter">
                   <h4 className="font-bold text-lg text-gray-900">{currentTestimonial.name}</h4>
                   <p className="text-purple">{currentTestimonial.title}</p>
                 </div>
@@ -103,3 +103,4 @@ export default function TestimonialCarousel() {
     </section>
   )
 }
+

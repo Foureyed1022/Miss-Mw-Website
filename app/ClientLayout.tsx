@@ -16,7 +16,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         <>
             <Toaster position="bottom-right" />
             <div className="relative">
-                {!isAdmin && <Header className="absolute top-0 left-0 right-0 z-50" />}
+                {!isAdmin && <div className="absolute top-0 left-0 right-0 z-50"><Header /></div>}
                 {children}
             </div>
             {!isAdmin && <Footer />}

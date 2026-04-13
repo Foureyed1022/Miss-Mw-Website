@@ -13,6 +13,20 @@ export interface NewsArticle {
   updatedAt?: Date;
 }
 
+export interface Program {
+  id: string;
+  title: string;
+  description: string;
+  fullDescription: string;
+  mission: string;
+  category: string;
+  activities: string[];
+  impact: string[];
+  image: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
 export interface Applicant {
   id: string;
   firstName: string;
@@ -178,4 +192,4 @@ export interface SiteStats {
   livesImpacted: number;
   updatedAt?: Date;
 }
-
+

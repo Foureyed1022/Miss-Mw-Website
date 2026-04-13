@@ -46,8 +46,8 @@ export default function Dashboard({
       label: 'Total Applicants', 
       value: applicants.length, 
       icon: Users, 
-      color: 'text-[#9C8653]', 
-      bg: 'bg-[#9C8653]/10',
+      color: 'text-[#7C3AED]', 
+      bg: 'bg-[#7C3AED]/10',
       tab: 'applicants'
     },
     { 
@@ -71,7 +71,7 @@ export default function Dashboard({
   return (
     <div className="p-4 lg:p-8 space-y-8">
       <div>
-        <h1 className="text-3xl font-playfair font-bold text-[#3D3B48]">Dashboard Overview</h1>
+        <h1 className="text-[#7C3AED]xl font-playfair font-bold text-[#3D3B48]">Dashboard Overview</h1>
         <p className="text-gray-500 mt-1">Welcome back, Admin! Here's what's happening today.</p>
       </div>
 
@@ -89,7 +89,7 @@ export default function Dashboard({
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="text-gray-400 hover:text-[#9C8653]"
+                    className="text-gray-400 hover:text-[#7C3AED]"
                     onClick={() => onTabChange(stat.tab)}
                   >
                     <ArrowUpRight className="h-4 w-4" />
@@ -97,7 +97,7 @@ export default function Dashboard({
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-medium text-gray-500">{stat.label}</p>
-                  <h3 className="text-3xl font-bold text-[#3D3B48] mt-1">{stat.value}</h3>
+                  <h3 className="text-[#7C3AED]xl font-bold text-[#3D3B48] mt-1">{stat.value}</h3>
                 </div>
               </CardContent>
             </Card>
@@ -110,7 +110,7 @@ export default function Dashboard({
         <Card className="border-none shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between border-b bg-gray-50/50 rounded-t-xl py-4">
             <CardTitle className="text-lg font-bold text-[#3D3B48]">Recent Applicants</CardTitle>
-            <Button variant="ghost" className="text-sm text-[#9C8653]" onClick={() => onTabChange('applicants')}>View All</Button>
+            <Button variant="ghost" className="text-sm text-[#7C3AED]" onClick={() => onTabChange('applicants')}>View All</Button>
           </CardHeader>
           <CardContent className="p-0">
             <div className="divide-y">
@@ -126,7 +126,7 @@ export default function Dashboard({
                     </div>
                   </div>
                   <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase ${
-                    applicant.applicationStatus === 'approved' ? 'bg-green-100 text-green-700' :
+                    applicant.applicationStatus === 'approved' ? 'bg-purple-100 text-purple-700' :
                     applicant.applicationStatus === 'rejected' ? 'bg-red-100 text-red-700' :
                     'bg-amber-100 text-amber-700'
                   }`}>
@@ -135,7 +135,7 @@ export default function Dashboard({
                 </div>
               ))}
               {applicants.length === 0 && (
-                <div className="p-8 text-center text-gray-500">No applicants yet</div>
+                <div className="p-8 text-[#7C3AED]enter text-gray-500">No applicants yet</div>
               )}
             </div>
           </CardContent>
@@ -145,7 +145,7 @@ export default function Dashboard({
         <Card className="border-none shadow-sm">
           <CardHeader className="flex flex-row items-center justify-between border-b bg-gray-50/50 rounded-t-xl py-4">
             <CardTitle className="text-lg font-bold text-[#3D3B48]">Recent News</CardTitle>
-            <Button variant="ghost" className="text-sm text-[#9C8653]" onClick={() => onTabChange('news')}>Manage News</Button>
+            <Button variant="ghost" className="text-sm text-[#7C3AED]" onClick={() => onTabChange('news')}>Manage News</Button>
           </CardHeader>
           <CardContent className="p-0">
             <div className="divide-y">
@@ -155,13 +155,13 @@ export default function Dashboard({
                     <Clock className="h-3 w-3" />
                     {new Date(article.createdAt || '').toLocaleDateString()}
                     <span className="mx-1">•</span>
-                    <span className="text-[#9C8653] font-medium">{article.category}</span>
+                    <span className="text-[#7C3AED] font-medium">{article.category}</span>
                   </div>
                   <p className="font-semibold text-gray-800 line-clamp-1">{article.title}</p>
                 </div>
               ))}
               {articles.length === 0 && (
-                <div className="p-8 text-center text-gray-500">No news articles yet</div>
+                <div className="p-8 text-[#7C3AED]enter text-gray-500">No news articles yet</div>
               )}
             </div>
           </CardContent>
@@ -170,3 +170,4 @@ export default function Dashboard({
     </div>
   );
 }
+

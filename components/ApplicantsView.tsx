@@ -88,8 +88,8 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
     <div className="bg-white rounded-xl border-2 border-gray-100 p-4 hover:border-yellow-300 hover:shadow-lg transition-all duration-200 cursor-pointer"
       onClick={() => handleDocumentView(getImageUrl(url), title)}>
       <div className="flex items-center space-x-3 mb-2">
-        <div className="p-2 rounded-lg" style={{ backgroundColor: '#9C865320' }}>
-          <Icon className="h-5 w-5" style={{ color: '#9C8653' }} />
+        <div className="p-2 rounded-lg" style={{ backgroundColor: '#7C3AED20' }}>
+          <Icon className="h-5 w-5" style={{ color: '#7C3AED' }} />
         </div>
         <div>
           <h4 className="font-semibold text-sm" style={{ color: '#3D3B48' }}>{title}</h4>
@@ -107,7 +107,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
     <div className="p-8">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold mb-2" style={{ color: '#3D3B48' }}>Pageant Applicants</h1>
+          <h1 className="text-[#7C3AED]xl font-bold mb-2" style={{ color: '#3D3B48' }}>Pageant Applicants</h1>
           <p className="text-gray-600">{applicants.length} total applications received</p>
         </div>
         <div className="flex items-center space-x-4">
@@ -115,7 +115,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value as 'all' | 'pending' | 'approved' | 'rejected')}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-            style={{ '--tw-ring-color': '#9C8653' } as React.CSSProperties}
+            style={{ '--tw-ring-color': '#7C3AED' } as React.CSSProperties}
           >
             <option value="all">All Applications</option>
             <option value="pending">Pending</option>
@@ -128,7 +128,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent"
-            style={{ '--tw-ring-color': '#9C8653' } as React.CSSProperties}
+            style={{ '--tw-ring-color': '#7C3AED' } as React.CSSProperties}
           />
         </div>
       </div>
@@ -143,7 +143,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
                 className="w-full h-full object-contain"
               />
               <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-                <span className="text-xs font-semibold" style={{ color: '#9C8653' }}>
+                <span className="text-xs font-semibold" style={{ color: '#7C3AED' }}>
                   Age {applicant.age}
                 </span>
               </div>
@@ -162,10 +162,10 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
                   <span className="line-clamp-1">{applicant.occupation}</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  {applicant.applicationStatus === 'approved' && <CheckCircle className="h-4 w-4 text-green-500" />}
+                  {applicant.applicationStatus === 'approved' && <CheckCircle className="h-4 w-4 text-purple-500" />}
                   {applicant.applicationStatus === 'rejected' && <XCircle className="h-4 w-4 text-red-500" />}
                   {(applicant.applicationStatus === 'pending' || !applicant.applicationStatus) && <Clock className="h-4 w-4 text-yellow-500" />}
-                  <span className={`capitalize ${applicant.applicationStatus === 'approved' ? 'text-green-600' : applicant.applicationStatus === 'rejected' ? 'text-red-600' : 'text-yellow-600'}`}>
+                  <span className={`capitalize ${applicant.applicationStatus === 'approved' ? 'text-purple-600' : applicant.applicationStatus === 'rejected' ? 'text-red-600' : 'text-yellow-600'}`}>
                     {applicant.applicationStatus || 'pending'}
                   </span>
                 </div>
@@ -174,7 +174,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
                 <button
                   onClick={() => setSelectedApplicant(applicant)}
                   className="flex-1 flex items-center justify-center space-x-2 py-2 px-3 text-white rounded-xl hover:shadow-lg transition-all duration-200"
-                  style={{ backgroundColor: '#9C8653' }}
+                  style={{ backgroundColor: '#7C3AED' }}
                 >
                   <Eye className="h-4 w-4" />
                   <span>View Details</span>
@@ -191,7 +191,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
             <div className="p-8">
               <div className="flex justify-between items-start mb-8">
                 <div>
-                  <h3 className="text-3xl font-bold mb-2" style={{ color: '#3D3B48' }}>
+                  <h3 className="text-[#7C3AED]xl font-bold mb-2" style={{ color: '#3D3B48' }}>
                     {selectedApplicant.firstName} {selectedApplicant.lastName}
                   </h3>
                   <p className="text-gray-600">Applicant ID: {selectedApplicant.id}</p>
@@ -307,7 +307,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
                       <span>Status Controls</span>
                     </h4>
                     <div className="flex space-x-3 mb-4">
-                      <button onClick={() => handleUpdateStatus(selectedApplicant.id, 'approved')} className="flex-1 py-3 bg-green-500 text-white rounded-xl font-bold hover:bg-green-600 transition-all">Approve</button>
+                      <button onClick={() => handleUpdateStatus(selectedApplicant.id, 'approved')} className="flex-1 py-3 bg-purple-500 text-white rounded-xl font-bold hover:bg-purple-600 transition-all">Approve</button>
                       <button onClick={() => handleUpdateStatus(selectedApplicant.id, 'rejected')} className="flex-1 py-3 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all">Reject</button>
                     </div>
                   </div>

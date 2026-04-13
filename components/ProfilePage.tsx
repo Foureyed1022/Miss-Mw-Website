@@ -55,7 +55,7 @@ export default function ProfilePage() {
   return (
     <div className="p-4 lg:p-8 max-w-4xl space-y-8">
       <div>
-        <h1 className="text-3xl font-playfair font-bold text-[#3D3B48]">Admin Profile & Settings</h1>
+        <h1 className="text-[#7C3AED]xl font-playfair font-bold text-[#3D3B48]">Admin Profile & Settings</h1>
         <p className="text-gray-500 mt-1">Manage your administrator account and dashboard preferences.</p>
       </div>
 
@@ -63,23 +63,23 @@ export default function ProfilePage() {
         {/* Left Column - Profile Card */}
         <div className="md:col-span-1 space-y-6">
           <Card className="border-none shadow-sm overflow-hidden">
-            <div className="h-24 bg-gradient-to-br from-[#9C8653] to-[#8A7542]" />
+            <div className="h-24 bg-gradient-to-br from-[#7C3AED] to-[#6D28D9]" />
             <CardContent className="px-6 pb-6 pt-0 flex flex-col items-center -mt-12">
               <div className="relative group">
-                <div className="h-24 w-24 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center text-3xl font-bold text-[#9C8653] shadow-lg">
+                <div className="h-24 w-24 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center text-[#7C3AED]xl font-bold text-[#7C3AED] shadow-lg">
                   {profileData.displayName[0]}
                 </div>
-                <button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md text-gray-500 hover:text-[#9C8653] border transition-colors opacity-0 group-hover:opacity-100">
+                <button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-md text-gray-500 hover:text-[#7C3AED] border transition-colors opacity-0 group-hover:opacity-100">
                   <Camera className="h-4 w-4" />
                 </button>
               </div>
-              <div className="mt-4 text-center">
+              <div className="mt-4 text-[#7C3AED]enter">
                 <h3 className="font-bold text-xl text-[#3D3B48]">{profileData.displayName}</h3>
-                <p className="text-sm text-[#9C8653] font-medium uppercase tracking-widest">{profileData.role}</p>
+                <p className="text-sm text-[#7C3AED] font-medium uppercase tracking-widest">{profileData.role}</p>
                 <div className="mt-6 pt-6 border-t w-full">
                    <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
                       <span>Status</span>
-                      <Badge className="bg-green-100 text-green-700 hover:bg-green-100 text-[10px] uppercase font-bold tracking-widest border-none">Active Account</Badge>
+                      <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 text-[10px] uppercase font-bold tracking-widest border-none">Active Account</Badge>
                    </div>
                    <div className="flex items-center justify-between text-xs text-gray-500">
                       <span>Last Login</span>
@@ -104,9 +104,9 @@ export default function ProfilePage() {
         <div className="md:col-span-2 space-y-6">
           <Tabs defaultValue="account" className="w-full">
             <TabsList className="bg-gray-100/50 p-1 w-full justify-start h-12 rounded-xl mb-6">
-              <TabsTrigger value="account" className="px-6 py-2 rounded-lg data-[state=active]:bg-white data-[state=active]:text-[#9C8653] data-[state=active]:shadow-sm">Account Settings</TabsTrigger>
-              <TabsTrigger value="security" className="px-6 py-2 rounded-lg data-[state=active]:bg-white data-[state=active]:text-[#9C8653] data-[state=active]:shadow-sm">Security</TabsTrigger>
-              <TabsTrigger value="notifications" className="px-6 py-2 rounded-lg data-[state=active]:bg-white data-[state=active]:text-[#9C8653] data-[state=active]:shadow-sm">Preferences</TabsTrigger>
+              <TabsTrigger value="account" className="px-6 py-2 rounded-lg data-[state=active]:bg-white data-[state=active]:text-[#7C3AED] data-[state=active]:shadow-sm">Account Settings</TabsTrigger>
+              <TabsTrigger value="security" className="px-6 py-2 rounded-lg data-[state=active]:bg-white data-[state=active]:text-[#7C3AED] data-[state=active]:shadow-sm">Security</TabsTrigger>
+              <TabsTrigger value="notifications" className="px-6 py-2 rounded-lg data-[state=active]:bg-white data-[state=active]:text-[#7C3AED] data-[state=active]:shadow-sm">Preferences</TabsTrigger>
             </TabsList>
 
             <TabsContent value="account">
@@ -138,7 +138,7 @@ export default function ProfilePage() {
                     </div>
                     <Button 
                       type="submit" 
-                      className="bg-[#9C8653] hover:bg-[#8A7542] text-white gap-2 font-bold min-w-[140px]"
+                      className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white gap-2 font-bold min-w-[140px]"
                       disabled={isSaving}
                     >
                       {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
@@ -170,14 +170,14 @@ export default function ProfilePage() {
                       <Input type="password" />
                     </div>
                   </div>
-                  <Button variant="outline" className="text-[#9C8653] border-[#9C8653]/20 hover:bg-[#9C8653] hover:text-white font-bold">Update Password</Button>
+                  <Button variant="outline" className="text-[#7C3AED] border-[#7C3AED]/20 hover:bg-[#7C3AED] hover:text-white font-bold">Update Password</Button>
                 </CardContent>
               </Card>
 
-              <Card className="border-[#9C8653]/20 bg-[#9C8653]/5 shadow-sm">
+              <Card className="border-[#7C3AED]/20 bg-[#7C3AED]/5 shadow-sm">
                  <CardContent className="p-6 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                       <div className="p-3 bg-white rounded-xl text-[#9C8653] border border-[#9C8653]/10">
+                       <div className="p-3 bg-white rounded-xl text-[#7C3AED] border border-[#7C3AED]/10">
                           <ShieldAlert className="h-6 w-6" />
                        </div>
                        <div>
@@ -271,3 +271,4 @@ function Badge({ children, className = "" }: { children: React.ReactNode, classN
 }
 
 import React from 'react';
+

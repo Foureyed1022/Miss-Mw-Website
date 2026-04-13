@@ -46,10 +46,10 @@ export default function GalleryPage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
           {!galleryData ? (
-            <p className="text-center text-gray-500">Loading gallery...</p>
+            <p className="text-[#7C3AED]enter text-gray-500">Loading gallery...</p>
           ) : (
           <Tabs defaultValue="all" className="w-full">
-            <div className="text-center mb-8">
+            <div className="text-[#7C3AED]enter mb-8">
               <TabsList className="inline-flex">
                 <TabsTrigger value="all">All Photos</TabsTrigger>
                 <TabsTrigger value="events">Events</TabsTrigger>
@@ -103,7 +103,7 @@ export default function GalleryPage() {
           </Tabs>
           )}
 
-          <div className="text-center mt-12">
+          <div className="text-[#7C3AED]enter mt-12">
             <Button className="bg-emerald-800 hover:bg-emerald-700">Load More Photos</Button>
           </div>
         </div>
@@ -112,8 +112,8 @@ export default function GalleryPage() {
       {/* Video Gallery */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Video Gallery</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">Video Gallery</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Watch highlights from our pageants, programs, and special events
             </p>
@@ -153,7 +153,7 @@ export default function GalleryPage() {
             />
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-[#7C3AED]enter mt-12">
             <Button className="bg-emerald-800 hover:bg-emerald-700">View All Videos</Button>
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function GalleryPage() {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
               />
             </div>
-            <div className="bg-white p-4 text-center">
+            <div className="bg-white p-4 text-[#7C3AED]enter">
               <h3 className="text-xl font-bold text-gray-900">{selectedImage.title}</h3>
             </div>
           </div>
@@ -255,3 +255,4 @@ function VideoItem({ title, thumbnail, duration }: VideoItemProps) {
     </div>
   )
 }
+

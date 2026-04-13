@@ -54,7 +54,7 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#3D3B48]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#9C8653]"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#7C3AED]"></div>
       </div>
     );
   }
@@ -65,4 +65,5 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
 
   return <>{children}</>;
 }
+
 

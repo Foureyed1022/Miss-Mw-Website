@@ -30,7 +30,7 @@ export default function RegistrationForm() {
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-8">
-        <h2 className="font-playfair text-3xl font-bold text-[#212224] mb-6 text-center">
+        <h2 className="font-playfair text-[#7C3AED]xl font-bold text-[#212224] mb-6 text-[#7C3AED]enter">
           Miss Malawi 2025 Registration
         </h2>
 
@@ -312,7 +312,7 @@ export default function RegistrationForm() {
                   Headshot Photo <span className="text-red-500">*</span>
                 </Label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
+                  <div className="space-y-1 text-[#7C3AED]enter">
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
                     <div className="flex text-sm text-gray-600">
                       <label
@@ -340,7 +340,7 @@ export default function RegistrationForm() {
                   Full-Length Photo <span className="text-red-500">*</span>
                 </Label>
                 <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                  <div className="space-y-1 text-center">
+                  <div className="space-y-1 text-[#7C3AED]enter">
                     <Upload className="mx-auto h-12 w-12 text-gray-400" />
                     <div className="flex text-sm text-gray-600">
                       <label
@@ -416,7 +416,7 @@ export default function RegistrationForm() {
             >
               {isSubmitting ? "Submitting..." : "Submit Registration"}
             </Button>
-            <p className="text-center text-sm text-gray-500 mt-4">
+            <p className="text-[#7C3AED]enter text-sm text-gray-500 mt-4">
               For any questions or assistance, please contact us at registration@missmalawi.com
             </p>
           </div>
@@ -425,3 +425,4 @@ export default function RegistrationForm() {
     </div>
   )
 }
+

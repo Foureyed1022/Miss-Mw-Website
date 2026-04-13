@@ -60,7 +60,7 @@ export default function Sidebar({
 
       {/* Mobile Top Bar */}
       <div className="lg:hidden flex items-center justify-between p-4 bg-[#3D3B48] text-white sticky top-0 z-40">
-        <span className="font-playfair font-bold text-xl text-[#9C8653]">Admin Portal</span>
+        <span className="font-playfair font-bold text-xl text-[#7C3AED]">Admin Portal</span>
         <Button variant="ghost" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
           {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </Button>
@@ -73,7 +73,7 @@ export default function Sidebar({
       `}>
         <div className="flex flex-col h-full bg-slate-900	">
           <div className="p-6">
-            <h2 className="font-playfair font-bold text-2xl text-[#9C8653]">MISS MALAWI</h2>
+            <h2 className="font-playfair font-bold text-2xl text-[#7C3AED]">MISS MALAWI</h2>
             <p className="text-gray-400 text-xs mt-1 uppercase tracking-widest">Admin Portal</p>
           </div>
 
@@ -92,7 +92,7 @@ export default function Sidebar({
                   className={`
                     w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
                     ${isActive 
-                      ? 'bg-[#9C8653] text-white shadow-lg' 
+                      ? 'bg-[#7C3AED] text-white shadow-lg' 
                       : 'text-gray-300 hover:bg-white/10 hover:text-white'}
                   `}
                 >
@@ -124,3 +124,4 @@ export default function Sidebar({
     </>
   );
 }
+

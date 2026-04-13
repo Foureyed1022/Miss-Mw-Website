@@ -57,7 +57,7 @@ export default function NewsletterForm() {
       {isSubscribed ? (
         <div className="flex flex-col items-center space-y-2">
           <CheckCircle className="h-12 w-12 text-purple" />
-          <p className="text-center">
+          <p className="text-[#7C3AED]enter">
             Thank you for subscribing! You'll now receive updates about our programs, events, and success stories.
           </p>
         </div>
@@ -86,3 +86,4 @@ export default function NewsletterForm() {
     </div>
   )
 }
+

@@ -50,33 +50,33 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
     <div className="p-4 lg:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-playfair font-bold text-[#3D3B48]">Voting System Management</h1>
+          <h1 className="text-[#7C3AED]xl font-playfair font-bold text-[#3D3B48]">Voting System Management</h1>
           <p className="text-gray-500 mt-1">Manage contestants, track votes, and monitor payment transactions.</p>
         </div>
       </div>
 
       {/* Voting Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="border-none shadow-sm bg-gradient-to-br from-[#9C8653] to-[#8A7542] text-white">
+        <Card className="border-none shadow-sm bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] text-white">
           <CardContent className="p-6 flex items-center gap-4">
             <div className="p-3 bg-white/20 rounded-xl">
               <Award className="h-8 w-8 text-white" />
             </div>
             <div>
               <p className="text-white/80 text-sm font-medium uppercase tracking-wider">Total Votes Cast</p>
-              <h3 className="text-3xl font-bold mt-1">{totalVotes.toLocaleString()}</h3>
+              <h3 className="text-[#7C3AED]xl font-bold mt-1">{totalVotes.toLocaleString()}</h3>
             </div>
           </CardContent>
         </Card>
 
         <Card className="border-none shadow-sm">
           <CardContent className="p-6 flex items-center gap-4">
-            <div className="p-3 bg-green-50 rounded-xl">
-              <TrendingUp className="h-8 w-8 text-green-600" />
+            <div className="p-3 bg-purple-50 rounded-xl">
+              <TrendingUp className="h-8 w-8 text-purple-600" />
             </div>
             <div>
               <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Total Revenue (MWK)</p>
-              <h3 className="text-3xl font-bold mt-1 text-[#3D3B48]">{totalRevenue.toLocaleString()}</h3>
+              <h3 className="text-[#7C3AED]xl font-bold mt-1 text-[#3D3B48]">{totalRevenue.toLocaleString()}</h3>
             </div>
           </CardContent>
         </Card>
@@ -88,7 +88,7 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
             </div>
             <div>
               <p className="text-gray-500 text-sm font-medium uppercase tracking-wider">Active Contestants</p>
-              <h3 className="text-3xl font-bold mt-1 text-[#3D3B48]">{contestants.length}</h3>
+              <h3 className="text-[#7C3AED]xl font-bold mt-1 text-[#3D3B48]">{contestants.length}</h3>
             </div>
           </CardContent>
         </Card>
@@ -98,13 +98,13 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
       <div className="flex gap-4 border-b">
         <button
           onClick={() => setActiveTab('contestants')}
-          className={`pb-4 px-2 font-bold text-sm transition-all ${activeTab === 'contestants' ? 'text-[#9C8653] border-b-2 border-[#9C8653]' : 'text-gray-400 border-b-2 border-transparent'}`}
+          className={`pb-4 px-2 font-bold text-sm transition-all ${activeTab === 'contestants' ? 'text-[#7C3AED] border-b-2 border-[#7C3AED]' : 'text-gray-400 border-b-2 border-transparent'}`}
         >
           CONTESTANTS
         </button>
         <button
           onClick={() => setActiveTab('transactions')}
-          className={`pb-4 px-2 font-bold text-sm transition-all ${activeTab === 'transactions' ? 'text-[#9C8653] border-b-2 border-[#9C8653]' : 'text-gray-400 border-b-2 border-transparent'}`}
+          className={`pb-4 px-2 font-bold text-sm transition-all ${activeTab === 'transactions' ? 'text-[#7C3AED] border-b-2 border-[#7C3AED]' : 'text-gray-400 border-b-2 border-transparent'}`}
         >
           TRANSACTIONS
         </button>
@@ -118,7 +118,7 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <Input placeholder="Search contestants..." className="pl-10" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
               </div>
-              <Button onClick={() => setIsAddContestantOpen(true)} className="bg-[#9C8653] hover:bg-[#8A7542] text-white gap-2">
+              <Button onClick={() => setIsAddContestantOpen(true)} className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white gap-2">
                 <UserPlus className="h-4 w-4" /> Add Contestant
               </Button>
             </div>
@@ -128,7 +128,7 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
                 <div key={contestant.id} className="border rounded-2xl overflow-hidden group hover:shadow-lg transition-all duration-300">
                   <div className="aspect-[4/5] bg-gray-100 relative">
                     <div className="absolute top-4 right-4 z-10">
-                      <Badge className="bg-white/90 text-[#9C8653] font-bold border-none backdrop-blur shadow-sm">
+                      <Badge className="bg-white/90 text-[#7C3AED] font-bold border-none backdrop-blur shadow-sm">
                         {contestant.votes.toLocaleString()} VOTES
                       </Badge>
                     </div>
@@ -145,7 +145,7 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
                       </div>
                       <div className="text-right">
                         <p className="text-xs text-gray-400 uppercase font-bold tracking-tighter">Rank</p>
-                        <p className="text-xl font-black text-[#9C8653]">#01</p>
+                        <p className="text-xl font-black text-[#7C3AED]">#01</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-4 text-xs font-bold text-gray-400 bg-gray-50 p-3 rounded-xl">
@@ -160,7 +160,7 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
                       </div>
                     </div>
                     <div className="flex gap-2 pt-2">
-                      <Button variant="outline" className="flex-1 text-[#9C8653] border-[#9C8653]/20 hover:bg-[#9C8653] hover:text-white transition-colors">
+                      <Button variant="outline" className="flex-1 text-[#7C3AED] border-[#7C3AED]/20 hover:bg-[#7C3AED] hover:text-white transition-colors">
                         <Edit2 className="h-4 w-4 mr-2" /> Edit
                       </Button>
                       <Button variant="ghost" className="text-red-400 hover:bg-red-50 hover:text-red-600">
@@ -184,7 +184,7 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
             </div>
 
             <div className="overflow-x-auto rounded-xl border">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-[#7C3AED]ollapse">
                 <thead className="bg-gray-50 text-gray-600 uppercase text-[11px] font-bold tracking-widest">
                   <tr>
                     <th className="px-6 py-4">Transaction Ref</th>
@@ -204,13 +204,13 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
                         <p className="text-[10px] text-gray-400">ID: {transaction.contestantId}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex items-center gap-1 font-bold text-[#9C8653]">
+                        <div className="flex items-center gap-1 font-bold text-[#7C3AED]">
                           <Award className="h-3 w-3" /> {transaction.votesCount}
                         </div>
                       </td>
                       <td className="px-6 py-4 font-bold text-gray-900">MWK {transaction.amountPaid.toLocaleString()}</td>
                       <td className="px-6 py-4">
-                        <Badge className="bg-green-100 text-green-700 hover:bg-green-100 border-none capitalize font-bold text-[10px]">
+                        <Badge className="bg-purple-100 text-purple-700 hover:bg-purple-100 border-none capitalize font-bold text-[10px]">
                           {transaction.status}
                         </Badge>
                       </td>
@@ -257,10 +257,11 @@ export default function VotingManagement({ contestants, transactions }: VotingMa
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsAddContestantOpen(false)}>Cancel</Button>
-            <Button className="bg-[#9C8653] hover:bg-[#8A7542] text-white">Create Contestant</Button>
+            <Button className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white">Create Contestant</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
   );
 }
+

@@ -22,7 +22,7 @@ export default function PageantPage() {
               <div className="inline-block bg-emerald-50 text-emerald-800 px-4 py-1 rounded-full text-sm font-medium mb-6">
                 Miss Malawi 2025
               </div>
-              <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6">
+              <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-6">
                 The Search for the Next Queen
               </h2>
               <p className="text-gray-700 mb-6">
@@ -85,7 +85,7 @@ export default function PageantPage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <Tabs defaultValue="eligibility" className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
+            <div className="text-[#7C3AED]enter mb-8">
               <TabsList className="inline-flex">
                 <TabsTrigger value="eligibility">Eligibility Criteria</TabsTrigger>
                 <TabsTrigger value="process">Selection Process</TabsTrigger>
@@ -253,8 +253,8 @@ export default function PageantPage() {
       {/* Past Queens */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Past Queens</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">Past Queens</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Celebrating the legacy of exceptional women who have worn the Miss Malawi crown and their contributions to
               our nation.
@@ -301,7 +301,7 @@ export default function PageantPage() {
             />
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-[#7C3AED]enter mt-12">
             <Button variant="outline" className="border-emerald-800 text-emerald-800 hover:bg-emerald-50">
               View All Past Queens
             </Button>
@@ -312,8 +312,8 @@ export default function PageantPage() {
       {/* Miss World Participation */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Malawi at Miss World</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">Malawi at Miss World</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Miss Malawi has fronted some of its winners to shape a lasting legacy by representing Malawi at the Miss
               World beauty pageant.
@@ -365,8 +365,8 @@ export default function PageantPage() {
       {/* FAQ Section */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">
               Frequently Asked Questions
             </h2>
             <div className="w-24 h-1 bg-purple mx-auto"></div>
@@ -420,7 +420,7 @@ export default function PageantPage() {
               </AccordionItem>
             </Accordion>
 
-            <div className="text-center mt-8">
+            <div className="text-[#7C3AED]enter mt-8">
               <p className="text-gray-600 mb-4">Still have questions? Contact our team for more information.</p>
               <Button className="bg-emerald-800 hover:bg-emerald-700">Contact Us</Button>
             </div>
@@ -454,10 +454,11 @@ function QueenCard({ image, name, year, achievement }: QueenCardProps) {
           </div>
         </div>
       </div>
-      <div className="p-4 text-center">
+      <div className="p-4 text-[#7C3AED]enter">
         <h3 className="text-xl font-bold text-gray-900">{name}</h3>
         <p className="text-purple font-medium">Miss Malawi {year}</p>
       </div>
     </div>
   )
 }
+

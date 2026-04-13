@@ -48,7 +48,7 @@ export default function ProgramDetailPage({
     return (
       <div className="flex flex-col w-full min-h-screen">
         <PageHeader title="Loading..." description="" />
-        <div className="container mx-auto py-20 text-center">Loading program details...</div>
+        <div className="container mx-auto py-20 text-[#7C3AED]enter">Loading program details...</div>
       </div>
     )
   }
@@ -57,7 +57,7 @@ export default function ProgramDetailPage({
     return (
       <div className="flex flex-col w-full min-h-screen">
         <PageHeader title="Program Not Found" description="The requested program could not be found." />
-        <div className="container mx-auto py-20 text-center">
+        <div className="container mx-auto py-20 text-[#7C3AED]enter">
           <Link href="/programs">
             <Button className="bg-emerald-800">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to Programs
@@ -80,7 +80,7 @@ export default function ProgramDetailPage({
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div>
-              <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6">About the Program</h2>
+              <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-6">About the Program</h2>
               <p className="text-gray-700 text-lg leading-relaxed mb-6">{program.fullDescription}</p>
               
               <div className="bg-emerald-50 p-6 rounded-lg border-l-4 border-purple mb-8">
@@ -90,7 +90,7 @@ export default function ProgramDetailPage({
                 <p className="text-gray-700 italic">{program.mission}</p>
               </div>
 
-              <h2 className="font-playfair text-3xl font-bold text-emerald-800 mb-6">Key Activities</h2>
+              <h2 className="font-playfair text-[#7C3AED]xl font-bold text-emerald-800 mb-6">Key Activities</h2>
               <ul className="space-y-4 mb-8">
                 {program.activities.map((activity, index) => (
                   <li key={index} className="flex items-start">

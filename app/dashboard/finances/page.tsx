@@ -15,7 +15,7 @@ export default function FinancesManagementPage() {
     <div className="p-6 md:p-8 space-y-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="font-playfair text-3xl font-bold text-gray-900">Finance Management</h1>
+          <h1 className="font-playfair text-[#7C3AED]xl font-bold text-gray-900">Finance Management</h1>
           <p className="text-gray-600 mt-1">Track donations, expenses, and overall financial health.</p>
         </div>
         <div className="flex gap-2">
@@ -78,3 +78,4 @@ export default function FinancesManagementPage() {
     </div>
   )
 }
+

@@ -54,7 +54,7 @@ export default function ApplicantsPage() {
   if (loading) {
     return (
       <div className="h-full w-full flex items-center justify-center p-20">
-        <Loader2 className="h-8 w-8 animate-spin text-[#9C8653]" />
+        <Loader2 className="h-8 w-8 animate-spin text-[#7C3AED]" />
       </div>
     );
   }
@@ -67,5 +67,6 @@ export default function ApplicantsPage() {
     />
   );
 }
+
 
 

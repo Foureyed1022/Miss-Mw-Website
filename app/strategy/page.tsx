@@ -11,8 +11,8 @@ export default function StrategyPage() {
       {/* Strategy Intro */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6">
+          <div className="max-w-3xl mx-auto text-[#7C3AED]enter">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-6">
               A commitment to nurturing a new generation of influential Malawian female leaders who will leave a lasting
               legacy.
             </h2>
@@ -48,8 +48,8 @@ export default function StrategyPage() {
       {/* Strategic Focus Areas */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Strategic Focus</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-4">Strategic Focus</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">Crowning the future will focus on four strategic areas:</p>
             <div className="w-24 h-1 bg-purple mx-auto mt-4"></div>
           </div>
@@ -112,8 +112,8 @@ export default function StrategyPage() {
       {/* Call to Action */}
       <section className="py-16 bg-emerald-900 text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold mb-6">A Legacy of Greatness</h2>
+          <div className="max-w-3xl mx-auto text-[#7C3AED]enter">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold mb-6">A Legacy of Greatness</h2>
             <p className="text-lg mb-8">
               Join us in shaping the future of Miss Malawi and empowering the next generation of Malawian women leaders.
             </p>
@@ -127,7 +127,7 @@ export default function StrategyPage() {
       {/* Contact Information */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-xl mx-auto text-center">
+          <div className="max-w-xl mx-auto text-[#7C3AED]enter">
             <h3 className="font-playfair text-2xl font-bold text-emerald-800 mb-6">Contact Us</h3>
             <address className="not-italic text-gray-700 space-y-2">
               <p>Miss Malawi crown office</p>
@@ -177,3 +177,4 @@ function StrategyCard({ number, title, icon, description, points }: StrategyCard
     </div>
   )
 }
+

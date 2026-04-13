@@ -32,7 +32,7 @@ export default function SocialMediaPage() {
     <div className="p-6 md:p-8 space-y-8">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="font-playfair text-3xl font-bold text-gray-900">Social Media Management</h1>
+          <h1 className="font-playfair text-[#7C3AED]xl font-bold text-gray-900">Social Media Management</h1>
           <p className="text-gray-600 mt-1">Connect your accounts and publish content across platforms.</p>
         </div>
         <Button className="bg-emerald-800 hover:bg-emerald-700">
@@ -91,18 +91,18 @@ export default function SocialMediaPage() {
               <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Reach</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">12.4K</div>
+              <div className="text-[#7C3AED]xl font-bold">12.4K</div>
               <p className="text-xs text-emerald-600 mt-1">+8.2% from last month</p>
               <div className="mt-4 grid grid-cols-3 gap-2">
-                <div className="text-center">
+                <div className="text-[#7C3AED]enter">
                   <ThumbsUp className="h-4 w-4 mx-auto text-blue-500" />
                   <span className="text-xs font-semibold block mt-1">2.1K</span>
                 </div>
-                <div className="text-center">
+                <div className="text-[#7C3AED]enter">
                   <MessageCircle className="h-4 w-4 mx-auto text-emerald-500" />
                   <span className="text-xs font-semibold block mt-1">458</span>
                 </div>
-                <div className="text-center">
+                <div className="text-[#7C3AED]enter">
                   <Share2 className="h-4 w-4 mx-auto text-purple-500" />
                   <span className="text-xs font-semibold block mt-1">892</span>
                 </div>
@@ -139,3 +139,4 @@ export default function SocialMediaPage() {
     </div>
   )
 }
+

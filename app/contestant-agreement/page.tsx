@@ -41,8 +41,8 @@ export default function ContestantAgreement() {
       </nav>
 
       <main className="max-w-4xl mx-auto px-4 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold font-playfair text-[#2D1B39] mb-4">Contestant <span className="text-[#A68D55]">Agreement</span></h1>
+        <div className="text-[#7C3AED]enter mb-16">
+          <h1 className="text-[#7C3AED]xl font-bold font-playfair text-[#2D1B39] mb-4">Contestant <span className="text-[#A68D55]">Agreement</span></h1>
           <p className="text-gray-500 max-w-xl mx-auto">This agreement outlines the professional relationship and expectations between you and the Miss Malawi Foundation.</p>
         </div>
 
@@ -94,10 +94,11 @@ export default function ContestantAgreement() {
         </div>
       </main>
 
-      <footer className="py-20 text-center">
+      <footer className="py-20 text-[#7C3AED]enter">
         <div className="w-16 h-1 bg-purple-100 mx-auto mb-8 rounded-full"></div>
         <p className="text-purple-300 text-sm uppercase tracking-widest font-bold">Miss Malawi Foundation</p>
       </footer>
     </div>
   );
 }
+

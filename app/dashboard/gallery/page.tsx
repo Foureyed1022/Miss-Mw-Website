@@ -57,7 +57,7 @@ export default function GalleryManagementPage() {
     <div className="p-6 md:p-8 space-y-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
-          <h1 className="font-playfair text-3xl font-bold text-gray-900">Media Gallery</h1>
+          <h1 className="font-playfair text-[#7C3AED]xl font-bold text-gray-900">Media Gallery</h1>
           <p className="text-gray-600 mt-1">Upload and manage images and videos for the foundation.</p>
         </div>
         <Button className="bg-emerald-800 hover:bg-emerald-700">
@@ -125,7 +125,7 @@ export default function GalleryManagementPage() {
             </Card>
           ))
         ) : (
-          <div className="col-span-full py-12 text-center text-gray-500">
+          <div className="col-span-full py-12 text-[#7C3AED]enter text-gray-500">
             No media found matching your search.
           </div>
         )}
@@ -133,3 +133,4 @@ export default function GalleryManagementPage() {
     </div>
   )
 }
+

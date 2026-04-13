@@ -23,7 +23,7 @@ export default function TeamMember({ image, name, position }: TeamMemberProps) {
           </div>
         </div>
       </div>
-      <div className="p-4 text-center">
+      <div className="p-4 text-[#7C3AED]enter">
         <h3 className="text-xl font-bold text-gray-900">{name}</h3>
         <p className="text-purple">{position}</p>
       </div>
@@ -46,3 +46,4 @@ function SocialIcon({ href, icon }: SocialIconProps) {
     </Link>
   )
 }
+

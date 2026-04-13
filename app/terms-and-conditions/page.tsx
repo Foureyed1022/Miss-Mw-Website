@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowLeft, FileText, Shield, Scale } from "lucide-react";
+import { FileText, Shield, Scale } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PageHeader from "@/components/page-header";
 
 export default function TermsAndConditions() {
   const sections = [
@@ -57,22 +58,10 @@ export default function TermsAndConditions() {
 
   return (
     <div className="min-h-screen bg-[#F8F7FB]">
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden" style={{ background: "linear-gradient(135deg, #4B2C5E 0%, #2D1B39 100%)" }}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-white animate-pulse"></div>
-          <div className="absolute bottom-10 right-10 w-24 h-24 rounded-full bg-[#A68D55] blur-xl"></div>
-        </div>
-
-        <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold font-playfair text-white mb-6">
-            Terms & <span className="text-[#B89A5F]">Conditions</span>
-          </h1>
-          <p className="text-purple-100 text-lg max-w-2xl mx-auto">
-            Please read these terms carefully before submitting your application for the Miss Malawi Pageant.
-          </p>
-        </div>
-      </section>
+      <PageHeader
+        title="Terms & Conditions"
+        description="Please read these terms carefully before submitting your application for the Miss Malawi Pageant."
+      />
 
       {/* Content Section */}
       <div className="max-w-4xl mx-auto px-4 py-16 -mt-10 relative z-20">
@@ -104,7 +93,7 @@ export default function TermsAndConditions() {
               </div>
             </div>
 
-            <div className="pt-8 border-t border-purple-100 text-center">
+            <div className="pt-8 border-t border-purple-100 text-[#7C3AED]enter">
               <p className="text-gray-500 mb-6 text-sm">
                 By applying, you acknowledge and accept all the terms and conditions set forth above.
               </p>
@@ -120,3 +109,4 @@ export default function TermsAndConditions() {
     </div>
   );
 }
+

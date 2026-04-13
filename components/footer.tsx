@@ -56,8 +56,11 @@ export default function Footer() {
   }
 
   return (
-    <footer className="bg-[#212224] text-white">
-      <div className="container mx-auto px-4 md:px-6 py-12">
+    <footer className="relative overflow-hidden bg-[#121125] text-white">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[#7C3AED]/10" />
+      </div>
+      <div className="relative container mx-auto px-4 md:px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <Image
@@ -165,7 +168,7 @@ export default function Footer() {
               />
               <Button
                 type="submit"
-                className="w-full bg-purple hover:bg-purple/90 text-black"
+                className="w-full bg-purple hover:bg-purple/90 text-white"
                 disabled={isLoading}
               >
                 {isLoading ? "Subscribing..." : "Subscribe"}
@@ -175,7 +178,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/5 mt-16 pt-8 text-center flex flex-col md:flex-row justify-between items-center text-sm text-white/40">
+        <div className="border-t border-white/5 mt-16 pt-8 text-[#7C3AED]enter flex flex-col md:flex-row justify-between items-center text-sm text-white/40">
           <p className="mb-4 md:mb-0">
             © {new Date().getFullYear()} <span className="text-[#8329B7] font-bold">MISS MALAWI.</span> All Rights Reserved.
           </p>
@@ -209,3 +212,4 @@ function SocialLink({ href, icon }: SocialLinkProps) {
     </Link>
   )
 }
+

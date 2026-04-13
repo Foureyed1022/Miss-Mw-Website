@@ -47,13 +47,18 @@ export default function ParallaxSection({
   }, [reversed])
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden" style={{ height }}>
-      <div ref={imageRef} className="absolute inset-0">
-        <Image src={imageUrl || "/placeholder.svg"} alt="Parallax background" fill className="object-cover" />
+    <section ref={sectionRef} className="relative overflow-hidden bg-black" style={{ height }}>
+      <div ref={imageRef} className="absolute inset-0 -top-28 -bottom-28">
+        <Image src={imageUrl || "/placeholder.svg"} alt="Parallax background" fill className="object-cover object-[center_15%] block" />
       </div>
       <div className={`absolute inset-0 ${overlayColor} flex items-center justify-center`}>
-        <div className="text-center text-white px-4 md:px-6 w-full">{children}</div>
+        <div className="text-[#7C3AED]enter text-white px-4 md:px-6 w-full">{children}</div>
       </div>
     </section>
   )
 }
+
+
+
+
+

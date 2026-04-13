@@ -1,15 +1,89 @@
+"use client"
+
 import type React from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, BookOpen, GraduationCap, Heart, Lightbulb, Mic, Users } from "lucide-react"
+import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
+import { db } from "@/lib/firebase"
+import type { Program } from "@/types"
 import PageHeader from "@/components/page-header"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import ParallaxSection from "@/components/parallax-section"
 import ParallaxText from "@/components/parallax-text"
 import ParallaxImage from "@/components/parallax-image"
 
+const programIcon = (category: string) => {
+  const key = category?.toString().toLowerCase()
+  switch (key) {
+    case "education":
+      return <GraduationCap className="h-8 w-8" />
+    case "health":
+      return <Heart className="h-8 w-8" />
+    case "leadership":
+      return <BookOpen className="h-8 w-8" />
+    case "culture":
+      return <Users className="h-8 w-8" />
+    case "community":
+      return <Mic className="h-8 w-8" />
+    default:
+      return <Lightbulb className="h-8 w-8" />
+  }
+}
+
+function buildProgramGroups(programs: Program[]) {
+  const categories = Array.from(
+    new Set(programs.map((program) => program.category?.trim() || "General"))
+  )
+
+  return categories.reduce<Record<string, Program[]>>((groups, category) => {
+    groups[category] = programs.filter(
+      (program) => (program.category?.trim() || "General") === category
+    )
+    return groups
+  }, {})
+}
+
 export default function ProgramsPage() {
+  const [programs, setPrograms] = useState<Program[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const programsRef = collection(db, "programs")
+    const programsQuery = query(programsRef, orderBy("createdAt", "desc"))
+    const unsubscribe = onSnapshot(
+      programsQuery,
+      (snapshot) => {
+        const items = snapshot.docs.map((doc) => {
+          const data = doc.data() as Record<string, any>
+          return {
+            id: doc.id,
+            title: data.title || "",
+            description: data.description || "",
+            fullDescription: data.fullDescription || data.description || "",
+            mission: data.mission || "",
+            category: data.category || "",
+            activities: Array.isArray(data.activities) ? data.activities : [],
+            impact: Array.isArray(data.impact) ? data.impact : [],
+            image: data.image || "/placeholder.svg",
+            createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : undefined,
+            updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : undefined,
+          } as Program
+        })
+        setPrograms(items)
+        setLoading(false)
+      },
+      (error) => {
+        console.error("Programs snapshot error", error)
+        setLoading(false)
+      }
+    )
+
+    return () => unsubscribe()
+  }, [])
+
   return (
     <div className="flex flex-col w-full">
       <PageHeader
@@ -18,35 +92,40 @@ export default function ProgramsPage() {
       />
 
       {/* Programs Overview */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <ParallaxText speed={0.2}>
-                <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-6">
-                  Making a Difference in Malawi
-                </h2>
-                <p className="text-gray-700 mb-6 text-lg">
-                  Miss Malawi Foundation is committed to creating meaningful impact through various programs and
-                  projects that address key challenges facing Malawian women and communities. Our initiatives focus on
-                  education, health awareness, cultural preservation, leadership development, and community service.
-                </p>
-                <p className="text-gray-700 mb-6 text-lg">
-                  Each program is designed to align with our mission of empowering young Malawian women as ambassadors
-                  of intelligence, culture, beauty, and national development. Through these initiatives, we strive to
-                  create lasting change and contribute to Malawi's development agenda.
-                </p>
-              </ParallaxText>
-            </div>
+          <div className="overflow-hidden rounded-[2rem] border border-purple-100 bg-white shadow-[0_30px_70px_-30px_rgba(15,23,42,0.35)]">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center px-6 py-10 md:px-12 md:py-14">
+              <div>
+                <span className="inline-flex rounded-full bg-purple-100 px-4 py-2 text-sm font-semibold uppercase tracking-[0.3em] text-purple-700">
+                  Programs Overview
+                </span>
+                <ParallaxText speed={0.2}>
+                  <h2 className="font-playfair text-[#7C3AED] text-4xl md:text-5xl font-bold text-emerald-800 mb-6">
+                    Making a Difference in Malawi
+                  </h2>
+                  <p className="text-gray-700 mb-6 text-lg">
+                    Miss Malawi is committed to creating meaningful impact through various programs and
+                    projects that address key challenges facing Malawian women and communities. Our initiatives focus on
+                    education, health awareness, cultural preservation, leadership development, and community service.
+                  </p>
+                  <p className="text-gray-700 mb-6 text-lg">
+                    Each program is designed to align with our mission of empowering young Malawian women as ambassadors
+                    of intelligence, culture, beauty, and national development. Through these initiatives, we strive to
+                    create lasting change and contribute to Malawi's development agenda.
+                  </p>
+                </ParallaxText>
+              </div>
 
-            <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
-              <ParallaxImage
-                src="/placeholder.svg?height=1000&width=800"
-                alt="Miss Malawi community program"
-                className="h-[500px] w-full"
-                width={800}
-                height={1000}
-              />
+              <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
+                <ParallaxImage
+                  src="/placeholder.svg?height=1000&width=800"
+                  alt="Miss Malawi community program"
+                  className="h-[500px] w-full"
+                  width={800}
+                  height={1000}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -56,286 +135,125 @@ export default function ProgramsPage() {
       <ParallaxSection
         imageUrl="/placeholder.svg?height=800&width=1920"
         height="400px"
-        overlayColor="bg-emerald-900/70"
+        overlayColor="bg-purple-900/70"
       >
         <div className="max-w-3xl mx-auto">
-          <p className="text-2xl md:text-3xl font-playfair italic">
+          <p className="text-2xl text-[#7C3AED] font-playfair italic">
             "Our programs are designed to create lasting impact and empower the next generation of Malawian women
             leaders."
           </p>
-          <p className="mt-4 text-purple font-medium">Miss Malawi Foundation</p>
+          <p className="mt-4 text-purple-200 font-medium">Miss Malawi Foundation</p>
         </div>
       </ParallaxSection>
 
       {/* Featured Programs */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-slate-50">
         <div className="container mx-auto px-4 md:px-6">
-          <ParallaxText className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Featured Programs</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Our signature initiatives that create meaningful impact across Malawi
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <p className="text-sm uppercase tracking-[0.3em] text-purple-700 font-semibold">Featured Programs</p>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-slate-900 mt-4">
+              Discover programs that empower women and strengthen communities.
+            </h2>
+            <p className="text-slate-600 mt-4">
+              Browse the latest initiatives from the Miss Malawi Foundation. Each program is built to create long-term impact across Malawi.
             </p>
-            <div className="w-24 h-1 bg-purple mx-auto mt-4"></div>
-          </ParallaxText>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <ProgramCard
-              id="keep-a-girl-in-school"
-              icon={<GraduationCap className="h-8 w-8" />}
-              title="Keep a Girl in School"
-              description="Addressing menstrual poverty and ensuring girls stay in school with dignity."
-              image="/placeholder.svg?height=400&width=600"
-            />
-            <ProgramCard
-              id="sustainable-fashion-sfwe"
-              icon={<Heart className="h-8 w-8" />}
-              title="Sustainable Fashion (SFWE)"
-              description="Driving social and economic transformation through sustainable fashion and entrepreneurship."
-              image="/placeholder.svg?height=400&width=600"
-            />
-            <ProgramCard
-              id="empower-her-now"
-              icon={<BookOpen className="h-8 w-8" />}
-              title="Empower Her Now"
-              description="Tailoring and sustainable livelihood project equipping women with vocational skills."
-              image="/placeholder.svg?height=400&width=600"
-            />
           </div>
+
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="rounded-[1.75rem] border border-slate-200 bg-white shadow-lg p-6 animate-pulse">
+                  <div className="h-56 rounded-3xl bg-slate-200" />
+                  <div className="mt-6 space-y-4">
+                    <div className="h-6 rounded bg-slate-200" />
+                    <div className="h-4 rounded bg-slate-200 w-5/6" />
+                    <div className="h-4 rounded bg-slate-200 w-3/4" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : programs.length ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {programs.slice(0, 3).map((program) => (
+                <ProgramCard
+                  key={program.id}
+                  id={program.id}
+                  icon={programIcon(program.category)}
+                  category={program.category}
+                  title={program.title}
+                  description={program.description}
+                  image={program.image || "/placeholder.svg"}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-3xl border border-dashed border-slate-300 bg-white/80 px-8 py-12 text-center text-slate-600">
+              No programs available yet. Please add programs from the dashboard to display them here.
+            </div>
+          )}
         </div>
       </section>
 
       {/* Program Categories */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <Tabs defaultValue="education" className="w-full">
-            <div className="text-center mb-8">
-              <TabsList className="inline-flex">
-                <TabsTrigger value="education">Education</TabsTrigger>
-                <TabsTrigger value="health">Health</TabsTrigger>
-                <TabsTrigger value="leadership">Leadership</TabsTrigger>
-                <TabsTrigger value="culture">Cultural</TabsTrigger>
-                <TabsTrigger value="community">Community</TabsTrigger>
-              </TabsList>
+          <div className="max-w-3xl mx-auto text-center mb-12">
+            <p className="text-sm uppercase tracking-[0.3em] text-purple-700 font-semibold">Program Categories</p>
+            <h2 className="font-playfair text-4xl md:text-5xl font-bold text-slate-900 mt-4">
+              Explore programs by area of impact
+            </h2>
+            <p className="text-slate-600 mt-4">
+              Select a category to see the current initiatives driving education, health, leadership, culture, and community development.
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-8 py-12 text-center text-slate-600">
+              Loading programs from the database...
             </div>
+          ) : programs.length > 0 ? (
+            <Tabs defaultValue={programs[0]?.category || "General"} className="w-full">
+              <TabsList className="grid grid-cols-2 md:grid-cols-5 gap-2 rounded-full bg-purple-100 p-1">
+                {Array.from(new Set(programs.map((program) => program.category?.trim() || "General"))).map(
+                  (category) => (
+                    <TabsTrigger key={category} value={category} className="rounded-full text-sm font-semibold text-slate-700">
+                      {category}
+                    </TabsTrigger>
+                  )
+                )}
+              </TabsList>
 
-            <TabsContent value="education" className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
-                  <ParallaxImage
-                    src="/placeholder.svg?height=800&width=600"
-                    alt="Education programs"
-                    className="h-[400px] w-full"
-                    width={600}
-                    height={800}
-                  />
-                </div>
-                <div>
-                  <ParallaxText speed={0.2}>
-                    <h3 className="text-2xl font-bold text-emerald-800 mb-4">Education Programs</h3>
-                    <p className="text-gray-700 mb-6">
-                      Our education initiatives aim to increase access to quality education for girls and young women
-                      across Malawi. We believe that education is the foundation for empowerment and sustainable
-                      development.
-                    </p>
-                    <div className="space-y-4">
-                      <ProgramItem
-                        title="Keep a Girl in School Project"
-                        description="Addressing menstrual poverty by distributing reusable sanitary pads and promoting menstrual hygiene education."
+              {Object.entries(buildProgramGroups(programs)).map(([category, categoryPrograms]) => (
+                <TabsContent key={category} value={category} className="mt-8">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {categoryPrograms.slice(0, 4).map((program) => (
+                      <ProgramCard
+                        key={program.id}
+                        id={program.id}
+                        icon={programIcon(program.category)}
+                        category={program.category}
+                        title={program.title}
+                        description={program.description}
+                        image={program.image || "/placeholder.svg"}
                       />
-                      <ProgramItem
-                        title="Miss Malawi Scholarship Fund"
-                        description="Providing financial support to young women pursuing higher education in various fields."
-                      />
-                      <ProgramItem
-                        title="Rural Schools Outreach"
-                        description="Improving educational resources and infrastructure in underserved rural communities."
-                      />
-                      <ProgramItem
-                        title="STEM for Girls"
-                        description="Encouraging girls to pursue careers in science, technology, engineering, and mathematics."
-                      />
-                    </div>
-                  </ParallaxText>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="health" className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
-                  <ParallaxImage
-                    src="/placeholder.svg?height=800&width=600"
-                    alt="Health programs"
-                    className="h-[400px] w-full"
-                    width={600}
-                    height={800}
-                  />
-                </div>
-                <div>
-                  <ParallaxText speed={0.2}>
-                    <h3 className="text-2xl font-bold text-emerald-800 mb-4">Health Programs</h3>
-                    <p className="text-gray-700 mb-6">
-                      Our health initiatives focus on improving access to healthcare information and services for women
-                      and girls. We work to address key health challenges facing Malawian women through awareness,
-                      education, and advocacy.
-                    </p>
-                    <div className="space-y-4">
-                      <ProgramItem
-                        title="Reproductive Health Education"
-                        description="Providing accurate information about reproductive health to young women across Malawi."
-                      />
-                      <ProgramItem
-                        title="Maternal Health Campaign"
-                        description="Supporting expectant mothers with resources and information for healthy pregnancies."
-                      />
-                      <ProgramItem
-                        title="Mental Health Awareness"
-                        description="Breaking stigma around mental health issues and promoting wellbeing."
-                      />
-                      <ProgramItem
-                        title="Health Screening Initiatives"
-                        description="Facilitating access to preventive health screenings in partnership with healthcare providers."
-                      />
-                    </div>
-                  </ParallaxText>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="leadership" className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
-                  <ParallaxImage
-                    src="/placeholder.svg?height=800&width=600"
-                    alt="Leadership programs"
-                    className="h-[400px] w-full"
-                    width={600}
-                    height={800}
-                  />
-                </div>
-                <div>
-                  <ParallaxText speed={0.2}>
-                    <h3 className="text-2xl font-bold text-emerald-800 mb-4">Leadership Development</h3>
-                    <p className="text-gray-700 mb-6">
-                      Our leadership programs aim to nurture the next generation of Malawian female leaders. We provide
-                      training, mentorship, and opportunities for young women to develop their leadership potential and
-                      make a positive impact in their communities.
-                    </p>
-                    <div className="space-y-4">
-                      <ProgramItem
-                        title="SFWE Initiative"
-                        description="Sustainable Fashion and Women Empowerment: Driving social and economic transformation through fashion entrepreneurship."
-                      />
-                      <ProgramItem
-                        title="Financial Literacy Training"
-                        description="Equipping young women with essential business skills and financial management knowledge."
-                      />
-                      <ProgramItem
-                        title="Young Leaders Mentorship"
-                        description="Connecting aspiring young leaders with established professionals for guidance and support."
-                      />
-                      <ProgramItem
-                        title="Public Speaking Workshop"
-                        description="Building confidence and communication skills through structured training sessions."
-                      />
-                    </div>
-                  </ParallaxText>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="culture" className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
-                  <ParallaxImage
-                    src="/placeholder.svg?height=800&width=600"
-                    alt="Cultural programs"
-                    className="h-[400px] w-full"
-                    width={600}
-                    height={800}
-                  />
-                </div>
-                <div>
-                  <ParallaxText speed={0.2}>
-                    <h3 className="text-2xl font-bold text-emerald-800 mb-4">Cultural Programs</h3>
-                    <p className="text-gray-700 mb-6">
-                      Our cultural initiatives celebrate and preserve Malawi's rich heritage. We promote cultural
-                      awareness, appreciation, and expression through various activities and events that showcase
-                      Malawian traditions, arts, and practices.
-                    </p>
-                    <div className="space-y-4">
-                      <ProgramItem
-                        title="Traditional Arts Showcase"
-                        description="Exhibitions and performances highlighting Malawi's diverse artistic traditions."
-                      />
-                      <ProgramItem
-                        title="Cultural Heritage Documentation"
-                        description="Recording and preserving traditional knowledge, practices, and oral histories."
-                      />
-                      <ProgramItem
-                        title="Indigenous Language Promotion"
-                        description="Supporting the use and preservation of Malawi's indigenous languages."
-                      />
-                      <ProgramItem
-                        title="Cultural Exchange Programs"
-                        description="Facilitating cultural exchange between different regions of Malawi and internationally."
-                      />
-                    </div>
-                  </ParallaxText>
-                </div>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="community" className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="relative h-[400px] rounded-lg overflow-hidden">
-                  <ParallaxImage
-                    src="/placeholder.svg?height=800&width=600"
-                    alt="Community programs"
-                    className="h-[400px] w-full"
-                    width={600}
-                    height={800}
-                  />
-                </div>
-                <div>
-                  <ParallaxText speed={0.2}>
-                    <h3 className="text-2xl font-bold text-emerald-800 mb-4">Community Service</h3>
-                    <p className="text-gray-700 mb-6">
-                      Our community service initiatives focus on addressing local needs and challenges. We engage in
-                      various projects that improve living conditions, promote sustainable development, and foster
-                      community cohesion across Malawi.
-                    </p>
-                    <div className="space-y-4">
-                      <ProgramItem
-                        title="Empower Her Now"
-                        description="Tailoring and sustainable livelihood project equipping women with vocational skills."
-                      />
-                      <ProgramItem
-                        title="Clean Energy Solutions"
-                        description="Promoting sustainable cooking solutions like briquettes and solar energy for environmental conservation."
-                      />
-                      <ProgramItem
-                        title="Clean Water Projects"
-                        description="Improving access to clean water in rural communities through well construction and maintenance."
-                      />
-                      <ProgramItem
-                        title="Food Security Initiative"
-                        description="Supporting sustainable agriculture and nutrition education in vulnerable communities."
-                      />
-                    </div>
-                  </ParallaxText>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
+                    ))}
+                  </div>
+                </TabsContent>
+              ))}
+            </Tabs>
+          ) : (
+            <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-8 py-12 text-center text-slate-600">
+              No program categories are available yet. Add programs from the dashboard to populate this section.
+            </div>
+          )}
         </div>
       </section>
 
       {/* Impact Stories */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <ParallaxText className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Impact Stories</h2>
+          <ParallaxText className="text-[#7C3AED] mb-12">
+            <h2 className="font-playfair text-[#7C3AED] text-4xl md:text-5xl font-bold text-emerald-800 mb-4">Impact Stories</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Real stories of transformation and empowerment through our programs
             </p>
@@ -363,7 +281,7 @@ export default function ProgramsPage() {
             />
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-[#7C3AED] mt-12">
             <Button className="bg-emerald-800 hover:bg-emerald-700">
               Read More Stories <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -378,13 +296,13 @@ export default function ProgramsPage() {
         overlayColor="bg-emerald-900/90"
       >
         <div className="py-16 max-w-3xl mx-auto">
-          <h2 className="font-playfair text-3xl md:text-4xl font-bold mb-4">Get Involved</h2>
+          <h2 className="font-playfair text-[#7C3AED] text-4xl md:text-5xl font-bold mb-4">Get Involved</h2>
           <p className="mb-8 text-lg">
             There are many ways to support our programs and make a difference in the lives of Malawian women and
             communities.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-[#7C3AED]">
             <div className="bg-white/10 p-6 rounded-lg">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-purple text-black mb-4">
                 <Heart className="h-6 w-6" />
@@ -433,30 +351,29 @@ export default function ProgramsPage() {
 interface ProgramCardProps {
   id?: string
   icon: React.ReactNode
+  category?: string
   title: string
   description: string
   image: string
 }
 
-function ProgramCard({ id, icon, title, description, image }: ProgramCardProps) {
+function ProgramCard({ id, icon, category, title, description, image }: ProgramCardProps) {
   const href = id ? `/programs/${id}` : "#"
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300">
-      <div className="relative h-48">
+    <div className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl">
+      <div className="relative h-56 overflow-hidden">
         <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end">
-          <div className="p-4">
-            <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-purple text-black mb-2">
-              {icon}
-            </div>
-            <h3 className="text-xl font-bold text-white">{title}</h3>
-          </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-800 shadow-sm">
+          <span className="inline-flex items-center justify-center rounded-full bg-purple-100 p-1 text-purple-700">{icon}</span>
+          {category || "General"}
         </div>
       </div>
       <div className="p-6">
-        <p className="text-gray-700 mb-4 h-20 line-clamp-3">{description}</p>
-        <Link href={href} className="text-emerald-800 font-medium inline-flex items-center hover:text-emerald-700">
-          Learn more <ArrowRight className="ml-1 h-4 w-4" />
+        <h3 className="text-xl font-bold text-slate-900 mb-3 truncate">{title}</h3>
+        <p className="text-slate-600 mb-6 min-h-[5rem] text-sm leading-relaxed line-clamp-3">{description}</p>
+        <Link href={href} className="inline-flex items-center gap-2 text-purple-700 font-semibold hover:text-purple-900">
+          Learn more <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
     </div>

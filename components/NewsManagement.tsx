@@ -154,12 +154,12 @@ export default function NewsManagement({
     <div className="p-4 lg:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-playfair font-bold text-[#3D3B48]">News & Blog Management</h1>
+          <h1 className="text-[#7C3AED]xl font-playfair font-bold text-[#3D3B48]">News & Blog Management</h1>
           <p className="text-gray-500 mt-1">Manage all your website articles and blog posts.</p>
         </div>
         <Button 
           onClick={() => setIsAddDialogOpen(true)}
-          className="bg-[#9C8653] hover:bg-[#8A7542] text-white flex gap-2"
+          className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white flex gap-2"
         >
           <Plus className="h-4 w-4" />
           Add New Article
@@ -210,14 +210,14 @@ export default function NewsManagement({
                     </div>
                   )}
                   {article.featured && (
-                    <div className="absolute top-2 left-2 bg-[#9C8653] text-white text-[10px] font-bold px-2 py-1 rounded">
+                    <div className="absolute top-2 left-2 bg-[#7C3AED] text-white text-[10px] font-bold px-2 py-1 rounded">
                       FEATURED
                     </div>
                   )}
                 </div>
                 <CardContent className="p-4">
                   <div className="flex justify-between items-start gap-2 mb-2">
-                    <span className="text-[#9C8653] text-xs font-bold uppercase">{article.category}</span>
+                    <span className="text-[#7C3AED] text-xs font-bold uppercase">{article.category}</span>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -246,7 +246,7 @@ export default function NewsManagement({
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
-                  <h3 className="font-bold text-gray-800 line-clamp-2 mb-2 group-hover:text-[#9C8653] transition-colors">
+                  <h3 className="font-bold text-gray-800 line-clamp-2 mb-2 group-hover:text-[#7C3AED] transition-colors">
                     {article.title}
                   </h3>
                   <p className="text-gray-500 text-sm line-clamp-2 mb-4 leading-relaxed">
@@ -260,7 +260,7 @@ export default function NewsManagement({
               </Card>
             ))}
             {filteredArticles.length === 0 && (
-              <div className="col-span-full py-20 text-center">
+              <div className="col-span-full py-20 text-[#7C3AED]enter">
                 <div className="inline-flex items-center justify-center p-4 bg-gray-50 rounded-full mb-4">
                   <Search className="h-8 w-8 text-gray-400" />
                 </div>
@@ -349,11 +349,11 @@ export default function NewsManagement({
                     <Label 
                       htmlFor="image-upload" 
                       className={`
-                        flex flex-col items-center justify-center h-20 w-32 rounded border border-dashed border-gray-300 cursor-pointer hover:border-[#9C8653] transition-colors
+                        flex flex-col items-center justify-center h-20 w-32 rounded border border-dashed border-gray-300 cursor-pointer hover:border-[#7C3AED] transition-colors
                         ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}
                       `}
                     >
-                      {isUploading ? <Loader2 className="h-5 w-5 animate-spin text-[#9C8653]" /> : <Plus className="h-5 w-5 text-gray-400" />}
+                      {isUploading ? <Loader2 className="h-5 w-5 animate-spin text-[#7C3AED]" /> : <Plus className="h-5 w-5 text-gray-400" />}
                       <span className="text-[10px] text-gray-400 mt-1">{isUploading ? 'Uploading...' : 'Upload'}</span>
                       <Input 
                         id="image-upload" 
@@ -379,7 +379,7 @@ export default function NewsManagement({
               </Button>
               <Button 
                 type="submit" 
-                className="bg-[#9C8653] hover:bg-[#8A7542] text-white"
+                className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white"
                 disabled={isUploading}
               >
                 Publish Article
@@ -391,3 +391,4 @@ export default function NewsManagement({
     </div>
   );
 }
+

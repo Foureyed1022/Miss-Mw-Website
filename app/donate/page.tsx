@@ -21,8 +21,8 @@ export default function DonatePage() {
       {/* Donation Impact */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Your Impact</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4">Your Impact</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Your generous donation directly supports our programs and initiatives, creating meaningful change in the
               lives of young Malawian women and communities.
@@ -62,10 +62,10 @@ export default function DonatePage() {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               <div className="p-8">
-                <h2 className="font-playfair text-3xl font-bold text-[#212224] mb-6 text-center">Make a Donation</h2>
+                <h2 className="font-playfair text-[#7C3AED]xl font-bold text-[#212224] mb-6 text-[#7C3AED]enter">Make a Donation</h2>
 
                 <Tabs defaultValue="one-time" className="w-full">
-                  <div className="text-center mb-8">
+                  <div className="text-[#7C3AED]enter mb-8">
                     <TabsList className="inline-flex">
                       <TabsTrigger value="one-time">One-Time Donation</TabsTrigger>
                       <TabsTrigger value="monthly">Monthly Donation</TabsTrigger>
@@ -257,7 +257,7 @@ export default function DonatePage() {
                         <Button type="submit" className="w-full bg-[#212224] hover:bg-[#212224]/90 text-lg py-6">
                           Donate Now
                         </Button>
-                        <p className="text-center text-sm text-gray-500 mt-4">
+                        <p className="text-[#7C3AED]enter text-sm text-gray-500 mt-4">
                           Your donation is tax-deductible to the extent allowed by law.
                         </p>
                       </div>
@@ -452,7 +452,7 @@ export default function DonatePage() {
                         <Button type="submit" className="w-full bg-[#212224] hover:bg-[#212224]/90 text-lg py-6">
                           Become a Monthly Donor
                         </Button>
-                        <p className="text-center text-sm text-gray-500 mt-4">
+                        <p className="text-[#7C3AED]enter text-sm text-gray-500 mt-4">
                           You can cancel your monthly donation at any time.
                         </p>
                       </div>
@@ -468,8 +468,8 @@ export default function DonatePage() {
       {/* Other Ways to Give */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Other Ways to Give</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4">Other Ways to Give</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Beyond online donations, there are several other ways you can support Miss Malawi Foundation
             </p>
@@ -516,8 +516,8 @@ export default function DonatePage() {
       {/* Donor Recognition */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Donor Recognition</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4">Donor Recognition</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               We are grateful to our generous donors who make our work possible
             </p>
@@ -526,7 +526,7 @@ export default function DonatePage() {
 
           <div className="space-y-8">
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Platinum Donors</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-[#7C3AED]enter">Platinum Donors</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center h-32">
@@ -543,7 +543,7 @@ export default function DonatePage() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Gold Donors</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-[#7C3AED]enter">Gold Donors</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 items-center">
                 {[1, 2, 3, 4, 5, 6].map((i) => (
                   <div key={i} className="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center h-24">
@@ -560,7 +560,7 @@ export default function DonatePage() {
             </div>
 
             <div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">Silver Donors</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 text-[#7C3AED]enter">Silver Donors</h3>
               <div className="grid grid-cols-2 md:grid-cols-6 gap-4 items-center">
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((i) => (
                   <div key={i} className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-center h-20">
@@ -582,8 +582,8 @@ export default function DonatePage() {
       {/* Testimonials */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">Donor Stories</h2>
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4">Donor Stories</h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
               Hear from our donors about why they choose to support Miss Malawi Foundation
             </p>
@@ -616,8 +616,8 @@ export default function DonatePage() {
       {/* FAQ */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-[#212224] mb-4">
+          <div className="text-[#7C3AED]enter mb-12">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4">
               Frequently Asked Questions
             </h2>
             <div className="w-24 h-1 bg-purple mx-auto"></div>
@@ -653,8 +653,8 @@ export default function DonatePage() {
       {/* Call to Action */}
       <section className="py-16 bg-[#212224] text-white">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold mb-4">Make a Difference Today</h2>
+          <div className="max-w-3xl mx-auto text-[#7C3AED]enter">
+            <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold mb-4">Make a Difference Today</h2>
             <p className="mb-8 text-lg">
               Your support empowers young Malawian women and creates lasting change in communities across the country.
               Join us in our mission to promote beauty, intelligence, and advocacy.
@@ -733,3 +733,4 @@ function FAQ({ question, answer }: FAQProps) {
     </div>
   )
 }
+

@@ -2,6 +2,8 @@
 
 import type React from "react"
 import { useState, useEffect, useRef } from "react"
+import { doc, onSnapshot } from "firebase/firestore"
+import { db } from "@/lib/firebase"
 import { Award, Calendar, Heart, Users } from "lucide-react"
 
 interface SiteStats {
@@ -23,20 +25,30 @@ export default function CounterSection() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await fetch('/api/site-stats')
-        if (res.ok) {
-          const data = await res.json()
-          setStats(data)
+    const statsRef = doc(db, "settings", "site_stats")
+    const unsubscribe = onSnapshot(
+      statsRef,
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.data()
+          setStats({
+            contestants: Number(data.contestants ?? 0),
+            queensCrowned: Number(data.queensCrowned ?? 0),
+            yearsOfLegacy: Number(data.yearsOfLegacy ?? 0),
+            livesImpacted: Number(data.livesImpacted ?? 0),
+          })
+        } else {
+          setStats(DEFAULT_STATS)
         }
-      } catch {
-        // fall back to defaults already set
-      } finally {
+        setIsLoading(false)
+      },
+      (error) => {
+        console.error("Site stats snapshot error", error)
         setIsLoading(false)
       }
-    }
-    load()
+    )
+
+    return () => unsubscribe()
   }, [])
 
   const counters = [
@@ -67,7 +79,7 @@ export default function CounterSection() {
   ]
 
   return (
-    <section className="relative py-20 bg-[#212224] text-white overflow-hidden">
+    <section className="relative py-20 bg-[#121125] text-white overflow-hidden">
       {/* Subtle decorative background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-purple/5 blur-3xl" />
@@ -78,7 +90,7 @@ export default function CounterSection() {
         {/* Section heading */}
         <div className="text-center mb-14">
           <p className="text-purple uppercase tracking-widest text-xs font-semibold mb-2">Our Impact</p>
-          <h2 className="font-playfair text-3xl md:text-4xl font-bold text-white">
+          <h2 className="font-playfair text-xl md:text-4xl font-bold text-white">
             Numbers That Tell Our Story
           </h2>
           <div className="w-16 h-0.5 bg-purple mx-auto mt-4 opacity-80" />
@@ -163,7 +175,7 @@ export function Counter({ icon, label, endValue, suffix = "" }: CounterProps) {
   return (
     <div
       ref={counterRef}
-      className="flex flex-col items-center text-center group"
+      className="flex flex-col items-center text-[#7C3AED]enter group"
     >
       {/* Icon ring */}
       <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white/5 border border-purple/20 text-purple mb-5 group-hover:bg-purple/10 group-hover:border-purple/50 transition-all duration-300">
@@ -171,7 +183,7 @@ export function Counter({ icon, label, endValue, suffix = "" }: CounterProps) {
       </div>
 
       {/* Number */}
-      <div className="text-4xl md:text-5xl font-bold font-playfair text-white leading-none mb-2 tabular-nums">
+      <div className="text-4xl md:text-[#7C3AED]xl font-bold font-playfair text-white leading-none mb-2 tabular-nums">
         {count.toLocaleString()}
         {suffix && <span className="text-purple">{suffix}</span>}
       </div>
@@ -186,3 +198,4 @@ export function Counter({ icon, label, endValue, suffix = "" }: CounterProps) {
     </div>
   )
 }
+
