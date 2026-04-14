@@ -11,7 +11,7 @@ const testimonials = [
       "Being Miss Malawi opened doors I never imagined possible. The platform allowed me to advocate for girls' education across the country and make a real difference in my community.",
     name: "Tionge Munthali",
     title: "Miss Malawi 2018",
-    image: "/queens/tiwonge.jpg?height=400&width=400",
+    image: "/queens/Tiwonge.jpg?height=400&width=400",
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const testimonials = [
       "Representing Malawi on the international stage was the highlight of my reign. I'm proud to have showcased our beautiful culture and traditions to the world.",
     name: "Faith Chibale",
     title: "Miss Malawi 2010",
-    image: "/queens/faith.jpeg?height=400&width=400",
+    image: "/queens/Faith.jpeg?height=400&width=400",
   },
 ]
 
@@ -65,8 +65,8 @@ export default function TestimonialCarousel() {
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-[#7C3AED]enter mb-12">
-          <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-[#212224] mb-4 text-center">Testimonials</h2>
+        <div className="text-center mb-12">
+          <h2 className="font-playfair text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-center">Testimonials</h2>
           <div className="w-24 h-1 bg-purple mx-auto"></div>
         </div>
 
@@ -77,8 +77,8 @@ export default function TestimonialCarousel() {
             </div>
 
             <div className={`transition-opacity duration-500 ${isAnimating ? "opacity-0" : "opacity-100"}`}>
-              <blockquote className="text-xl md:text-2xl text-gray-700 text-[#7C3AED]enter mb-8 italic">
-                "{currentTestimonial.quote}"
+              <blockquote className="text-xl md:text-2xl text-gray-700 text-center mb-8 italic">
+                &ldquo;{currentTestimonial.quote}&rdquo;
               </blockquote>
 
               <div className="flex flex-col items-center">
@@ -90,7 +90,7 @@ export default function TestimonialCarousel() {
                     className="object-cover"
                   />
                 </div>
-                <div className="text-[#7C3AED]enter">
+                <div className="text-center">
                   <h4 className="font-bold text-lg text-gray-900">{currentTestimonial.name}</h4>
                   <p className="text-purple">{currentTestimonial.title}</p>
                 </div>

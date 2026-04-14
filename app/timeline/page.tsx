@@ -26,7 +26,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="1999"
                 name="Irene Nkhwazi"
-                image="/misi.png?height=500&width=400"
+                image="/Misi.png?height=500&width=400"
                 isLeft={true}
                 onImageClick={handleImageClick}
               />
@@ -34,7 +34,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2000"
                 name="Elizabeth Pulu"
-                image="/queens/elizabeth.jpeg?height=500&width=400"
+                image="/queens/Elizabeth.jpeg?height=500&width=400"
                 isLeft={false}
                 onImageClick={handleImageClick}
               />
@@ -42,7 +42,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2001"
                 name="Linda Longwe"
-                image="/misi.png?height=500&width=400"
+                image="/Misi.png?height=500&width=400"
                 isLeft={true}
                 onImageClick={handleImageClick}
               />
@@ -50,7 +50,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2002"
                 name="Blandina Mlenga"
-                image="/queens/blandina.jpeg?height=500&width=400"
+                image="/queens/Blandina.jpeg?height=500&width=400"
                 isLeft={false}
                 onImageClick={handleImageClick}
               />
@@ -58,7 +58,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2003"
                 name="Florence Zeka"
-                image="/misi.png?height=500&width=400"
+                image="/Misi.png?height=500&width=400"
                 isLeft={true}
                 onImageClick={handleImageClick}
               />
@@ -66,7 +66,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2004"
                 name="Perth Msiska"
-                image="/queens/perth.png?height=500&width=400"
+                image="/queens/Perth.png?height=500&width=400"
                 isLeft={false}
                 onImageClick={handleImageClick}
               />
@@ -74,7 +74,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2005"
                 name="Mable Pulu"
-                image="/misi.png?height=500&width=400"
+                image="/Misi.png?height=500&width=400"
                 isLeft={true}
                 onImageClick={handleImageClick}
               />
@@ -98,7 +98,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2010"
                 name="Susan Mtegha"
-                image="/queens/susan.png?height=500&width=400"
+                image="/queens/Susan.png?height=500&width=400"
                 isLeft={false}
                 onImageClick={handleImageClick}
               />
@@ -106,7 +106,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2011"
                 name="Faith Chibale"
-                image="/queens/faith.jpeg?height=500&width=400"
+                image="/queens/Faith.jpeg?height=500&width=400"
                 isLeft={true}
                 onImageClick={handleImageClick}
               />
@@ -130,7 +130,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2018"
                 name="Tiwonge Munthali"
-                image="/queens/tiwonge.jpg?height=500&width=400"
+                image="/queens/Tiwonge.jpg?height=500&width=400"
                 isLeft={false}
                 onImageClick={handleImageClick}
               />
@@ -138,7 +138,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2022"
                 name="Jescar Mponda"
-                image="/queens/jesca.jpeg?height=500&width=400"
+                image="/queens/Jesca.jpeg?height=500&width=400"
                 isLeft={true}
                 onImageClick={handleImageClick}
               />
@@ -146,7 +146,7 @@ export default function TimelinePage() {
               <TimelineItem
                 year="2025"
                 name="Thandie Chisi"
-                image="/queens/thandie.png?height=500&width=400"
+                image="/queens/Thandie.jpeg?height=500&width=400"
                 isLeft={false}
                 onImageClick={handleImageClick}
               />

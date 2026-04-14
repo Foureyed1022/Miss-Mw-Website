@@ -17,7 +17,7 @@
     {
       "id": 3,
       "name": "Partner 3",
-      "logo": "/sponsors/ep.png",
+      "logo": "/sponsors/EP.png",
       "website": "https://example.com",
       "tier": "gold"
     },
@@ -129,7 +129,7 @@
     {
       "id": 19,
       "name": "Partner 19",
-      "logo": "/sponsors/grand.png",
+      "logo": "/sponsors/Grand.png",
       "website": "https://thegrandpalacemalawi.com/",
       "tier": "silver"
     },
@@ -185,7 +185,7 @@
     {
       "id": 27,
       "name": "Partner 27",
-      "logo": "/sponsors/protelligent.png",
+      "logo": "/sponsors/Protelligent.png",
       "website": "",
       "tier": "silver"
     },
@@ -206,7 +206,7 @@
     {
       "id": 30,
       "name": "Partner 30",
-      "logo": "/sponsors/weafrica.jpeg",
+      "logo": "/sponsors/weAfrica.jpeg",
       "website": "",
       "tier": "silver"
     }
