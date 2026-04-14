@@ -273,7 +273,7 @@ export default function PageantPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <QueenCard
-              image="/queens/tiwonge.jpg?height=600&width=400"
+              image="/queens/Tiwonge.jpg?height=600&width=400"
               name="Tiwonge Munthali"
               year="2018"
               achievement="Miss Malawi"
@@ -287,14 +287,14 @@ export default function PageantPage() {
               onImageClick={handleImageClick}
             />
             <QueenCard
-              image="/queens/jesca.jpeg?height=600&width=400"
+              image="/queens/Jesca.jpeg?height=600&width=400"
               name="Jescar Mponda"
               year="2022"
               achievement="Miss Malawi"
               onImageClick={handleImageClick}
             />
             <QueenCard
-              image="/queens/faith.jpeg?height=600&width=400"
+              image="/queens/Faith.jpeg?height=600&width=400"
               name="Faith Chibale"
               year="2012"
               achievement="Miss Malawi"
@@ -342,9 +342,9 @@ export default function PageantPage() {
             <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
               <div 
                 className="relative h-64 mb-4 overflow-hidden rounded-lg cursor-pointer group"
-                onClick={() => handleImageClick("/queens/elizabeth.jpeg?height=600&width=400", "Elizabeth Pulu", "2001")}
+                onClick={() => handleImageClick("/queens/Elizabeth.jpeg?height=600&width=400", "Elizabeth Pulu", "2001")}
               >
-                <Image src="/queens/elizabeth.jpeg?height=600&width=400" alt="Elizabeth Pulu" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                <Image src="/queens/Elizabeth.jpeg?height=600&width=400" alt="Elizabeth Pulu" fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

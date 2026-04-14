@@ -11,7 +11,7 @@ const testimonials = [
       "Being Miss Malawi opened doors I never imagined possible. The platform allowed me to advocate for girls' education across the country and make a real difference in my community.",
     name: "Tionge Munthali",
     title: "Miss Malawi 2018",
-    image: "/queens/tiwonge.jpg?height=400&width=400",
+    image: "/queens/Tiwonge.jpg?height=400&width=400",
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ const testimonials = [
       "Representing Malawi on the international stage was the highlight of my reign. I'm proud to have showcased our beautiful culture and traditions to the world.",
     name: "Faith Chibale",
     title: "Miss Malawi 2010",
-    image: "/queens/faith.jpeg?height=400&width=400",
+    image: "/queens/Faith.jpeg?height=400&width=400",
   },
 ]
 
