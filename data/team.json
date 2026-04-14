@@ -12,7 +12,7 @@
     "id": 1,
     "name": "Bernadette Mweso",
     "role": "Chief Executive Officer (CEO)",
-    "photo": "/team/berna.jpeg?height=400&width=400",
+    "photo": "/team/Berna.jpeg?height=400&width=400",
     "bio": "Oversees the entire Miss Malawi organization, sets strategic direction, ensures all departments align with the pageant’s vision, and represents the brand at national and international platforms.",
     "department": "Leadership",
     "hierarchy": 1
@@ -21,7 +21,7 @@
     "id": 2,
     "name": "Godfrey Kambewa",
     "role": "Chief Operating Officer (COO)",
-    "photo": "/team/godfrey.jpg?height=700&width=700",
+    "photo": "/team/Godfrey.jpg?height=700&width=700",
     "bio": "Manages day-to-day operations, coordinates between departments, ensures smooth execution of pageant activities, and implements organizational policies.",
     "department": "Operations",
     "hierarchy": 2
@@ -30,7 +30,7 @@
     "id": 3,
     "name": "James Mathews Banda",
     "role": "Finance Lead",
-    "photo": "/team/james.jpeg?height=400&width=400",
+    "photo": "/team/James.jpeg?height=400&width=400",
     "bio": "Oversees budgeting, financial planning, and expenditure tracking; ensures transparency and accountability in all financial transactions.",
     "department": "Finance",
     "hierarchy": 2
@@ -39,7 +39,7 @@
     "id": 4,
     "name": "Monalisa Mkumba",
     "role": "Chief of Protocol & Chaperone",
-    "photo": "/team/mona.png?height=400&width=400",
+    "photo": "/team/Mona.PNG?height=400&width=400",
     "bio": "Ensures contestants follow proper etiquette, manages protocol during events, and provides guidance and supervision to contestants throughout the pageant",
     "department": "Protocol",
     "hierarchy": 2
