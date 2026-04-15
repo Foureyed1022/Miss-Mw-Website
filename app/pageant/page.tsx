@@ -80,7 +80,7 @@ export default function PageantPage() {
 
             <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
               <Image
-                src="/misi.png?height=1000&width=800"
+                src="/Misi.png?height=1000&width=800"
                 alt="Miss Malawi 2026"
                 fill
                 className="object-contain"
