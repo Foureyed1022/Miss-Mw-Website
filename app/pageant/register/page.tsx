@@ -58,7 +58,7 @@ export default function RegistrationPage() {
 
   const nextStep = async () => {
     let isValid = false;
-    
+
     if (step === 1) {
       isValid = await trigger([
         "firstName", "lastName", "email", "phone", "dob", "age",
@@ -70,8 +70,8 @@ export default function RegistrationPage() {
       ]);
     } else if (step === 3) {
       isValid = true;
-    } 
-    
+    }
+
     if (isValid && step < totalSteps) {
       setStep(step + 1);
     }
@@ -85,13 +85,13 @@ export default function RegistrationPage() {
 
   const onSubmit = async (data: ApplicationSchema) => {
     setIsSubmitting(true);
-    
+
     try {
       // Validate with strict schema before submission
       const validatedData = finalApplicationSchema.parse(data);
-      
+
       const formData = new FormData();
-      
+
       // Append all form data
       Object.entries(validatedData).forEach(([key, value]) => {
         if (value !== undefined && value !== null) {
@@ -117,7 +117,7 @@ export default function RegistrationPage() {
       toast.success("✅ Application Submitted Successfully! You will be redirected to complete your payment. You must enter your First Name, Last Name, and Email exactly as provided.", {
         duration: 5000,
       });
-      
+
       setTimeout(() => {
         window.location.href = "https://pay.paychangu.com/SC-VziVln";
       }, 5000);
@@ -126,10 +126,10 @@ export default function RegistrationPage() {
       setStep(1);
     } catch (error: any) {
       if (error?.issues) {
-        const fileErrors = error.issues.filter((issue: any) => 
+        const fileErrors = error.issues.filter((issue: any) =>
           ["headshotPhoto", "fullLengthPhoto", "consentletter", "idProof", "introVideo"].some(field => issue.path.includes(field))
         );
-        
+
         if (fileErrors.length > 0) {
           toast.error('Please upload all required documents and video before submitting');
         } else {
@@ -163,7 +163,7 @@ export default function RegistrationPage() {
         @keyframes circle4Anim { 0% { transform: translate(0, 0); } 25% { transform: translate(50px, 0); } 50% { transform: translate(50px, 50px); } 75% { transform: translate(0, 50px); } 100% { transform: translate(0, 0); } }
         @keyframes circle5Anim { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
       `}</style>
-      
+
       <div>
         <section className="relative pt-32 pb-24 overflow-hidden" style={{ background: 'linear-gradient(135deg, #6D28D9 0%, #311B6F 100%)' }}>
           <div className="absolute inset-0 opacity-15">
@@ -274,7 +274,7 @@ export default function RegistrationPage() {
                             <FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl>
                             <SelectContent><SelectItem value="Malawi">Malawi</SelectItem></SelectContent>
                           </Select>
-                        <FormMessage /></FormItem>
+                          <FormMessage /></FormItem>
                       )} />
                     </div>
                   </div>
@@ -294,7 +294,7 @@ export default function RegistrationPage() {
                             <SelectItem value="masters">Master's Degree</SelectItem>
                           </SelectContent>
                         </Select>
-                      <FormMessage /></FormItem>
+                        <FormMessage /></FormItem>
                     )} />
                     <FormField control={control} name="occupation" render={({ field }) => (
                       <FormItem><FormLabel>Current occupation *</FormLabel><FormControl><Input {...field} placeholder="Software Engineer / Student" /></FormControl><FormMessage /></FormItem>
@@ -336,7 +336,7 @@ export default function RegistrationPage() {
                               <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileChange("headshotPhoto", e.target.files)} />
                             </label>
                           </div>
-                        <FormMessage /></FormItem>
+                          <FormMessage /></FormItem>
                       )} />
                       <FormField control={control} name="fullLengthPhoto" render={({ field }) => (
                         <FormItem><FormLabel>Full Length Photo *</FormLabel>
@@ -349,7 +349,7 @@ export default function RegistrationPage() {
                               <input type="file" className="hidden" accept="image/*" onChange={(e) => handleFileChange("fullLengthPhoto", e.target.files)} />
                             </label>
                           </div>
-                        <FormMessage /></FormItem>
+                          <FormMessage /></FormItem>
                       )} />
                     </div>
 
@@ -366,7 +366,7 @@ export default function RegistrationPage() {
                           </label>
                         </div>
                         <p className="text-[10px] text-gray-400 mt-1">Tip: Introduce yourself, share your passion, and tell us why you should be the next Miss Malawi.</p>
-                      <FormMessage /></FormItem>
+                        <FormMessage /></FormItem>
                     )} />
 
                     <div className="grid gap-6 sm:grid-cols-2">
@@ -381,7 +381,7 @@ export default function RegistrationPage() {
                               <input type="file" className="hidden" accept=".pdf" onChange={(e) => handleFileChange("consentletter", e.target.files)} />
                             </label>
                           </div>
-                        <FormMessage /></FormItem>
+                          <FormMessage /></FormItem>
                       )} />
                       <FormField control={control} name="idProof" render={({ field }) => (
                         <FormItem><FormLabel>ID Proof *</FormLabel>
@@ -394,7 +394,7 @@ export default function RegistrationPage() {
                               <input type="file" className="hidden" accept="image/*,.pdf" onChange={(e) => handleFileChange("idProof", e.target.files)} />
                             </label>
                           </div>
-                        <FormMessage /></FormItem>
+                          <FormMessage /></FormItem>
                       )} />
                     </div>
 
@@ -415,11 +415,11 @@ export default function RegistrationPage() {
                     <FormField control={control} name="termsAccepted" render={({ field }) => (
                       <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4 shadow-sm bg-gray-50/50">
                         <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
-                          <FormLabel className="text-[#3D3B48] text-sm">
-                            I agree to the <Link href="/terms-and-conditions" target="_blank" className="text-purple-600 hover:underline">Terms of Service</Link>, <Link href="/contestant-agreement" target="_blank" className="text-purple-600 hover:underline">Contestant Agreement</Link> and <Link href="/privacy-policy" target="_blank" className="text-purple-600 hover:underline">Privacy Policy</Link> *
-                          </FormLabel>
-                          <p className="text-[10px] text-gray-500">By checking this box, you agree to our official guidelines and data protection policies.</p>
-                      <FormMessage /></FormItem>
+                        <FormLabel className="text-[#3D3B48] text-sm">
+                          I agree to the <Link href="/terms-and-conditions" target="_blank" className="text-purple-600 hover:underline">Terms of Service</Link>, <Link href="/contestant-agreement" target="_blank" className="text-purple-600 hover:underline">Contestant Agreement</Link> and <Link href="/privacy-policy" target="_blank" className="text-purple-600 hover:underline">Privacy Policy</Link> *
+                        </FormLabel>
+                        <p className="text-[10px] text-gray-500">By checking this box, you agree to our official guidelines and data protection policies.</p>
+                        <FormMessage /></FormItem>
                     )} />
                   </div>
                 )}

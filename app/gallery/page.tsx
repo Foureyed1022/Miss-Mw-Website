@@ -1,278 +1,326 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { X } from "lucide-react"
+import { X, Play, Maximize2, Video, Images, Filter, ChevronLeft, ChevronRight } from "lucide-react"
 import PageHeader from "@/components/page-header"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-
-type GalleryItemType = { id: number; title: string; src: string }
-type GalleryData = {
-  events: GalleryItemType[]
-  queens: GalleryItemType[]
-  programs: GalleryItemType[]
-  international: GalleryItemType[]
-}
+import { GalleryItem } from "@/types"
+import { subscribeToGallery } from "@/lib/firestore"
+import { Badge } from "@/components/ui/badge"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle
+} from "@/components/ui/dialog"
 
 export default function GalleryPage() {
-  const [selectedImage, setSelectedImage] = useState<GalleryItemType | null>(null)
-  const [galleryData, setGalleryData] = useState<GalleryData | null>(null)
+  const [items, setItems] = useState<GalleryItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null)
+  const [activeCategory, setActiveCategory] = useState("all")
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 12
 
   useEffect(() => {
-    const load = async () => {
-      const res = await fetch("/api/gallery")
-      const data = (await res.json()) as GalleryData
-      setGalleryData(data)
-    }
-    load()
+    setCurrentPage(1)
+  }, [activeCategory])
+
+  useEffect(() => {
+    const unsub = subscribeToGallery((data) => {
+      setItems(data)
+      setLoading(false)
+    })
+    return () => unsub()
   }, [])
 
-  const openLightbox = (image: { id: number; title: string; src: string }) => {
-    setSelectedImage(image)
-    document.body.style.overflow = "hidden"
+  // Derived data
+  const images = useMemo(() => items.filter(i => i.type === 'image'), [items])
+  const videos = useMemo(() => items.filter(i => i.type === 'video'), [items])
+
+  const filteredItems = useMemo(() => {
+    if (activeCategory === "all") return images
+    return images.filter(i => i.category.toLowerCase() === activeCategory.toLowerCase())
+  }, [images, activeCategory])
+
+  const totalPages = Math.ceil(filteredItems.length / itemsPerPage)
+
+  const paginatedItems = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage
+    return filteredItems.slice(startIndex, startIndex + itemsPerPage)
+  }, [filteredItems, currentPage])
+
+  const openLightbox = (item: GalleryItem) => {
+    setSelectedImage(item)
   }
 
   const closeLightbox = () => {
     setSelectedImage(null)
-    document.body.style.overflow = "auto"
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col w-full min-h-screen bg-gray-50">
+        <PageHeader title="Gallery" description="Capturing moments of beauty, empowerment, and impact" />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-[#7C3AED] border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-500 font-bold uppercase tracking-widest text-xs">Loading Media...</p>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full bg-white font-sans">
       <PageHeader title="Gallery" description="Capturing moments of beauty, empowerment, and impact" />
 
-      {/* Gallery Tabs */}
-      <section className="py-16 bg-white">
+      {/* Gallery Tabs (Images) */}
+      <section className="py-24 bg-white overflow-hidden">
         <div className="container mx-auto px-4 md:px-6">
-          {!galleryData ? (
-            <p className="text-center text-gray-500">Loading gallery...</p>
-          ) : (
-            <Tabs defaultValue="all" className="w-full">
-              <div className="text-center mb-8">
-                <TabsList className="inline-flex">
-                  <TabsTrigger value="all">All Photos</TabsTrigger>
-                  <TabsTrigger value="events">Events</TabsTrigger>
-                  <TabsTrigger value="queens">Queens</TabsTrigger>
-                  <TabsTrigger value="programs">Programs</TabsTrigger>
-                  <TabsTrigger value="international">International</TabsTrigger>
-                </TabsList>
-              </div>
-
-              <TabsContent value="all">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {[...galleryData.events, ...galleryData.queens, ...galleryData.programs, ...galleryData.international]
-                    .slice(0, 16)
-                    .map((image) => (
-                      <GalleryItem key={image.id} image={image} onClick={() => openLightbox(image)} />
-                    ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="events">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {galleryData.events.map((image) => (
-                    <GalleryItem key={image.id} image={image} onClick={() => openLightbox(image)} />
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="queens">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {galleryData.queens.map((image) => (
-                    <GalleryItem key={image.id} image={image} onClick={() => openLightbox(image)} />
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="programs">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {galleryData.programs.map((image) => (
-                    <GalleryItem key={image.id} image={image} onClick={() => openLightbox(image)} />
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="international">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {galleryData.international.map((image) => (
-                    <GalleryItem key={image.id} image={image} onClick={() => openLightbox(image)} />
-                  ))}
-                </div>
-              </TabsContent>
-            </Tabs>
-          )}
-
-          <div className="text-center mt-12">
-            <Button className="bg-emerald-800 hover:bg-emerald-700">Load More Photos</Button>
+          <div className="flex flex-col items-center text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-playfair font-bold text-[#3D3B48] mb-6">Media Collections</h2>
+            <p className="text-gray-500 max-w-2xl text-lg leading-relaxed">
+              Explore our curated collections capturing the essence of Malawian beauty and cultural leadership.
+            </p>
           </div>
+
+          <Tabs defaultValue="all" value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+            <div className="flex justify-center mb-12">
+              <TabsList className="h-auto p-2 bg-gray-50/50 backdrop-blur-md rounded-3xl border border-gray-100 flex-wrap justify-center gap-2">
+                <TabsTrigger value="all" className="rounded-2xl px-8 py-3 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white data-[state=active]:shadow-xl transition-all font-bold text-sm">All Photos</TabsTrigger>
+                <TabsTrigger value="events" className="rounded-2xl px-8 py-3 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white data-[state=active]:shadow-xl transition-all font-bold text-sm text-gray-500">Events</TabsTrigger>
+                <TabsTrigger value="queens" className="rounded-2xl px-8 py-3 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white data-[state=active]:shadow-xl transition-all font-bold text-sm text-gray-500">Queens</TabsTrigger>
+                <TabsTrigger value="programs" className="rounded-2xl px-8 py-3 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white data-[state=active]:shadow-xl transition-all font-bold text-sm text-gray-500">Programs</TabsTrigger>
+                <TabsTrigger value="international" className="rounded-2xl px-8 py-3 data-[state=active]:bg-[#7C3AED] data-[state=active]:text-white data-[state=active]:shadow-xl transition-all font-bold text-sm text-gray-500">International</TabsTrigger>
+              </TabsList>
+            </div>
+
+            <div className="relative">
+              <TabsContent value={activeCategory} className="mt-0 focus-visible:outline-none">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                  {paginatedItems.map((image) => (
+                    <GalleryItemCard key={image.id} image={image} onClick={() => openLightbox(image)} />
+                  ))}
+                </div>
+                {paginatedItems.length === 0 && <EmptyState text={`No photos found in this collection.`} />}
+
+                {/* Pagination Controls */}
+                {totalPages > 1 && (
+                  <div className="flex justify-center items-center gap-4 mt-16">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full w-12 h-12 border-gray-200"
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </Button>
+                    <div className="flex items-center gap-2">
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <Button
+                          key={page}
+                          variant={currentPage === page ? "default" : "ghost"}
+                          className={`w-12 h-12 rounded-full font-bold ${currentPage === page ? 'bg-[#7C3AED] text-white' : 'text-gray-500 hover:text-[#7C3AED]'}`}
+                          onClick={() => setCurrentPage(page)}
+                        >
+                          {page}
+                        </Button>
+                      ))}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="rounded-full w-12 h-12 border-gray-200"
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </Button>
+                  </div>
+                )}
+              </TabsContent>
+            </div>
+          </Tabs>
         </div>
       </section>
 
       {/* Video Gallery */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-24 bg-[#FAFAFA] border-t border-gray-100">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-3xl md:text-4xl font-bold text-emerald-800 mb-4">Video Gallery</h2>
-            <p className="text-gray-600 max-w-3xl mx-auto">
-              Watch highlights from our pageants, programs, and special events
+          <div className="flex flex-col items-center text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-playfair font-bold text-[#3D3B48] mb-6">Video Highlights</h2>
+            <p className="text-gray-500 max-w-2xl text-lg leading-relaxed">
+              Experience the journey through our official highlights and event coverage.
             </p>
-            <div className="w-24 h-1 bg-purple mx-auto mt-4"></div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <VideoItem
-              title="Miss Malawi 2025 Top Finalists Arrival at Kalipano Hotel"
-              videoLink="https://youtu.be/sWwrNIIsMmw?si=o-OK4TDy8gX1xv2k"
-            />
-            <VideoItem
-              title="MISS MALAWI 2025 PRELIMINARIES OFFICIAL HIGHLIGHT"
-              videoLink="https://youtu.be/gU5mxfDGpMM?si=c5_GabW9xa7vGVYk"
-            />
-            <VideoItem
-              title="Miss Malawi 2025 | Lilongwe Auditions Highlight"
-              videoLink="https://youtu.be/Cu0Y2wKCZTc?si=T3syQ572mbXC7aFS"
-            />
-            <VideoItem
-              title="Miss Malawi 2025 | Blantyre Audition Highlight"
-              videoLink="https://youtu.be/3j7MkNrwkMk?si=QOvA1eXx_yrWOv4R"
-            />
-            <VideoItem
-              title=""
-              videoLink=""
-            />
-            <VideoItem
-              title="Miss Malawi at Miss World 2012"
-              videoLink=""
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {videos.map((video) => (
+              <VideoCard key={video.id} video={video} />
+            ))}
           </div>
 
-          <div className="text-center mt-12">
-            <Button asChild className="bg-emerald-800 hover:bg-emerald-700">
+          {videos.length === 0 && (
+            <div className="py-20 text-center bg-white rounded-[3rem] border border-dashed border-gray-200">
+              <Video className="h-12 w-12 text-gray-200 mx-auto mb-4" />
+              <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Stay tuned for video updates</p>
+            </div>
+          )}
+
+          <div className="text-center mt-20">
+            <Button asChild variant="outline" className="rounded-full px-12 py-7 border-2 border-gray-100 hover:border-[#7C3AED] hover:text-[#7C3AED] font-black tracking-widest uppercase text-xs shadow-xl hover:shadow-2xl transition-all bg-white">
               <a href="https://www.youtube.com/@MissMalawiOfficial" target="_blank" rel="noopener noreferrer">
-                View All Videos
+                Explore YouTube Channel
               </a>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Lightbox */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-          <div className="relative max-w-5xl w-full">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="absolute -top-12 right-0 text-white hover:bg-white/10 z-10"
-              onClick={closeLightbox}
-            >
-              <X className="h-6 w-6" />
-              <span className="sr-only">Close</span>
-            </Button>
-            <div className="relative h-[70vh]">
-              <Image
-                src={selectedImage.src || "/placeholder.svg"}
-                alt={selectedImage.title}
-                fill
-                className="object-contain"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
-              />
+      {/* Lightbox Modal */}
+      <Dialog open={!!selectedImage} onOpenChange={(open) => !open && closeLightbox()}>
+        <DialogContent className="max-w-6xl p-0 border-none bg-black/95 shadow-none rounded-none sm:rounded-[3rem] overflow-hidden">
+          {selectedImage && (
+            <div className="flex flex-col relative">
+              <DialogTitle className="sr-only">{selectedImage.title}</DialogTitle>
+              <div className="relative h-[75vh] w-full">
+                <Image
+                  src={selectedImage.src}
+                  alt={selectedImage.title}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              {/* <div className="p-8 bg-white/5 backdrop-blur-md absolute bottom-0 left-0 right-0 border-t border-white/10 hidden md:block">
+                <div className="flex justify-between items-center max-w-4xl mx-auto">
+                  <div>
+                    <span className="text-[10px] font-black text-[#7C3AED] uppercase tracking-[0.3em] mb-2 block">
+                      {selectedImage.category}
+                    </span>
+                    <h3 className="text-2xl font-playfair font-bold text-white leading-tight">
+                      {selectedImage.title}
+                    </h3>
+                  </div>
+                  <Button onClick={closeLightbox} variant="ghost" className="text-white bg-white/10 hover:bg-white/20 rounded-2xl">
+                    Close View
+                  </Button>
+                </div>
+              </div> */}
+              <button
+                onClick={closeLightbox}
+                className="absolute top-6 right-6 p-3 bg-black/40 hover:bg-black/60 text-white rounded-full backdrop-blur-md transition-all z-50 border border-white/10"
+              >
+                <X className="h-6 w-6" />
+              </button>
             </div>
-            <div className="bg-white p-4 text-center">
-              <h3 className="text-xl font-bold text-gray-900">{selectedImage.title}</h3>
-            </div>
-          </div>
-        </div>
-      )}
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
 
-interface GalleryItemProps {
-  image: {
-    id: number
-    title: string
-    src: string
-  }
-  onClick: () => void
-}
-
-function GalleryItem({ image, onClick }: GalleryItemProps) {
+function GalleryItemCard({ image, onClick }: { image: GalleryItem, onClick: () => void }) {
   return (
     <div
-      className="relative h-64 rounded-lg overflow-hidden cursor-pointer group"
+      className="group relative aspect-square rounded-[2.5rem] overflow-hidden cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-700 bg-gray-50 border border-gray-100"
       onClick={onClick}
-      role="button"
-      tabIndex={0}
-      aria-label={`View ${image.title}`}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          onClick()
-        }
-      }}
     >
       <Image
-        src={image.src || "/placeholder.svg"}
+        src={image.src}
         alt={image.title}
         fill
-        className="object-cover transition-transform duration-300 group-hover:scale-105"
+        className="object-contain transition-all duration-1000 group-hover:scale-110"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-        <div className="p-4 w-full">
-          <h3 className="text-white font-medium text-sm truncate">{image.title}</h3>
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0 flex flex-col justify-end p-8">
+        <span className="text-[8px] font-black text-white/60 uppercase tracking-[0.3em] mb-2">
+          {image.category}
+        </span>
+        <h3 className="text-white font-bold text-lg leading-tight line-clamp-2 mb-4">
+          {image.title}
+        </h3>
+        <div className="flex items-center gap-2">
+          <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/10">
+            <Maximize2 className="h-4 w-4" />
+          </div>
+        </div>
+      </div>
+
+      {/* Category Badge (Standard) */}
+      <div className="absolute top-6 left-6 opacity-100 group-hover:opacity-0 transition-opacity">
+        <div className="bg-white/90 backdrop-blur-md py-1.5 px-4 rounded-full text-[9px] font-black text-[#7C3AED] uppercase tracking-widest shadow-lg">
+          {image.category}
         </div>
       </div>
     </div>
   )
 }
 
-interface VideoItemProps {
-  title: string
-  videoLink: string
-}
+function VideoCard({ video }: { video: GalleryItem }) {
+  const embedUrl = useMemo(() => {
+    let videoId = ""
+    const url = video.src
+    if (!url) return ""
 
-function getYouTubeEmbedUrl(url: string) {
-  if (!url) return ""
-  if (url.includes("youtube.com/embed/")) return url
-
-  let videoId = ""
-  try {
-    if (url.includes("youtu.be/")) {
-      videoId = url.split("youtu.be/")[1]?.split("?")[0]
-    } else if (url.includes("youtube.com/watch")) {
-      const urlObj = new URL(url)
-      videoId = urlObj.searchParams.get("v") || ""
+    try {
+      if (url.includes("youtu.be/")) {
+        videoId = url.split("youtu.be/")[1]?.split("?")[0]
+      } else if (url.includes("youtube.com/watch")) {
+        const urlObj = new URL(url)
+        videoId = urlObj.searchParams.get("v") || ""
+      } else if (url.includes("youtube.com/embed/")) {
+        videoId = url.split("embed/")[1]?.split("?")[0]
+      }
+    } catch (e) {
+      return ""
     }
-  } catch (e) {
-    // Return original url if parsing fails
-  }
 
-  return videoId ? `https://www.youtube.com/embed/${videoId}` : url
-}
-
-function VideoItem({ title, videoLink }: VideoItemProps) {
-  const embedUrl = getYouTubeEmbedUrl(videoLink)
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : ""
+  }, [video.src])
 
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 group">
-      <div className="relative aspect-video w-full bg-gray-100 flex items-center justify-center">
+    <div className="group bg-white rounded-[3rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-50 flex flex-col h-full">
+      <div className="relative aspect-video w-full bg-gray-100">
         {embedUrl ? (
           <iframe
             src={embedUrl}
-            title={title}
+            title={video.title}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             className="absolute inset-0 w-full h-full border-0"
           ></iframe>
         ) : (
-          <span className="text-gray-400 font-medium">Add YouTube Link</span>
+          <div className="flex items-center justify-center h-full text-gray-400">
+            <Video className="h-10 w-10 opacity-20" />
+          </div>
         )}
       </div>
-      <div className="p-4">
-        <h3 className="text-lg font-bold text-gray-900 line-clamp-2">{title}</h3>
+      <div className="p-10 flex-1 flex flex-col">
+        <h3 className="text-xl font-bold text-[#3D3B48] leading-snug group-hover:text-[#7C3AED] transition-colors line-clamp-2">
+          {video.title}
+        </h3>
+        <div className="mt-auto pt-8 flex items-center justify-between">
+          <Badge className="bg-gray-100 text-gray-500 border-none font-bold text-[9px] px-3 py-1 rounded-full uppercase tracking-widest">
+            {video.category}
+          </Badge>
+        </div>
       </div>
     </div>
   )
 }
 
+function EmptyState({ text }: { text: string }) {
+  return (
+    <div className="py-32 text-center bg-gray-50/50 rounded-[3rem] border border-dashed border-gray-100">
+      <Images className="h-12 w-12 text-gray-200 mx-auto mb-4" />
+      <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">{text}</p>
+    </div>
+  )
+}

@@ -45,7 +45,7 @@ const parseList = (value: FormDataEntryValue | null) => {
   if (!value) return []
   return value
     .toString()
-    .split(/\r?\n|,/)  
+    .split(/\r?\n|,/)
     .map((item) => item.trim())
     .filter(Boolean)
 }
@@ -138,5 +138,67 @@ export async function DELETE(request: Request) {
   } catch (error) {
     console.error("Error deleting program", error)
     return NextResponse.json({ success: false, message: "Failed to delete program" }, { status: 500 })
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    if (!adminDb) {
+      return NextResponse.json({ success: false, message: "Database unavailable" }, { status: 503 })
+    }
+
+    const formData = await request.formData()
+    const id = formData.get("id")?.toString()
+
+    if (!id) {
+      return NextResponse.json({ success: false, message: "Program ID is required" }, { status: 400 })
+    }
+
+    const title = formData.get("title")?.toString().trim() || ""
+    const category = formData.get("category")?.toString().trim() || "General"
+    const description = formData.get("description")?.toString().trim() || ""
+    const fullDescription = formData.get("fullDescription")?.toString().trim() || description
+    const mission = formData.get("mission")?.toString().trim() || ""
+    const activities = parseList(formData.get("activities"))
+    const impact = parseList(formData.get("impact"))
+    const rawImage = formData.get("image")
+    const imageFile = rawImage instanceof File ? rawImage : null
+    let imageUrl = formData.get("imageUrl")?.toString().trim() || ""
+
+    if (imageFile && imageFile.size > 0) {
+      // 1. Cleanup old image if exists
+      if (imageUrl) {
+        const oldFilename = imageUrl.split("/").pop()
+        if (oldFilename) {
+          const oldPath = join(process.cwd(), "public/uploads/programs", oldFilename)
+          if (existsSync(oldPath)) unlinkSync(oldPath)
+        }
+      }
+
+      // 2. Upload new image
+      const buffer = Buffer.from(await imageFile.arrayBuffer())
+      const filename = `program-${uuidv4()}-${imageFile.name.replace(/\s+/g, "-")}`
+      const uploadDir = join(process.cwd(), "public/uploads/programs")
+      const filePath = join(uploadDir, filename)
+      writeFileSync(filePath, buffer)
+      imageUrl = `/uploads/programs/${filename}`
+    }
+
+    await adminDb.collection(PROGRAMS_COLLECTION).doc(id).update({
+      title,
+      description,
+      fullDescription,
+      mission,
+      category,
+      activities,
+      impact,
+      image: imageUrl,
+      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error("Error updating program", error)
+    return NextResponse.json({ success: false, message: "Failed to update program" }, { status: 500 })
   }
 }

@@ -8,6 +8,7 @@ export interface NewsArticle {
   date: string;
   author: string;
   readTime: string;
+  tags?: string[];
   featured?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -203,5 +204,14 @@ export interface SiteStats {
   yearsOfLegacy: number;
   livesImpacted: number;
   updatedAt?: Date;
+}
+
+export interface GalleryItem {
+  id: string;
+  title: string;
+  src: string; // Image URL or YouTube Video Link
+  category: 'Events' | 'Queens' | 'Programs' | 'International';
+  type: 'image' | 'video';
+  createdAt: Date;
 }
 

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { Loader2, AlertCircle } from 'lucide-react';
 import ContactMessages from '@/components/ContactMessages';
 import { ContactMessage } from '@/types';
+import { ConfirmationDialog } from '@/components/ConfirmationDialog';
 import {
   subscribeToContactMessages,
   updateMessageStatus,
@@ -16,6 +17,9 @@ export default function MessagesPage() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [messageToDelete, setMessageToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -47,10 +51,28 @@ export default function MessagesPage() {
     // No local state update needed — snapshot listener will push the change automatically
   };
 
-  const handleDeleteMessage = async (id: string) => {
-    const success = await deleteContactMessage(id);
-    if (!success) throw new Error('Unable to delete message');
-    // Snapshot listener will remove it automatically
+  const handleDeleteClick = async (id: string) => {
+    setMessageToDelete(id);
+    setIsConfirmOpen(true);
+  };
+
+  const handleDeleteMessage = async () => {
+    if (!messageToDelete) return;
+    setIsDeleting(true);
+    try {
+      const success = await deleteContactMessage(messageToDelete);
+      if (success) {
+        toast.success('Message deleted successfully');
+      } else {
+        throw new Error('Unable to delete message');
+      }
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to delete message');
+    } finally {
+      setIsDeleting(false);
+      setIsConfirmOpen(false);
+      setMessageToDelete(null);
+    }
   };
 
   if (isLoading) {
@@ -84,10 +106,21 @@ export default function MessagesPage() {
   }
 
   return (
-    <ContactMessages
-      messages={messages}
-      onUpdateMessageStatus={handleUpdateMessageStatus}
-      onDeleteMessage={handleDeleteMessage}
-    />
+    <>
+      <ContactMessages
+        messages={messages}
+        onUpdateMessageStatus={handleUpdateMessageStatus}
+        onDeleteMessage={handleDeleteClick}
+      />
+      <ConfirmationDialog
+        isOpen={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        onConfirm={handleDeleteMessage}
+        title="Delete Message"
+        description="Are you sure you want to permanently delete this message? This action cannot be undone."
+        isLoading={isDeleting}
+        confirmText="Delete"
+      />
+    </>
   );
 }

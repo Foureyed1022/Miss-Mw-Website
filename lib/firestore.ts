@@ -18,7 +18,7 @@ import {
   Unsubscribe
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
-import { NewsArticle, Applicant, ContactMessage, Donation, FinanceTransaction, Subscriber, AnalyticsEvent, UserProfile, SiteStats } from '@/types';
+import { NewsArticle, Applicant, ContactMessage, Donation, FinanceTransaction, Subscriber, AnalyticsEvent, UserProfile, SiteStats, GalleryItem } from '@/types';
 import toast from 'react-hot-toast';
 
 // Categories Management
@@ -1068,4 +1068,74 @@ export const subscribeToStatistics = (
     unsubMessages();
     unsubNew();
   };
+};
+
+/**
+ * Gallery Management Functions
+ */
+export const addGalleryItem = async (item: Omit<GalleryItem, 'id' | 'createdAt'>): Promise<string | null> => {
+  try {
+    const galleryRef = collection(db, 'gallery');
+    const docRef = await addDoc(galleryRef, {
+      ...item,
+      createdAt: Timestamp.now(),
+    });
+    toast.success('Media added to gallery');
+    return docRef.id;
+  } catch (error) {
+    console.error('Error adding gallery item:', error);
+    toast.error('Failed to add media');
+    return null;
+  }
+};
+
+export const deleteGalleryItem = async (id: string): Promise<boolean> => {
+  try {
+    const docRef = doc(db, 'gallery', id);
+    await deleteDoc(docRef);
+    toast.success('Media removed from gallery');
+    return true;
+  } catch (error) {
+    console.error('Error deleting gallery item:', error);
+    toast.error('Failed to remove media');
+    return false;
+  }
+};
+
+export const updateGalleryItem = async (id: string, updates: Partial<GalleryItem>): Promise<boolean> => {
+  try {
+    const docRef = doc(db, 'gallery', id);
+    await updateDoc(docRef, {
+      ...updates,
+      updatedAt: Timestamp.now(),
+    });
+    toast.success('Media updated successfully');
+    return true;
+  } catch (error) {
+    console.error('Error updating gallery item:', error);
+    toast.error('Failed to update media');
+    return false;
+  }
+};
+
+export const subscribeToGallery = (
+  callback: (items: GalleryItem[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  const q = query(collection(db, 'gallery'), orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const items = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        createdAt: docSnap.data().createdAt?.toDate() || new Date(),
+      })) as GalleryItem[];
+      callback(items);
+    },
+    (error) => {
+      console.error('subscribeToGallery error:', error);
+      onError?.(error);
+    }
+  );
 };

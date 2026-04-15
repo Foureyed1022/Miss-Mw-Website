@@ -93,12 +93,18 @@ export default function PageantPage() {
       {/* Eligibility & Process */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
-          <Tabs defaultValue="eligibility" className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <TabsList className="inline-flex">
-                <TabsTrigger value="eligibility">Eligibility Criteria</TabsTrigger>
-                <TabsTrigger value="process">Selection Process</TabsTrigger>
-                <TabsTrigger value="rules">Competition Rules</TabsTrigger>
+          <Tabs defaultValue="eligibility" className="w-full">
+            <div className="flex justify-center mb-8">
+              <TabsList className="flex flex-wrap justify-center gap-2 h-auto p-1 bg-gray-100/50 w-full sm:inline-flex sm:w-auto">
+                <TabsTrigger value="eligibility" className="px-3 py-2 text-xs sm:text-sm rounded-md">
+                  Eligibility Criteria
+                </TabsTrigger>
+                <TabsTrigger value="process" className="px-3 py-2 text-xs sm:text-sm rounded-md">
+                  Selection Process
+                </TabsTrigger>
+                <TabsTrigger value="rules" className="px-3 py-2 text-xs sm:text-sm rounded-md">
+                  Competition Rules
+                </TabsTrigger>
               </TabsList>
             </div>
 

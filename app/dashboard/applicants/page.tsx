@@ -10,12 +10,16 @@ import {
 } from '@/lib/firestore';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ConfirmationDialog } from '@/components/ConfirmationDialog';
 import toast from 'react-hot-toast';
 
 export default function ApplicantsPage() {
   const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [applicantToDelete, setApplicantToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -53,13 +57,23 @@ export default function ApplicantsPage() {
     }
   };
 
-  const handleDeleteApplicant = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this applicant?')) return;
+  const handleDeleteClick = async (id: string) => {
+    setApplicantToDelete(id);
+    setIsConfirmOpen(true);
+  };
+
+  const handleDeleteApplicant = async () => {
+    if (!applicantToDelete) return;
+    setIsDeleting(true);
     try {
-      await deleteApplicant(id);
-      // Snapshot listener will remove from state automatically
+      await deleteApplicant(applicantToDelete);
+      toast.success('Applicant deleted successfully');
     } catch {
       toast.error('Failed to delete applicant');
+    } finally {
+      setIsDeleting(false);
+      setIsConfirmOpen(false);
+      setApplicantToDelete(null);
     }
   };
 
@@ -94,10 +108,21 @@ export default function ApplicantsPage() {
   }
 
   return (
-    <ApplicantsView
-      applicants={applicants}
-      onUpdateStatus={handleUpdateStatus}
-      onDelete={handleDeleteApplicant}
-    />
+    <>
+      <ApplicantsView
+        applicants={applicants}
+        onUpdateStatus={handleUpdateStatus}
+        onDelete={handleDeleteClick}
+      />
+      <ConfirmationDialog
+        isOpen={isConfirmOpen}
+        onOpenChange={setIsConfirmOpen}
+        onConfirm={handleDeleteApplicant}
+        title="Delete Applicant"
+        description="Are you sure you want to permanently delete this applicant record? This action cannot be undone."
+        isLoading={isDeleting}
+        confirmText="Delete"
+      />
+    </>
   );
 }
