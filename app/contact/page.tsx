@@ -232,8 +232,8 @@ export default function ContactPage() {
                 answer="For media inquiries, interviews, or press coverage, please contact our Public Relations Officer at pr@missmw.org . Please provide details about your media outlet and the specific information or interview you're requesting."
               />
               <FAQ
-                question="How can I make a donation to support Miss Malawi Foundation's programs?"
-                answer="You can make donations through our website's Donate page, which accepts various payment methods. For corporate donations or sponsorships, please contact us directly at donations@missmalawi.com or call our office for more information."
+                question="How can I make a donation to support Miss Malawi Organization's programs?"
+                answer="You can make donations through our website's Donate page, which accepts various payment methods. For corporate donations or sponsorships, please contact us directly at info@missmw.org or call our office for more information."
               />
             </div>
           </div>

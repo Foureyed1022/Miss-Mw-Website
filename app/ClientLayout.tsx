@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import Header from '@/components/header'
 import Footer from '@/components/footer'
 import { Toaster } from 'react-hot-toast'
+import ScrollToTop from '@/components/scroll-to-top'
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname()
@@ -20,6 +21,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
                 {children}
             </div>
             {!isAdmin && <Footer />}
+            {!isAdmin && <ScrollToTop />}
         </>
     )
-}
+}

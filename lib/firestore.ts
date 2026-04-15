@@ -255,6 +255,23 @@ export const deleteContactMessage = async (id: string): Promise<boolean> => {
   }
 };
 
+export const saveContactMessage = async (
+  data: Omit<ContactMessage, 'id' | 'createdAt' | 'status'>
+): Promise<string | null> => {
+  try {
+    const messagesRef = collection(db, 'contact_messages');
+    const docRef = await addDoc(messagesRef, {
+      ...data,
+      status: 'new',
+      createdAt: Timestamp.now(),
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error('Error saving contact message:', error);
+    return null;
+  }
+};
+
 // Donations
 export const saveDonation = async (donation: Omit<Donation, 'id' | 'createdAt'>): Promise<string | null> => {
   try {

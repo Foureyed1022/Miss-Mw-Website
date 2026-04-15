@@ -129,9 +129,9 @@ export default function Header() {
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-white">
-              <div className="flex flex-col h-full">
-                <div className="flex items-center justify-between py-4 border-b">
+            <SheetContent side="right" className="w-[300px] sm:w-[350px] bg-white p-0 flex flex-col">
+              <div className="flex flex-col h-full overflow-hidden">
+                <div className="flex items-center justify-between py-4 px-4 border-b shrink-0">
                   <Image
                     src="/logo.png"
                     alt="Miss Malawi Logo"
@@ -144,7 +144,7 @@ export default function Header() {
                     <span className="sr-only">Close menu</span>
                   </Button>
                 </div>
-                <nav className="flex flex-col py-6">
+                <nav className="flex-1 overflow-y-auto flex flex-col py-4">
                   <MobileNavLink href="/" label="Home" setIsOpen={setIsMobileMenuOpen} />
                   <MobileNavLink href="/login" label="Login" setIsOpen={setIsMobileMenuOpen} />
 
@@ -189,7 +189,7 @@ export default function Header() {
                   <MobileNavLink href="/events" label="Events" setIsOpen={setIsMobileMenuOpen} />
                   <MobileNavLink href="/contact" label="Contact" setIsOpen={setIsMobileMenuOpen} />
                 </nav>
-                <div className="mt-auto py-6 border-t flex flex-col gap-3">
+                <div className="shrink-0 py-4 px-4 border-t flex flex-col gap-3">
                   <Link href="/pageant/register" onClick={() => setIsMobileMenuOpen(false)}>
                     <Button className="w-full bg-purple hover:bg-purple/90 text-white font-bold py-6 text-lg">Apply Now</Button>
                   </Link>
