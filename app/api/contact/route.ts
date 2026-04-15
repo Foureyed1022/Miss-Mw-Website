@@ -1,37 +1,37 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/firebase';
-import { doc, setDoc } from 'firebase/firestore'; // Import from modular SDK
+import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: Request) {
   try {
     const formData = await request.json();
-    
-    const messageData = {
+
+    const messageData: Record<string, unknown> = {
       id: uuidv4(),
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      email: formData.email,
-      subject: formData.subject,
-      message: formData.message,
-      createdAt: new Date().toISOString(),
-      status: 'new'
+      firstName: String(formData.firstName || '').trim(),
+      lastName: String(formData.lastName || '').trim(),
+      email: String(formData.email || '').trim(),
+      subject: String(formData.subject || '').trim(),
+      message: String(formData.message || '').trim(),
+      createdAt: Timestamp.now(),
+      status: 'new',
     };
 
-    // Correct Firestore v9+ syntax
-    await setDoc(doc(db, 'contact_messages', messageData.id), messageData);
+    if (formData.phone && String(formData.phone).trim()) {
+      messageData.phone = String(formData.phone).trim();
+    }
 
-    return NextResponse.json({ 
+    await setDoc(doc(db, 'contact_messages', messageData.id as string), messageData);
+
+    return NextResponse.json({
       success: true,
-      message: "Contact form submitted successfully"
+      message: 'Contact form submitted successfully',
     });
-
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
-      { 
-        success: false, 
-        error: error.message 
-      },
+      { success: false, error: message },
       { status: 500 }
     );
   }

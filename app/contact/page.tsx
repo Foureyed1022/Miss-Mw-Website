@@ -1,53 +1,78 @@
 "use client"
 
 import type React from "react"
-
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Mail, MapPin, Phone } from "lucide-react"
+import { Mail, MapPin, Phone, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import PageHeader from "@/components/page-header"
+import { saveContactMessage } from "@/lib/firestore"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     email: "",
+    phone: "",
     subject: "",
     message: "",
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitSuccess, setSubmitSuccess] = useState(false)
-  const [submitError, setSubmitError] = useState(false)
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     setSubmitSuccess(false)
-    setSubmitError(false)
+    setSubmitError(null)
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const payload: {
+        firstName: string
+        lastName: string
+        email: string
+        subject: string
+        message: string
+        phone?: string
+      } = {
+        firstName: formData.firstName.trim(),
+        lastName: formData.lastName.trim(),
+        email: formData.email.trim(),
+        subject: formData.subject.trim(),
+        message: formData.message.trim(),
+      }
+
+      if (formData.phone.trim()) {
+        payload.phone = formData.phone.trim()
+      }
+
+      const id = await saveContactMessage(payload)
+
+      if (id) {
+        setSubmitSuccess(true)
+        setFormData({ firstName: "", lastName: "", email: "", phone: "", subject: "", message: "" })
+      } else {
+        setSubmitError("We couldn't send your message. Please try again later.")
+      }
+    } catch (err) {
+      console.error("Contact form error:", err)
+      setSubmitError("An unexpected error occurred. Please try again.")
+    } finally {
       setIsSubmitting(false)
-      setSubmitSuccess(true)
-      setFormData({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-      })
-    }, 1500)
+    }
   }
 
   return (
     <div className="flex flex-col w-full">
-      <PageHeader title="Contact Us" description="Get in touch with the Miss Malawi Foundation team" />
+      <PageHeader title="Contact Us" description="Get in touch with the Miss Malawi Organization team" />
 
       {/* Contact Information */}
       <section className="py-16 bg-white">
@@ -80,96 +105,156 @@ export default function ContactPage() {
             <div>
               <h2 className="font-playfair text-3xl font-bold text-emerald-800 mb-6">Send Us a Message</h2>
               <p className="text-gray-700 mb-8">
-                Have questions, suggestions, or want to get involved with Miss Malawi Foundation? Fill out the form
+                Have questions, suggestions, or want to get involved with Miss Malawi Organization? Fill out the form
                 below, and our team will get back to you as soon as possible.
               </p>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {submitSuccess ? (
+                <div className="flex flex-col items-center justify-center py-16 text-center">
+                  <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-50 mb-6">
+                    <CheckCircle className="h-10 w-10 text-emerald-600" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2 font-playfair">Message Sent!</h3>
+                  <p className="text-gray-600 max-w-sm mb-6">
+                    Thank you for reaching out. Our team will get back to you very soon.
+                  </p>
+                  <Button
+                    onClick={() => setSubmitSuccess(false)}
+                    variant="outline"
+                    className="border-emerald-700 text-emerald-700 hover:bg-emerald-50"
+                  >
+                    Send Another Message
+                  </Button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Name Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                        First Name <span className="text-red-500">*</span>
+                      </label>
+                      <Input
+                        id="firstName"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        required
+                        placeholder="First Name"
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                        Last Name <span className="text-red-500">*</span>
+                      </label>
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        required
+                        placeholder="Last Name"
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email & Phone Row */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                        Email Address <span className="text-red-500">*</span>
+                      </label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="you@example.com"
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                        Phone Number <span className="text-gray-400 font-normal">(optional)</span>
+                      </label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="Phone Number"
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Subject */}
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                      Your Name <span className="text-red-500">*</span>
+                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                      Subject <span className="text-red-500">*</span>
                     </label>
                     <Input
-                      id="name"
-                      name="name"
-                      value={formData.name}
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
                       onChange={handleChange}
                       required
+                      placeholder="What is this about?"
                       className="w-full"
                     />
                   </div>
+
+                  {/* Message */}
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                      Your Email <span className="text-red-500">*</span>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                      Your Message <span className="text-red-500">*</span>
                     </label>
-                    <Input
-                      id="email"
-                      name="email"
-                      type="email"
-                      value={formData.email}
+                    <Textarea
+                      id="message"
+                      name="message"
+                      value={formData.message}
                       onChange={handleChange}
                       required
-                      className="w-full"
+                      placeholder="Write your message here..."
+                      className="w-full min-h-[150px]"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                    Subject <span className="text-red-500">*</span>
-                  </label>
-                  <Input
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                  />
-                </div>
+                  {/* Error */}
+                  {submitError && (
+                    <div className="flex items-start gap-3 bg-red-50 text-red-800 px-4 py-3 rounded-lg border border-red-100">
+                      <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+                      <p className="text-sm">{submitError}</p>
+                    </div>
+                  )}
 
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Message <span className="text-red-500">*</span>
-                  </label>
-                  <Textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    className="w-full min-h-[150px]"
-                  />
-                </div>
-
-                {submitSuccess && (
-                  <div className="bg-purple-50 text-purple-800 px-4 py-3 rounded">
-                    Your message has been sent successfully. We'll get back to you soon!
-                  </div>
-                )}
-
-                {submitError && (
-                  <div className="bg-red-50 text-red-800 px-4 py-3 rounded">
-                    There was an error sending your message. Please try again later.
-                  </div>
-                )}
-
-                <Button
-                  type="submit"
-                  className="bg-emerald-800 hover:bg-emerald-700 w-full sm:w-auto"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
+                  <Button
+                    type="submit"
+                    className="bg-emerald-800 hover:bg-emerald-700 w-full sm:w-auto gap-2"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      "Send Message"
+                    )}
+                  </Button>
+                </form>
+              )}
             </div>
 
             {/* Map */}
             <div>
               <h2 className="font-playfair text-[#7C3AED] font-bold text-emerald-800 mb-6">Find Us</h2>
               <div className="bg-white p-2 rounded-lg shadow-sm h-[400px]">
-                {/* This would be replaced with an actual map component */}
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d173.65100088019176!2d33.789898331581114!3d-13.920577196882421!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2smw!4v1776172427996!5m2!1sen!2smw"
                   width="100%"
@@ -212,7 +297,7 @@ export default function ContactPage() {
               Frequently Asked Questions
             </h2>
             <p className="text-gray-600 max-w-3xl mx-auto">
-              Find answers to common questions about contacting and working with Miss Malawi Foundation
+              Find answers to common questions about contacting and working with Miss Malawi Organization
             </p>
             <div className="w-24 h-1 bg-purple mx-auto mt-4"></div>
           </div>
@@ -221,7 +306,7 @@ export default function ContactPage() {
             <div className="space-y-6">
               <FAQ
                 question="How can I apply to participate in the Miss Malawi pageant?"
-                answer="To apply for the Miss Malawi pageant, you can fill out the application form on our website during the application period, or visit one of our designated application centers in major cities. For more details, please visit the Pageant page or contact us directly."
+                answer="To apply for the Miss Malawi pageant, you can fill out the application form on our website during the application period. For more details, please visit the Pageant page or contact us directly."
               />
               <FAQ
                 question="How can my organization partner with Miss Malawi Organization?"
@@ -278,4 +363,3 @@ function FAQ({ question, answer }: FAQProps) {
     </div>
   )
 }
-

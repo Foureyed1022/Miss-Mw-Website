@@ -13,7 +13,9 @@ import {
   limit,
   Timestamp,
   DocumentData,
-  QuerySnapshot
+  QuerySnapshot,
+  onSnapshot,
+  Unsubscribe
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { NewsArticle, Applicant, ContactMessage, Donation, FinanceTransaction, Subscriber, AnalyticsEvent, UserProfile, SiteStats } from '@/types';
@@ -185,6 +187,37 @@ export const getApplicant = async (id: string): Promise<Applicant | null> => {
   } catch (error) {
     console.error('Error fetching applicant:', error);
     return null;
+  }
+};
+
+export const updateApplicantStatus = async (
+  id: string,
+  status: Applicant['applicationStatus']
+): Promise<boolean> => {
+  try {
+    const applicantRef = doc(db, 'applicant', id);
+    await updateDoc(applicantRef, {
+      applicationStatus: status,
+      updatedAt: Timestamp.now(),
+    });
+    return true;
+  } catch (error) {
+    console.error('Error updating applicant status:', error);
+    toast.error('Failed to update applicant status');
+    return false;
+  }
+};
+
+export const deleteApplicant = async (id: string): Promise<boolean> => {
+  try {
+    const applicantRef = doc(db, 'applicant', id);
+    await deleteDoc(applicantRef);
+    toast.success('Applicant deleted successfully');
+    return true;
+  } catch (error) {
+    console.error('Error deleting applicant:', error);
+    toast.error('Failed to delete applicant');
+    return false;
   }
 };
 
@@ -762,4 +795,277 @@ export const updateSiteStats = async (stats: Partial<SiteStats>): Promise<boolea
   }
 };
 
+// ─────────────────────────────────────────────
+// REAL-TIME SNAPSHOT LISTENERS
+// Each returns an Unsubscribe function — call it on component unmount.
+// ─────────────────────────────────────────────
 
+/** Real-time listener for contact_messages (auth required) */
+export const subscribeToContactMessages = (
+  callback: (messages: ContactMessage[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  if (!auth.currentUser) {
+    callback([]);
+    return () => { };
+  }
+  const q = query(collection(db, 'contact_messages'), orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const messages = snapshot.docs.map((docSnap) => {
+        const data = docSnap.data();
+        let createdAt: string;
+        if (data.createdAt?.toDate) {
+          createdAt = data.createdAt.toDate().toISOString();
+        } else if (data.createdAt?.seconds) {
+          createdAt = new Date(data.createdAt.seconds * 1000).toISOString();
+        } else if (data.createdAt instanceof Date) {
+          createdAt = data.createdAt.toISOString();
+        } else if (typeof data.createdAt === 'string') {
+          createdAt = new Date(data.createdAt).toISOString();
+        } else {
+          createdAt = new Date().toISOString();
+        }
+        return { id: docSnap.id, ...data, createdAt } as ContactMessage;
+      });
+      callback(messages);
+    },
+    (error) => {
+      console.error('subscribeToContactMessages error:', error);
+      onError?.(error);
+    }
+  );
+};
+
+/** Real-time listener for applicants (public read) */
+export const subscribeToApplicants = (
+  callback: (applicants: Applicant[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  const q = query(collection(db, 'applicant'), orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const applicants = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        createdAt: docSnap.data().createdAt?.toDate() || new Date(),
+        updatedAt: docSnap.data().updatedAt?.toDate() || new Date(),
+      })) as Applicant[];
+      callback(applicants);
+    },
+    (error) => {
+      console.error('subscribeToApplicants error:', error);
+      onError?.(error);
+    }
+  );
+};
+
+/** Real-time listener for news articles (public read) */
+export const subscribeToNewsArticles = (
+  callback: (articles: NewsArticle[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const articles = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        createdAt: docSnap.data().createdAt?.toDate() || new Date(),
+        updatedAt: docSnap.data().updatedAt?.toDate() || new Date(),
+      })) as NewsArticle[];
+      callback(articles);
+    },
+    (error) => {
+      console.error('subscribeToNewsArticles error:', error);
+      onError?.(error);
+    }
+  );
+};
+
+/** Real-time listener for subscribers (auth required) */
+export const subscribeToSubscribers = (
+  callback: (subscribers: Subscriber[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  if (!auth.currentUser) {
+    callback([]);
+    return () => { };
+  }
+  const q = query(collection(db, 'subscribers'), orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const subscribers = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        createdAt: docSnap.data().createdAt?.toDate() || new Date(),
+      })) as Subscriber[];
+      callback(subscribers);
+    },
+    (error) => {
+      console.error('subscribeToSubscribers error:', error);
+      onError?.(error);
+    }
+  );
+};
+
+/** Real-time listener for donations (auth required) */
+export const subscribeToDonations = (
+  callback: (donations: Donation[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  if (!auth.currentUser) {
+    callback([]);
+    return () => { };
+  }
+  const q = query(collection(db, 'donations'), orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const donations = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        createdAt: docSnap.data().createdAt?.toDate() || new Date(),
+      })) as Donation[];
+      callback(donations);
+    },
+    (error) => {
+      console.error('subscribeToDonations error:', error);
+      onError?.(error);
+    }
+  );
+};
+
+/** Real-time listener for finance transactions (auth required) */
+export const subscribeToFinanceTransactions = (
+  callback: (transactions: FinanceTransaction[]) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  if (!auth.currentUser) {
+    callback([]);
+    return () => { };
+  }
+  const q = query(collection(db, 'finance_transactions'), orderBy('createdAt', 'desc'));
+  return onSnapshot(
+    q,
+    (snapshot) => {
+      const transactions = snapshot.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+        createdAt: docSnap.data().createdAt?.toDate() || new Date(),
+      })) as FinanceTransaction[];
+      callback(transactions);
+    },
+    (error) => {
+      console.error('subscribeToFinanceTransactions error:', error);
+      onError?.(error);
+    }
+  );
+};
+
+/** Real-time listener for site stats (public read) */
+export const subscribeToSiteStats = (
+  callback: (stats: SiteStats) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  const statsRef = doc(db, 'settings', 'site_stats');
+  return onSnapshot(
+    statsRef,
+    (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        callback({
+          contestants: 0,
+          queensCrowned: 0,
+          yearsOfLegacy: 0,
+          livesImpacted: 0,
+          ...data,
+          updatedAt: data.updatedAt?.toDate() || undefined,
+        } as SiteStats);
+      }
+    },
+    (error) => {
+      console.error('subscribeToSiteStats error:', error);
+      onError?.(error);
+    }
+  );
+};
+
+/**
+ * Real-time listener for dashboard statistics.
+ * Auth required — returns zeroed stats if not authenticated.
+ */
+export const subscribeToStatistics = (
+  callback: (stats: {
+    articlesCount: number;
+    applicantsCount: number;
+    messagesCount: number;
+    newMessagesCount: number;
+    donationsCount: number;
+    subscribersCount: number;
+  }) => void,
+  onError?: (error: Error) => void
+): Unsubscribe => {
+  const zero = {
+    articlesCount: 0, applicantsCount: 0, messagesCount: 0,
+    newMessagesCount: 0, donationsCount: 0, subscribersCount: 0,
+  };
+
+  if (!auth.currentUser) {
+    callback(zero);
+    return () => { };
+  }
+
+  // We listen to contact_messages as the primary driver (most volatile)
+  // and do a one-off read for the other counts to keep listener count manageable.
+  const messagesQ = query(collection(db, 'contact_messages'));
+  const newMessagesQ = query(collection(db, 'contact_messages'), where('status', '==', 'new'));
+
+  let messagesCount = 0;
+  let newMessagesCount = 0;
+
+  const refreshOtherCounts = async () => {
+    try {
+      const [articles, applicants, donations, subscribers] = await Promise.all([
+        getDocs(collection(db, 'articles')),
+        getDocs(collection(db, 'applicant')),
+        getDocs(collection(db, 'donations')),
+        getDocs(collection(db, 'subscribers')),
+      ]);
+      callback({
+        articlesCount: articles.size,
+        applicantsCount: applicants.size,
+        messagesCount,
+        newMessagesCount,
+        donationsCount: donations.size,
+        subscribersCount: subscribers.size,
+      });
+    } catch (error) {
+      console.error('subscribeToStatistics refreshOtherCounts error:', error);
+    }
+  };
+
+  const unsubMessages = onSnapshot(
+    messagesQ,
+    (snapshot) => { messagesCount = snapshot.size; refreshOtherCounts(); },
+    (error) => { console.error('subscribeToStatistics messages error:', error); onError?.(error); }
+  );
+
+  const unsubNew = onSnapshot(
+    newMessagesQ,
+    (snapshot) => { newMessagesCount = snapshot.size; refreshOtherCounts(); },
+    (error) => { console.error('subscribeToStatistics newMessages error:', error); onError?.(error); }
+  );
+
+  // Trigger an initial read
+  refreshOtherCounts();
+
+  return () => {
+    unsubMessages();
+    unsubNew();
+  };
+};

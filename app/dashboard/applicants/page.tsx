@@ -3,37 +3,52 @@
 import { useState, useEffect } from 'react';
 import ApplicantsView from '@/components/ApplicantsView';
 import { Applicant } from '@/types';
-import { getApplicants, updateApplicantStatus, deleteApplicant } from '@/lib/firestore';
-import { Loader2 } from 'lucide-react';
+import {
+  subscribeToApplicants,
+  updateApplicantStatus,
+  deleteApplicant,
+} from '@/lib/firestore';
+import { Loader2, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 
 export default function ApplicantsPage() {
   const [applicants, setApplicants] = useState<Applicant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadApplicants = async () => {
-      try {
-        const data = await getApplicants();
+    setLoading(true);
+    setError(null);
+
+    // Real-time listener — automatically reflects additions, updates, deletes
+    const unsubscribe = subscribeToApplicants(
+      (data) => {
         setApplicants(data);
-      } catch (error) {
-        console.error('Error loading applicants:', error);
-        toast.error('Failed to load applicants');
-      } finally {
         setLoading(false);
+      },
+      (err) => {
+        console.error('Applicants listener error:', err);
+        setError('Failed to load applicants. Check your connection.');
+        setLoading(false);
+        toast.error('Failed to load applicants');
       }
-    };
-    loadApplicants();
+    );
+
+    return () => unsubscribe();
   }, []);
 
-  const handleUpdateStatus = async (id: string, status: Applicant['applicationStatus']) => {
+  const handleUpdateStatus = async (
+    id: string,
+    status: Applicant['applicationStatus']
+  ) => {
     try {
       const success = await updateApplicantStatus(id, status);
       if (success) {
-        setApplicants(applicants.map(app => app.id === id ? { ...app, applicationStatus: status } : app));
         toast.success(`Applicant marked as ${status}`);
+        // Snapshot listener will handle the local state update automatically
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to update status');
     }
   };
@@ -41,20 +56,39 @@ export default function ApplicantsPage() {
   const handleDeleteApplicant = async (id: string) => {
     if (!confirm('Are you sure you want to delete this applicant?')) return;
     try {
-      const success = await deleteApplicant(id);
-      if (success) {
-        setApplicants(applicants.filter(app => app.id !== id));
-        toast.success('Applicant deleted successfully');
-      }
-    } catch (error) {
+      await deleteApplicant(id);
+      // Snapshot listener will remove from state automatically
+    } catch {
       toast.error('Failed to delete applicant');
     }
   };
 
   if (loading) {
     return (
-      <div className="h-full w-full flex items-center justify-center p-20">
-        <Loader2 className="h-8 w-8 animate-spin text-[#7C3AED]" />
+      <div className="h-full w-full flex flex-col items-center justify-center p-20 gap-4">
+        <Loader2 className="h-8 w-8 animate-spin text-violet-600" />
+        <p className="text-sm text-gray-400">Connecting to live applicants…</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full w-full flex flex-col items-center justify-center p-20 gap-4 text-center">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-50 border border-red-100">
+          <AlertCircle className="h-7 w-7 text-red-400" />
+        </div>
+        <div>
+          <p className="text-base font-semibold text-gray-700">Could not load applicants</p>
+          <p className="text-sm text-gray-400 mt-1">{error}</p>
+        </div>
+        <Button
+          onClick={() => window.location.reload()}
+          variant="outline"
+          className="gap-2 mt-2"
+        >
+          Retry
+        </Button>
       </div>
     );
   }
@@ -67,6 +101,3 @@ export default function ApplicantsPage() {
     />
   );
 }
-
-
-

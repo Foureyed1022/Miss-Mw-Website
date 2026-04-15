@@ -82,7 +82,7 @@ export default function ProgramDetailPage({
             <div>
               <h2 className="font-playfair text-[#7C3AED]xl md:text-4xl font-bold text-emerald-800 mb-6">About the Program</h2>
               <p className="text-gray-700 text-lg leading-relaxed mb-6">{program.fullDescription}</p>
-              
+
               <div className="bg-emerald-50 p-6 rounded-lg border-l-4 border-purple mb-8">
                 <h3 className="text-xl font-bold text-emerald-800 mb-3 flex items-center">
                   <Lightbulb className="mr-2 h-5 w-5 text-purple" /> Our Mission
@@ -103,7 +103,7 @@ export default function ProgramDetailPage({
 
             <div className="space-y-8">
               <div className="relative h-[400px] rounded-xl overflow-hidden shadow-2xl">
-                <Image src={program.image} alt={program.title} fill className="object-cover" />
+                <Image src={program.image} alt={program.title} fill className="object-contain" />
               </div>
 
               <div className="bg-gray-50 p-8 rounded-xl border border-gray-100">
@@ -124,13 +124,13 @@ export default function ProgramDetailPage({
                 <p className="mb-6 opacity-90">Your contribution helps us expand the reach of this program and impact more lives across Malawi.</p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link href="/donate" className="flex-1">
-                    <Button className="w-full bg-purple hover:bg-purple/90 text-black">
-                      <Heart className="mr-2 h-4 w-4" /> Donate Now
+                    <Button className="w-full bg-purple hover:bg-purple/90 text-white">
+                      <Heart className="mr-2 h-4 w-4 text-white" /> Donate Now
                     </Button>
                   </Link>
                   <Link href="/contact" className="flex-1">
-                    <Button variant="outline" className="w-full border-white text-white hover:bg-white/10">
-                      <Users className="mr-2 h-4 w-4" /> Partner With Us
+                    <Button variant="outline" className="w-full border border-white/80 bg-white/10 text-white transition duration-200 hover:bg-white/20 hover:text-white">
+                      <Users className="mr-2 h-4 w-4 text-white" /> Partner With Us
                     </Button>
                   </Link>
                 </div>

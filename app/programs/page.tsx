@@ -154,7 +154,7 @@ export default function ProgramsPage() {
               Discover programs that empower women and strengthen communities.
             </h2>
             <p className="text-slate-600 mt-4">
-              Browse the latest initiatives from the Miss Malawi Foundation. Each program is built to create long-term impact across Malawi.
+              Browse the latest initiatives from the Miss Malawi Organization. Each program is built to create long-term impact across Malawi.
             </p>
           </div>
 
@@ -208,7 +208,7 @@ export default function ProgramsPage() {
 
           {loading ? (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-8 py-12 text-center text-slate-600">
-              Loading programs from the database...
+              Loading programs...
             </div>
           ) : programs.length > 0 ? (
             <Tabs defaultValue={programs[0]?.category || "General"} className="w-full">
@@ -224,9 +224,9 @@ export default function ProgramsPage() {
 
               {Object.entries(buildProgramGroups(programs)).map(([category, categoryPrograms]) => (
                 <TabsContent key={category} value={category} className="mt-8">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {categoryPrograms.slice(0, 4).map((program) => (
-                      <ProgramCard
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {categoryPrograms.slice(0, 6).map((program) => (
+                      <CompactProgramCard
                         key={program.id}
                         id={program.id}
                         icon={programIcon(program.category)}
@@ -276,7 +276,7 @@ export default function ProgramsPage() {
               image="/placeholder.svg?height=400&width=400"
               name="Grace Phiri"
               title="Health Ambassador"
-              story="As a health ambassador trained by Miss Malawi Foundation, I've helped hundreds of women in my village access vital health information and services, improving maternal health outcomes."
+              story="As a health ambassador trained by Miss Malawi Organization, I've helped hundreds of women in my village access vital health information and services, improving maternal health outcomes."
             />
           </div>
 
@@ -361,7 +361,7 @@ function ProgramCard({ id, icon, category, title, description, image }: ProgramC
   return (
     <div className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl">
       <div className="relative h-56 overflow-hidden">
-        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-cover" />
+        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-contain" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
         <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-800 shadow-sm">
           <span className="inline-flex items-center justify-center rounded-full bg-purple-100 p-1 text-purple-700">{icon}</span>
@@ -372,6 +372,31 @@ function ProgramCard({ id, icon, category, title, description, image }: ProgramC
         <h3 className="text-xl font-bold text-slate-900 mb-3 truncate">{title}</h3>
         <p className="text-slate-600 mb-6 min-h-[5rem] text-sm leading-relaxed line-clamp-3">{description}</p>
         <Link href={href} className="inline-flex items-center gap-2 text-purple-700 font-semibold hover:text-purple-900">
+          Learn more <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </div>
+  )
+}
+
+function CompactProgramCard({ id, icon, category, title, description, image }: ProgramCardProps) {
+  const href = id ? `/programs/${id}` : "#"
+  return (
+    <div className="group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-lg transition-transform duration-300 hover:-translate-y-1 hover:shadow-2xl">
+      <div className="relative h-60 overflow-hidden">
+        <Image src={image || "/placeholder.svg"} alt={title} fill className="object-contain" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-white/90 px-3 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-800 shadow-sm">
+          <span className="inline-flex items-center justify-center rounded-full bg-purple-100 p-1 text-purple-700">
+            <span className="[&>svg]:h-4 [&>svg]:w-4">{icon}</span>
+          </span>
+          {category || "General"}
+        </div>
+      </div>
+      <div className="p-5">
+        <h3 className="text-lg font-bold text-slate-900 mb-2 truncate">{title}</h3>
+        <p className="text-slate-600 mb-4 text-sm leading-relaxed line-clamp-2">{description}</p>
+        <Link href={href} className="inline-flex items-center gap-2 text-purple-700 font-semibold hover:text-purple-900 text-sm">
           Learn more <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
