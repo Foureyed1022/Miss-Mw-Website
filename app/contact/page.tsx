@@ -81,7 +81,7 @@ export default function ContactPage() {
             <ContactCard
               icon={<MapPin className="h-8 w-8 text-purple" />}
               title="Our Location"
-              details={["HewKam House, Area 43, Plot 43/1314", "Miss Malawi, P.O Box 143", "Capital City, Malawi"]}
+              details={["HewKam House, Area 43, Plot 43/1314", "Miss Malawi, P.O Box 143", "Lilongwe, Malawi"]}
             />
             <ContactCard
               icon={<Phone className="h-8 w-8 text-purple" />}
