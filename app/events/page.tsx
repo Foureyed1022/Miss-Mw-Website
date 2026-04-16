@@ -224,35 +224,39 @@ export default function EventsPage() {
               <h2 className="font-playfair text-2xl font-bold text-emerald-800 mb-6 uppercase">Key Dates</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="flex justify-between border-b border-gray-200 pb-2">
-                  <span className="font-bold text-purple">30 May</span>
+                  <span className="font-bold text-purple">May 30</span>
                   <span className="text-gray-700">Applications & Registrations Close</span>
+                </div>
+                <div className="flex justify-between border-b border-gray-200 pb-2">
+                  <span className="font-bold text-purple">Mid-May</span>
+                  <span className="text-gray-700">Fundraising Brunch Gala</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-2">
                   <span className="font-bold text-purple">June</span>
                   <span className="text-gray-700">National Auditions</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-2">
-                  <span className="font-bold text-purple">July</span>
+                  <span className="font-bold text-purple">July 13-31</span>
                   <span className="text-gray-700">Thandi at Miss Supranational</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-2">
                   <span className="font-bold text-purple">September</span>
-                  <span className="text-gray-700">Fundraising Brunch Gala (Lilongwe)</span>
+                  <span className="text-gray-700">Miss Malawi Masterclass Series (Lilongwe)</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-2">
                   <span className="font-bold text-purple">September</span>
                   <span className="text-gray-700">Preliminary Event</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-2">
-                  <span className="font-bold text-purple">September</span>
-                  <span className="text-gray-700">Miss Malawi Masterclass Series</span>
+                  <span className="font-bold text-purple">October 5-10th</span>
+                  <span className="text-gray-700">Masterclass with Ms. Alice Rowlands Musukwa</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-2">
                   <span className="font-bold text-purple">November 30th-December 4th</span>
-                  <span className="text-gray-700">Final Bootcamp</span>
+                  <span className="text-gray-700">Intensive Bootcamp</span>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 pb-2">
-                  <span className="font-bold text-purple">December</span>
+                  <span className="font-bold text-purple">December 5th </span>
                   <span className="text-gray-700">Grand Finale (Griffin Sayenda, Blantyre)</span>
                 </div>
               </div>
