@@ -4,7 +4,10 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, CheckCircle2, Heart, Users, Lightbulb, TrendingUp } from "lucide-react"
 import PageHeader from "@/components/page-header"
-import { adminDb } from "@/lib/firebase-admin"
+import { db } from "@/lib/firebase"
+import { doc, getDoc } from "firebase/firestore"
+
+export const dynamic = "force-dynamic"
 
 type Program = {
   id: string
@@ -19,16 +22,15 @@ type Program = {
 }
 
 async function getProgram(id: string): Promise<Program | null> {
-  if (!adminDb) return null
-  
   try {
-    const doc = await adminDb.collection("programs").doc(id).get()
+    const docRef = doc(db, "programs", id)
+    const docSnap = await getDoc(docRef)
     
-    if (!doc.exists) return null
+    if (!docSnap.exists()) return null
     
-    const data = doc.data() as Record<string, any>
+    const data = docSnap.data() as Record<string, any>
     return {
-      id: doc.id,
+      id: docSnap.id,
       title: data.title || "",
       description: data.description || "",
       fullDescription: data.fullDescription || data.description || "",
@@ -39,7 +41,7 @@ async function getProgram(id: string): Promise<Program | null> {
       image: data.image || "/placeholder.svg",
     }
   } catch (error) {
-    console.error("Error fetching program from Admin SDK:", error)
+    console.error("Error fetching program from Firestore SDK:", error)
     return null
   }
 }
