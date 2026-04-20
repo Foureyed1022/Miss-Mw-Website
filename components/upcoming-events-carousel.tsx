@@ -92,7 +92,7 @@ export default function UpcomingEventsCarousel() {
                 <div className="text-purple font-bold text-lg mb-4 border-b border-purple/10 pb-2">
                   {monthData.month}
                 </div>
-                
+
                 <div className="space-y-6 flex-grow">
                   {monthData.events.map((event, eventIndex) => (
                     <div key={eventIndex} className="space-y-2">
@@ -110,12 +110,12 @@ export default function UpcomingEventsCarousel() {
                     </div>
                   ))}
                 </div>
-                
-                <div className="mt-8 pt-6 border-t border-gray-100">
+
+                {/* <div className="mt-8 pt-6 border-t border-gray-100">
                   <Button variant="link" className="p-0 h-auto text-purple hover:text-purple/80 group/btn">
                     Details <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
                   </Button>
-                </div>
+                </div> */}
               </div>
             </div>
           ))}
@@ -137,7 +137,7 @@ export default function UpcomingEventsCarousel() {
       >
         <ChevronRight className="h-6 w-6" />
       </button>
-      
+
       {/* Mobile Indicator */}
       <div className="flex justify-center mt-6 space-x-2 md:hidden">
         {monthlyEvents.map((_, i) => (

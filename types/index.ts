@@ -215,3 +215,13 @@ export interface GalleryItem {
   createdAt: Date;
 }
 
+export interface ImpactStory {
+  id: string;
+  name: string;
+  title: string;
+  story: string;
+  image: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+

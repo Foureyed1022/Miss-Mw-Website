@@ -1,7 +1,30 @@
 import { NextResponse } from "next/server";
-import { existsSync, mkdirSync, unlinkSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, unlinkSync, writeFileSync, promises as fs } from "fs";
 import { join } from "path";
 import { v4 as uuidv4 } from "uuid";
+
+const DATA_PATH = join(process.cwd(), "data", "gallery.json");
+
+export async function GET() {
+  try {
+    const raw = await fs.readFile(DATA_PATH, "utf8");
+    return NextResponse.json(JSON.parse(raw));
+  } catch (error) {
+    console.error("error reading gallery.json", error);
+    return NextResponse.json({ events: [] });
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    await fs.writeFile(DATA_PATH, JSON.stringify(body, null, 2), "utf8");
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("error writing gallery.json", error);
+    return NextResponse.json({ ok: false }, { status: 500 });
+  }
+}
 
 export async function POST(request: Request) {
   try {

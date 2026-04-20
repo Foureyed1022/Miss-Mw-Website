@@ -191,8 +191,6 @@ export default function ContactMessages({
 
   const handleDelete = async (id: string, e?: React.MouseEvent) => {
     e?.stopPropagation();
-    if (!confirm('Delete this message? This cannot be undone.')) return;
-    setIsDeleting(id);
     try {
       await onDeleteMessage(id);
       if (selectedMessage?.id === id) setSelectedMessage(null);

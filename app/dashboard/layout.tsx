@@ -2,6 +2,7 @@
 
 import type React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import {
   BarChart3,
@@ -38,14 +39,14 @@ import { useRouter } from "next/navigation"
 const navItems = [
   { href: "/dashboard", label: "Overview", icon: LayoutDashboard, roles: ['superadmin', 'admin', 'editor', 'reviewer', 'viewer'] },
   { href: "/dashboard/programs", label: "Programs", icon: FolderOpen, roles: ['superadmin', 'admin', 'editor'] },
-  { href: "/dashboard/pageant", label: "Pageant", icon: Crown, roles: ['superadmin', 'admin'] },
-  { href: "/dashboard/events", label: "Events", icon: Calendar, roles: ['superadmin', 'admin', 'editor'] },
+  // { href: "/dashboard/pageant", label: "Pageant", icon: Crown, roles: ['superadmin', 'admin'] },
+  // { href: "/dashboard/events", label: "Events", icon: Calendar, roles: ['superadmin', 'admin', 'editor'] },
   { href: "/dashboard/news", label: "News & Blog", icon: FileText, roles: ['superadmin', 'admin', 'editor'] },
-  { href: "/dashboard/social", label: "Social Media", icon: Share2, roles: ['superadmin', 'admin', 'editor'] },
+  // { href: "/dashboard/social", label: "Social Media", icon: Share2, roles: ['superadmin', 'admin', 'editor'] },
   { href: "/dashboard/gallery", label: "Gallery", icon: ImageIcon, roles: ['superadmin', 'admin', 'editor'] },
   { href: "/dashboard/team", label: "Team", icon: Users, roles: ['superadmin', 'admin'] },
   { href: "/dashboard/finances", label: "Finances", icon: BadgeDollarSign, roles: ['superadmin'] },
-  { href: "/dashboard/strategy", label: "Strategy", icon: Target, roles: ['superadmin', 'admin'] },
+  // { href: "/dashboard/strategy", label: "Strategy", icon: Target, roles: ['superadmin', 'admin'] },
   { href: "/dashboard/applicants", label: "Applicants", icon: ClipboardList, roles: ['superadmin', 'admin', 'reviewer'] },
   { href: "/dashboard/messages", label: "Messages", icon: MessageSquare, roles: ['superadmin', 'admin', 'reviewer'] },
   { href: "/dashboard/subscribers", label: "Subscribers", icon: Mail, roles: ['superadmin', 'admin'] },
@@ -96,7 +97,11 @@ export default function DashboardLayout({
             }`}
         >
           <div className="flex h-16 items-center justify-between px-4 border-b">
-            {!isSidebarCollapsed && <span className="font-playfair font-bold text-xl text-emerald-800">Admin Panel</span>}
+            {!isSidebarCollapsed && (
+              <div className="flex items-center gap-2">
+                <Image src="/Misi.png" alt="Miss Malawi Logo" width={40} height={40} className="object-cover" />
+              </div>
+            )}
             <Button
               variant="ghost"
               size="icon"
@@ -153,8 +158,8 @@ export default function DashboardLayout({
                 </Button>
               </SheetTrigger>
               <SheetContent side="left" className="w-[280px] p-0">
-                <div className="flex h-16 items-center px-6 border-b">
-                  <span className="font-playfair font-bold text-xl text-emerald-800">Admin Panel</span>
+                <div className="flex h-16 items-center gap-2 px-6 border-b">
+                  <Image src="/Misi.png" alt="Miss Malawi Logo" width={32} height={32} className="object-contain" />
                 </div>
                 <nav className="p-4 space-y-1">
                   {filteredNavItems.map((item) => {

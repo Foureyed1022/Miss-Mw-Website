@@ -283,7 +283,7 @@ export default function FinancesManagementPage() {
                     <td className="px-4 py-3 font-medium text-gray-900">{transaction.type}</td>
                     <td className="px-4 py-3 text-gray-600">{transaction.source}</td>
                     <td className="px-4 py-3 text-gray-900">{currencyLabel} {Number(transaction.amount).toLocaleString()}</td>
-                    <td className="px-4 py-3 text-gray-500">{new Date(transaction.createdAt).toLocaleDateString()}</td>
+                    <td className="px-4 py-3 text-gray-500">{new Date(transaction.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</td>
                     <td className="px-4 py-3 text-gray-500">{transaction.note || '-'}</td>
                     <td className="px-4 py-3">
                       {transaction.type === 'Donation' ? (

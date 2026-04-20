@@ -169,26 +169,6 @@ export default function SettingsPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <Shield className="h-5 w-5 text-emerald-800" />
-                General Settings
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="siteName">Site Display Name</Label>
-                <Input id="siteName" defaultValue="Miss Malawi Foundation" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="adminEmail">Notification Email</Label>
-                <Input id="adminEmail" type="email" defaultValue="admin@missmalawi.foundation" />
-              </div>
-              <Button className="bg-emerald-800 hover:bg-emerald-700">Save Changes</Button>
-            </CardContent>
-          </Card>
-
           {/* Impact Statistics Card */}
           <Card>
             <CardHeader>
@@ -273,37 +253,6 @@ export default function SettingsPage() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
-                <ShieldCheck className="h-5 w-5 text-emerald-800" />
-                Notifications
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>New Registration Alerts</Label>
-                  <p className="text-xs text-gray-500">Get notified when someone registers for the pageant.</p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Donation Notifications</Label>
-                  <p className="text-xs text-gray-500">Receive an email for every donation received.</p>
-                </div>
-                <Switch defaultChecked />
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="space-y-0.5">
-                  <Label>Weekly Analytics Summary</Label>
-                  <p className="text-xs text-gray-500">A high-level report sent every Monday.</p>
-                </div>
-                <Switch />
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* User Management Section - Only for Superadmins */}

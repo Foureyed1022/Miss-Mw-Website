@@ -6,7 +6,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, BookOpen, GraduationCap, Heart, Lightbulb, Mic, Users } from "lucide-react"
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore"
+import { collection, onSnapshot, orderBy, query, limit } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 import type { Program } from "@/types"
 import PageHeader from "@/components/page-header"
@@ -49,6 +49,8 @@ function buildProgramGroups(programs: Program[]) {
 export default function ProgramsPage() {
   const [programs, setPrograms] = useState<Program[]>([])
   const [loading, setLoading] = useState(true)
+  const [impactStories, setImpactStories] = useState<any[]>([])
+  const [loadingStories, setLoadingStories] = useState(true)
 
   useEffect(() => {
     const programsRef = collection(db, "programs")
@@ -81,7 +83,25 @@ export default function ProgramsPage() {
       }
     )
 
-    return () => unsubscribe()
+    const storiesRef = collection(db, "impact_stories")
+    const storiesQuery = query(storiesRef, orderBy("createdAt", "desc"), limit(3))
+    const unsubscribeStories = onSnapshot(
+      storiesQuery,
+      (snapshot) => {
+        const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        setImpactStories(items)
+        setLoadingStories(false)
+      },
+      (error) => {
+        console.error("Impact stories snapshot error", error)
+        setLoadingStories(false)
+      }
+    )
+
+    return () => {
+      unsubscribe()
+      unsubscribeStories()
+    }
   }, [])
 
   return (
@@ -120,9 +140,9 @@ export default function ProgramsPage() {
               <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
                 <Image
                   src="/Misi.png"
-                  alt="Miss Malawi community program"
+                  alt="Miss Malawi Logo"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                 />
               </div>
             </div>
@@ -187,7 +207,7 @@ export default function ProgramsPage() {
             </div>
           ) : (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-white/80 px-8 py-12 text-center text-slate-600">
-              No programs available yet. Please add programs from the dashboard to display them here.
+              No programs are available yet. Please check back soon.
             </div>
           )}
         </div>
@@ -242,7 +262,7 @@ export default function ProgramsPage() {
             </Tabs>
           ) : (
             <div className="rounded-3xl border border-dashed border-slate-300 bg-slate-50 px-8 py-12 text-center text-slate-600">
-              No program categories are available yet. Add programs from the dashboard to populate this section.
+              No program categories are available yet. Please check back soon.
             </div>
           )}
         </div>
@@ -260,30 +280,29 @@ export default function ProgramsPage() {
           </ParallaxText>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ImpactStory
-              image="/impact/ruth.jpg?height=400&width=400"
-              name="Ruth Chiwaula"
-              title="Scholarship Recipient"
-              story="Thanks to the Miss Malawi Scholarship Fund, I was able to complete my degree in Environmental Science. Now I'm working on conservation projects in my community and mentoring other young women."
-            />
-            <ImpactStory
-              image="/placeholder.svg?height=400&width=400"
-              name="Tadala Mwale"
-              title="Entrepreneurship Program Graduate"
-              story="The entrepreneurship training gave me the skills and confidence to start my own tailoring business. I now employ five other women and provide for my family with dignity."
-            />
-            <ImpactStory
-              image="/placeholder.svg?height=400&width=400"
-              name="Grace Phiri"
-              title="Health Ambassador"
-              story="As a health ambassador trained by Miss Malawi Organization, I've helped hundreds of women in my village access vital health information and services, improving maternal health outcomes."
-            />
+            {loadingStories ? (
+              <div className="col-span-full py-12 text-center">Loading stories...</div>
+            ) : impactStories.length > 0 ? (
+              impactStories.map(story => (
+                <ImpactStory
+                  key={story.id}
+                  image={story.image || "/placeholder.svg?height=400&width=400"}
+                  name={story.name}
+                  title={story.title}
+                  story={story.story}
+                />
+              ))
+            ) : (
+              <div className="col-span-full py-12 text-center text-gray-500">No impact stories available yet.</div>
+            )}
           </div>
 
-          <div className="text-[#7C3AED] mt-12">
-            <Button className="bg-emerald-800 hover:bg-emerald-700">
-              Read More Stories <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+          <div className="text-center mt-12">
+            <Link href="/impact-stories">
+              <Button className="bg-emerald-800 hover:bg-emerald-700 text-white rounded-full px-8 py-6 shadow-lg">
+                Read More Stories <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

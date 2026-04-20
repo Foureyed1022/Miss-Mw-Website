@@ -15,6 +15,7 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
   const [searchQuery, setSearchQuery] = useState('');
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
   const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all');
+  const [enlargedImage, setEnlargedImage] = useState<string | null>(null);
 
   const filteredApplicants = applicants.filter(applicant => {
     const matchesSearch = applicant.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -214,13 +215,19 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label className="text-xs font-medium text-gray-600 mb-1 block">Headshot</label>
-                        <div className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden">
+                        <div
+                          className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                          onClick={() => setEnlargedImage(selectedApplicant.headshotPhoto)}
+                        >
                           <ImageWithFallback src={selectedApplicant.headshotPhoto} alt="Headshot" className="w-full h-full object-cover" />
                         </div>
                       </div>
                       <div>
                         <label className="text-xs font-medium text-gray-600 mb-1 block">Full Length</label>
-                        <div className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden">
+                        <div
+                          className="aspect-[3/4] bg-gray-200 rounded-xl overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
+                          onClick={() => setEnlargedImage(selectedApplicant.fullLengthPhoto)}
+                        >
                           <ImageWithFallback src={selectedApplicant.fullLengthPhoto} alt="Full Length" className="w-full h-full object-cover" />
                         </div>
                       </div>
@@ -314,6 +321,27 @@ export default function ApplicantsView({ applicants, onUpdateStatus, onDelete, o
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {enlargedImage && (
+        <div
+          className="fixed inset-0 bg-black/90 flex items-center justify-center z-[100] p-4 cursor-zoom-out"
+          onClick={() => setEnlargedImage(null)}
+        >
+          <div className="relative max-w-5xl max-h-[90vh]" onClick={e => e.stopPropagation()}>
+            <img
+              src={getImageUrl(enlargedImage) || ''}
+              alt="Enlarged view"
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+            />
+            <button
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+              onClick={() => setEnlargedImage(null)}
+            >
+              <XCircle className="h-8 w-8" />
+            </button>
           </div>
         </div>
       )}

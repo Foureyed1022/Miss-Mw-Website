@@ -68,7 +68,7 @@ export default function Home() {
       <section className="relative pt-24 min-h-screen overflow-hidden">
         <div className="absolute inset-0 h-full">
           <img
-            src="/Miss Nyasa.png"
+            src="/queens/thandie-edit.png"
             alt="Miss Malawi 2025"
             className="w-full h-full object-cover object-top block"
           />
@@ -189,13 +189,15 @@ export default function Home() {
             </div>
           )}
 
-          <div className="text-[#7C3AED] mt-12">
-            <Link href="/programs">
-              <Button className="bg-purple hover:bg-purple/90 text-white shadow-lg">
-                View All Programs <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </Link>
-          </div>
+          {programs.length > 3 && (
+            <div className="text-[#7C3AED] mt-12">
+              <Link href="/programs">
+                <Button className="bg-purple hover:bg-purple/90 text-white shadow-lg">
+                  View All Programs <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 

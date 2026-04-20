@@ -7,7 +7,7 @@ import { signIn, onAuthStateChange } from '@/lib/auth';
 import { useEffect } from 'react';
 
 import Image from 'next/image';
-import logo from "@/public/logo.png";
+import logo from "@/public/Misi.png";
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -64,7 +64,7 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'linear-gradient(135deg, #3D3B48 0%, #2D2B36 100%)' }}>
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ background: '#121125' }}>
 
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
@@ -73,8 +73,8 @@ export default function LoginForm() {
               <Image
                 src={logo}
                 alt="Miss Malawi Logo"
-                width={100}
-                height={100}
+                width={110}
+                height={110}
                 className="h-20 w-auto"
                 priority
               />

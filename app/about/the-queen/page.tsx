@@ -126,7 +126,7 @@ export default function TheQueenPage() {
       </section>
 
       {/* Photo Gallery CTA */}
-      <ParallaxSection imageUrl="/queens/Thandie.jpeg" height="400px" overlayColor="bg-slate-900/60">
+      <ParallaxSection imageUrl="/Miss Nyasa.png" height="400px" overlayColor="bg-gradient-to-r from-[#2E0F4D]/80 via-[#3C1B6C]/60 to-black/75">
         <div className="text-center">
           <h2 className="text-4xl md:text-5xl font-playfair font-bold mb-6">Follow her journey</h2>
           <Link href="/gallery">

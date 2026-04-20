@@ -72,9 +72,9 @@ export default function AboutPage() {
             <div className="relative h-[500px] rounded-lg overflow-hidden shadow-xl">
               <Image
                 src="/Misi.png"
-                alt="Miss Malawi contestants"
+                alt="Miss Malawi Logo"
                 fill
-                className="object-cover"
+                className="object-contain"
               />
             </div>
           </div>

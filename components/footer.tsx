@@ -64,7 +64,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div>
             <Image
-              src="/logo.png"
+              src="/logo_white.png"
               alt="Miss Malawi Logo"
               width={80}
               height={26}

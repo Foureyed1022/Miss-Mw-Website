@@ -13,6 +13,13 @@
       "logo": "/sponsors/senlain.png",
       "website": "https://senlainsystems.com",
       "tier": "silver"
+    },
+    {
+      "id": 9,
+      "name": "Zodiak Broadcasting Station",
+      "logo": "uploads/sponsors/zodiak.png",
+      "website": "https://www.zodiakmalawi.com/",
+      "tier": "platinum"
     }
   ]
 }

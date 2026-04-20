@@ -593,6 +593,33 @@ export const getDailyVisits = async (days = 7) => {
   }
 };
 
+export const getTopPages = async (limitCount = 5) => {
+  try {
+    const q = query(
+      collection(db, 'analytics_events'),
+      where('name', '==', 'page_view')
+    );
+    const snapshot = await getDocs(q);
+    const pageCounts: Record<string, number> = {};
+
+    snapshot.docs.forEach(doc => {
+      const data = doc.data();
+      const path = data.path || 'Unknown';
+      pageCounts[path] = (pageCounts[path] || 0) + 1;
+    });
+
+    const sorted = Object.entries(pageCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limitCount)
+      .map(([path, visits]) => ({ path, visits }));
+
+    return sorted;
+  } catch (error) {
+    console.error('Error fetching top pages:', error);
+    return [];
+  }
+};
+
 export const getMonthlyDonations = async () => {
   try {
     const q = query(collection(db, 'donations'), orderBy('createdAt', 'asc'));

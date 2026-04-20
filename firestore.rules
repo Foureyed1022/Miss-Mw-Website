@@ -1,9 +1,24 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    
+    // ----------- HELPER FUNCTIONS -----------
+    function isAdmin() {
+      return request.auth != null && (
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin'
+      );
+    }
+
+    function isSuperAdmin() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
+    }
+    // ----------------------------------------
+
     // Admin-specific collections
     match /admin/{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if isAdmin();
     }
     
     // Collection: applicants (for pageant applications)
@@ -32,10 +47,10 @@ service cloud.firestore {
 
       // Allow update for specific fields (applicationStatus, updatedAt) from server API
       // and delete only for authenticated admin users
-      allow update: if request.auth != null || 
-        (request.resource.data.diff(resource.data).affectedKeys().hasOnly(["applicationStatus", "updatedAt"]) &&
+      allow update: if isAdmin() || 
+        (request.auth != null && request.resource.data.diff(resource.data).affectedKeys().hasOnly(["applicationStatus", "updatedAt"]) &&
          request.resource.data.applicationStatus is string);
-      allow delete: if request.auth != null;
+      allow delete: if isAdmin();
     }
 
     // Collection: messages (for contact form submissions)
@@ -44,7 +59,7 @@ service cloud.firestore {
       allow create: if request != null;
 
       // Allow read, update, and delete only for authenticated admin users
-      allow read, update, delete: if request.auth != null;
+      allow read, update, delete: if isAdmin();
     }
 
     // Collection: articles (for news management)
@@ -53,7 +68,7 @@ service cloud.firestore {
       allow read: if true;
 
       // Allow create, update, and delete only for authenticated admin users
-      allow write: if request.auth != null; // 'write' covers create, update, delete
+      allow write: if isAdmin();
     }
 
     // Collection: categories (for news category management)
@@ -62,13 +77,13 @@ service cloud.firestore {
       allow read: if true;
 
       // Allow create, update, and delete only for authenticated admin users
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
 
     // Collection: statistics (for dashboard metrics)
     match /statistics/{statId} {
-      // Allow read and write only for authenticated admin users
-      allow read, write: if request.auth != null;
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
     // VOTING SYSTEM COLLECTIONS
@@ -82,7 +97,7 @@ service cloud.firestore {
       allow create, update: if true;
       
       // Allow admin users to manage contestants
-      allow delete: if request.auth != null;
+      allow delete: if isAdmin();
     }
     
     // Collection: votes (for storing individual vote records)
@@ -94,7 +109,7 @@ service cloud.firestore {
       allow create: if true;
       
       // Allow admin users to manage votes
-      allow update, delete: if request.auth != null;
+      allow update, delete: if isAdmin();
     }
 
     // Collection: transactions (for payment tracking)
@@ -105,8 +120,8 @@ service cloud.firestore {
       // Allow read access for public (needed for vote count calculations)
       allow read: if true;
       
-      // Restrict update/delete to authenticated users only
-      allow update, delete: if request.auth != null;
+      // Restrict update/delete to authenticated admins
+      allow update, delete: if isAdmin();
     }
     
     // Collection: freeVotes (for free voting system)
@@ -118,7 +133,7 @@ service cloud.firestore {
       allow create: if request != null;
       
       // Allow admin users to manage votes
-      allow update, delete: if request.auth != null;
+      allow update, delete: if isAdmin();
     }
 
     // Collection: users (for role-based profiles)
@@ -127,24 +142,31 @@ service cloud.firestore {
       allow read: if request.auth != null && request.auth.uid == userId;
       
       // Allow superadmins to manage all profiles
-      allow read, write: if request.auth != null && 
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
+      allow read, write: if isSuperAdmin();
     }
 
     // DASHBOARD COLLECTIONS
     
-    // Programs, Events, Gallery, Team, Strategy (General Admin Access)
-    match /programs/{docId} { allow read: if true; allow write: if request.auth != null; }
-    match /events/{docId} { allow read: if true; allow write: if request.auth != null; }
-    match /gallery/{docId} { allow read: if true; allow write: if request.auth != null; }
-    match /team/{docId} { allow read: if true; allow write: if request.auth != null; }
-    match /strategy/{docId} { allow read: if true; allow write: if request.auth != null; }
+    // Programs, Events, Gallery, Team, Strategy, Impact Stories
+    match /programs/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /events/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /gallery/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /team/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /strategy/{docId} { allow read: if true; allow write: if isAdmin(); }
+    match /impact_stories/{docId} { allow read: if true; allow write: if isAdmin(); }
 
     // Finances (Strictly Superadmin only)
     match /finances/{docId} {
-      allow read, write: if request.auth != null && 
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
+      allow read, write: if isSuperAdmin();
     }
+    match /finance_transactions/{transactionId} {
+      allow read, write: if isSuperAdmin();
+    }
+    match /donations/{donationId} {
+      allow create: if true;
+      allow read, write: if isSuperAdmin();
+    }
+
 
     // ANALYTICS & DASHBOARD DATA
     
@@ -153,21 +175,7 @@ service cloud.firestore {
       // Allow public creation for tracking
       allow create: if true;
       // Allow authenticated admins to read and manage
-      allow read, write: if request.auth != null;
-    }
-
-    // Collection: finance_transactions
-    match /finance_transactions/{transactionId} {
-      // Only authenticated users can view and record finance transactions
-      allow read, write: if request.auth != null;
-    }
-
-    // Collection: donations
-    match /donations/{donationId} {
-      // Allow public creation for new donations
-      allow create: if true;
-      // Allow authenticated admins to read and manage
-      allow read, write: if request.auth != null;
+      allow read, write: if isAdmin();
     }
 
     // Collection: subscribers
@@ -175,7 +183,7 @@ service cloud.firestore {
       // Allow public creation for newsletter signups
       allow create: if true;
       // Allow authenticated admins to read and manage
-      allow read, write: if request.auth != null;
+      allow read, write: if isAdmin();
     }
 
     // Collection: settings (site-wide configuration, e.g. impact statistics)
@@ -183,11 +191,10 @@ service cloud.firestore {
       // Allow public read so the homepage can display stats without requiring login
       allow read: if true;
       // Allow authenticated admin users to create/update settings documents
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
     }
 
     // Default deny rule for all other documents not explicitly matched above
-
     match /{document=**} {
       allow read, write: if false;
     }
