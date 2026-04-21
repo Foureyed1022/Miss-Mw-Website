@@ -93,9 +93,9 @@ export default function ImpactStoriesPage() {
                       </span>
                     </div>
                   </div>
-                  <div className="relative flex-1">
-                    <Mic className="absolute -top-3 -left-2 h-8 w-8 text-purple/10" />
-                    <p className="text-gray-600 italic leading-relaxed relative z-10">"{story.story}"</p>
+                  <div className="relative">
+                    <Mic className="absolute -top-2 -left-2 h-6 w-6 text-emerald-200" />
+                    <p className="text-gray-700 italic pl-4">"{story.story}"</p>
                   </div>
                 </div>
               ))}

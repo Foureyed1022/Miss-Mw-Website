@@ -76,7 +76,7 @@ export default function Home() {
         </div>
         <div className="relative z-20 container mx-auto flex min-h-[calc(100vh-96px)] items-center justify-center px-4 md:px-6 py-24">
           <div className="max-w-3xl text-center space-y-6">
-            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-purple-200">Celebrate Culture, Confidence & Impact</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.35em] text-purple-200">Celebrating Culture, Confidence & Impact</p>
             <h1 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
               Empowering Malawian Women through Beauty, Leadership, and Service.
             </h1>

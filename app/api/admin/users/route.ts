@@ -35,9 +35,9 @@ export async function GET(req: NextRequest) {
     }));
 
     return NextResponse.json(users);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching users:', error);
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized', details: error?.message, stack: error?.stack }, { status: 401 });
   }
 }
 

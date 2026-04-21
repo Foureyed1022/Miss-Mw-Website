@@ -35,9 +35,9 @@ export async function GET() {
     })
 
     return NextResponse.json(programs)
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching programs", error)
-    return NextResponse.json({ error: "Failed to load programs" }, { status: 500 })
+    return NextResponse.json({ error: "Failed to load programs", details: error?.message, stack: error?.stack }, { status: 500 })
   }
 }
 

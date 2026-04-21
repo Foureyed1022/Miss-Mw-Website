@@ -297,13 +297,15 @@ export default function ProgramsPage() {
             )}
           </div>
 
-          <div className="text-center mt-12">
-            <Link href="/impact-stories">
-              <Button className="bg-emerald-800 hover:bg-emerald-700 text-white rounded-full px-8 py-6 shadow-lg">
-                Read More Stories <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
-            </Link>
-          </div>
+          {impactStories.length > 3 && (
+            <div className="text-center mt-12">
+              <Link href="/impact-stories">
+                <Button className="bg-emerald-800 hover:bg-emerald-700 text-white rounded-full px-8 py-6 shadow-lg">
+                  Read More Stories <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
+          )}
         </div>
       </section>
 
@@ -458,7 +460,7 @@ function ImpactStory({ image, name, title, story }: ImpactStoryProps) {
       </div>
       <div className="relative">
         <Mic className="absolute -top-2 -left-2 h-6 w-6 text-emerald-200" />
-        <p className="text-gray-700 italic pl-4">{story}</p>
+        <p className="text-gray-700 italic pl-4">"{story}"</p>
       </div>
     </div>
   )

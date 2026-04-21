@@ -17,7 +17,7 @@ export default function ContestantAgreement() {
     },
     {
       title: "Media Representation",
-      description: "You agree to participate in photoshoots, interviews, and promotional events as scheduled by the Miss Malawi Foundation.",
+      description: "You agree to participate in photoshoots, interviews, and promotional events as scheduled by the Miss Malawi Organization.",
       icon: <Star className="w-5 h-5" />
     },
     {
@@ -36,14 +36,14 @@ export default function ContestantAgreement() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Registration
           </Link>
-          <div className="text-xl font-bold font-playfair text-[#4B2C5E]">Miss Malawi</div>
+          <div className="text-xl font-bold font-playfair text-[#4B2C5E]">Miss Malawi 2026</div>
         </div>
       </nav>
 
       <main className="max-w-4xl mx-auto px-4 py-16">
         <div className="text-[#7C3AED]enter mb-16">
           <h1 className="text-[#7C3AED]xl font-bold font-playfair text-[#2D1B39] mb-4">Contestant <span className="text-[#A68D55]">Agreement</span></h1>
-          <p className="text-gray-500 max-w-xl mx-auto">This agreement outlines the professional relationship and expectations between you and the Miss Malawi Foundation.</p>
+          <p className="text-gray-500 max-w-xl mx-auto">This agreement outlines the professional relationship and expectations between you and the Miss Malawi Organization.</p>
         </div>
 
         <div className="grid gap-12">
@@ -72,7 +72,7 @@ export default function ContestantAgreement() {
               <div className="space-y-6">
                 <h3 className="text-xl font-bold text-[#4B2C5E]">Our Commitment to You</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  The Miss Malawi Foundation commits to providing a safe, fair, and professional environment for all contestants. We will provide mentorship, training, and a platform for you to showcase your talents and champion your cause to the nation.
+                  The Miss Malawi Organization commits to providing a safe, fair, and professional environment for all contestants. We will provide mentorship, training, and a platform for you to showcase your talents and champion your cause to the nation.
                 </p>
                 <div className="bg-amber-50 rounded-2xl p-6 border border-amber-100 italic text-amber-900 text-sm">
                   "Empowering young Malawian women through culture, intelligence, and grace."
@@ -93,11 +93,6 @@ export default function ContestantAgreement() {
           </div>
         </div>
       </main>
-
-      <footer className="py-20 text-[#7C3AED]enter">
-        <div className="w-16 h-1 bg-purple-100 mx-auto mb-8 rounded-full"></div>
-        <p className="text-purple-300 text-sm uppercase tracking-widest font-bold">Miss Malawi Foundation</p>
-      </footer>
     </div>
   );
 }

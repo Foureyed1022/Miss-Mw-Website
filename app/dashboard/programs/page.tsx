@@ -131,7 +131,11 @@ export default function ProgramsManagementPage() {
     setLoadingPrograms(true)
     try {
       const response = await fetch("/api/programs")
-      if (!response.ok) throw new Error("Failed to fetch")
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error("API Error Response Body:", errText);
+        throw new Error("Failed to fetch")
+      }
       const data = await response.json()
       setPrograms(Array.isArray(data) ? data : [])
     } catch (error) {
@@ -256,7 +260,11 @@ export default function ProgramsManagementPage() {
     setLoadingStories(true)
     try {
       const response = await fetch("/api/impact-stories")
-      if (!response.ok) throw new Error("Failed to fetch")
+      if (!response.ok) {
+        const errText = await response.text();
+        console.error("Impact Stories API Error:", errText);
+        throw new Error("Failed to fetch")
+      }
       const data = await response.json()
       setStories(Array.isArray(data) ? data : [])
     } catch (error) {

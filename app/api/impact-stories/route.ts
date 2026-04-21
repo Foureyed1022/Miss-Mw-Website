@@ -31,9 +31,9 @@ export async function GET() {
     })
 
     return NextResponse.json(stories)
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error fetching impact stories", error)
-    return NextResponse.json({ error: "Failed to load impact stories" }, { status: 500 })
+    return NextResponse.json({ error: "Failed to load impact stories", details: error?.message, stack: error?.stack }, { status: 500 })
   }
 }
 
