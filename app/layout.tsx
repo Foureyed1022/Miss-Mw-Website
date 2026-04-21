@@ -17,11 +17,35 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: "Miss Malawi",
-  description: "Cultural and empowerment platform supporting young Malawian women",
+  title: "Miss Malawi 2026 | Beauty, Leadership, and Service",
+  description: "Miss Malawi Organization empowers young Malawian women through culture, intelligence, and grace. Join us in celebrating our heritage and making a real impact in our communities.",
+  keywords: ["Miss Malawi", "Pageant", "Malawi Women", "Empowerment", "Leadership", "Malawi Beauty Pageant", "Miss Malawi 2026"],
+  authors: [{ name: "Miss Malawi Organization" }],
+  openGraph: {
+    title: "Miss Malawi 2026 | Empowering Women",
+    description: "Empowering Malawian Women through Beauty, Leadership, and Service.",
+    url: "https://missmw.org",
+    siteName: "Miss Malawi",
+    images: [
+      {
+        url: "/Misi.png",
+        width: 800,
+        height: 600,
+        alt: "Miss Malawi Logo",
+      },
+    ],
+    locale: "en_MW",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Miss Malawi 2026",
+    description: "Celebrating Culture, Confidence & Impact with Miss Malawi.",
+    images: ["/Misi.png"],
+  },
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/Misi.png",
+    apple: "/Misi.png",
   },
 }
 

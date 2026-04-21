@@ -97,9 +97,9 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: false,
       message: error.message || "Application failed",
-      ...(process.env.NODE_ENV === "development" && { stack: error.stack }),
-    }, { 
-      status: error instanceof ZodError ? 400 : 500 
+      ...(process.env.NODE_ENV === "production" && { stack: error.stack }),
+    }, {
+      status: error instanceof ZodError ? 400 : 500
     });
   }
 }

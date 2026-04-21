@@ -180,7 +180,6 @@ export default function RegistrationPage() {
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex items-center justify-center">
             <div className="max-w-3xl space-y-5 text-center">
-              <p className="text-sm font-semibold uppercase tracking-[0.35em] text-purple-200">Miss Malawi 2026 Registration</p>
               <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold text-white leading-tight">
                 Registration & Application <span className="text-purple-200">Desk</span>
               </h1>
@@ -354,13 +353,13 @@ export default function RegistrationPage() {
                     </div>
 
                     <FormField control={control} name="introVideo" render={({ field }) => (
-                      <FormItem><FormLabel>Introductory Video (30s) *</FormLabel>
+                      <FormItem><FormLabel>Introductory Video (15s) *</FormLabel>
                         <div className="flex items-center justify-center w-full">
                           <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-lg cursor-pointer bg-[#3D3B48]/5 hover:bg-[#3D3B48]/10 border-[#7C3AED]">
                             <div className="flex flex-col items-center justify-center pt-5 pb-6">
                               <Video className="w-10 h-10 mb-3 text-[#7C3AED]" />
-                              <p className="text-sm font-medium text-[#3D3B48]">Upload your 30-second introduction</p>
-                              <p className="text-xs text-gray-500 mt-1">{field.value?.name || "MP4, MOV, WebM (Max 50MB)"}</p>
+                              <p className="text-sm font-medium text-[#3D3B48]">Upload your 15-second introduction</p>
+                              <p className="text-xs text-gray-500 mt-1">{field.value?.name || "MP4, MOV, WebM (Max 100MB)"}</p>
                             </div>
                             <input type="file" className="hidden" accept="video/*" onChange={(e) => handleFileChange("introVideo", e.target.files)} />
                           </label>
